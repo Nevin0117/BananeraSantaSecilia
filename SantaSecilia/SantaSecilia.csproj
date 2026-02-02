@@ -62,7 +62,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Application\Services\" />
 	  <Folder Include="Domain\Entities\" />
 	  <Folder Include="Infrastructure\Data\" />
 	  <Folder Include="Infrastructure\Repositories\" />
