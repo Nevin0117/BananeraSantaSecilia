@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SantaSecilia.Domain
 {
-    internal class Trabajador {
+    public class Trabajador {
         public Guid Id { get; set; }
 
         public required string Nombre { get; set; }

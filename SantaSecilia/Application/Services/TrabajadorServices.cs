@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SantaSecilia.Application.Services
 {
-    internal class trabajadorService{
+    public class trabajadorService{
         private readonly List<Trabajador> _trabajadores;
 
         public trabajadorService()
