@@ -3,12 +3,11 @@
     x:Class="SantaSecilia.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:SantaSecilia"
-    Title="SantaSecilia">
+    xmlns:views="clr-namespace:SantaSecilia.Views"
+    Title="Home">
 
     <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+        Title="Home Page"
+        ContentTemplate="{DataTemplate views:HomePage}"/>
 
 </Shell>
