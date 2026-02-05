@@ -1,0 +1,110 @@
+﻿<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="SantaSecilia.Views.LotesPage"
+    BackgroundColor="#FAF4C6">
+
+    <VerticalStackLayout Spacing="20">
+
+        <!-- Header -->
+        <Grid ColumnDefinitions="Auto,*,Auto"
+              BackgroundColor="White"
+              Padding="10">
+
+            <Image Source="logo.png"
+                   HeightRequest="70"/>
+
+            <Label Grid.Column="1"
+                   Text="Bananera Santa Cecilia"
+                   FontSize="25"
+                   VerticalOptions="Center"
+                   HorizontalOptions="Start"
+                   TextColor="Black"/>
+
+            <Image Grid.Column="2"
+                   Source="salida.png"
+                   HeightRequest="30"
+                   HorizontalOptions="End"
+                   Margin="20"/>
+        </Grid>
+
+        <!-- Título -->
+        <Label Text="Gestión de Lotes"
+               FontSize="28"
+               FontAttributes="Bold"
+               HorizontalOptions="Center"
+               TextColor="Black"/>
+
+        <!-- Contenido -->
+        <Grid ColumnDefinitions="Auto,*"
+              Padding="30"
+              ColumnSpacing="40">
+
+            <!-- Botón Registrar -->
+            <Button Text="+  Registrar Lote"
+                    BackgroundColor="White"
+                    TextColor="Black"
+                    BorderColor="Black"
+                    BorderWidth="1"
+                    CornerRadius="12"
+                    HeightRequest="50"/>
+
+            <!-- Tabla -->
+            <Border Grid.Column="1"
+                    BackgroundColor="White"
+                    StrokeShape="RoundRectangle 16"
+                    Padding="0,0,0,50">
+
+                <VerticalStackLayout Spacing="10">
+
+                    <!-- Titulos -->
+                    <Border BackgroundColor="#80BFFF"
+                            StrokeShape="RoundRectangle 16,16,0,0">
+                        <Grid ColumnDefinitions="*,*,Auto"
+                              Padding="12">
+
+                            <Label Text="Código"
+                                   TextColor="Black"
+                                   FontAttributes="Bold"/>
+
+                            <Label Grid.Column="1"
+                                   Text="Estado"
+                                   TextColor="Black"
+                                   FontAttributes="Bold"/>
+
+                            <Label Grid.Column="2"
+                                   Text="Editar"
+                                   TextColor="Black"
+                                   FontAttributes="Bold"/>
+                        </Grid>
+
+                    </Border>
+
+                    <!-- Lista, todavía no hay datos, no se le ha pasado una lista -->
+                    <CollectionView>
+
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid ColumnDefinitions="*,*,Auto"
+                                      Padding="10">
+
+                                    <Label Text="S01"/>
+
+                                    <Label Grid.Column="1"
+                                           Text="Activo"
+                                           TextColor="Black"/>
+
+                                    <Button Grid.Column="2"
+                                            Text="Editar"
+                                            BackgroundColor="#E3F2FD"
+                                            TextColor="Black"
+                                            CornerRadius="8"/>
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+            </Border>
+        </Grid>
+    </VerticalStackLayout>
+</ContentPage>
