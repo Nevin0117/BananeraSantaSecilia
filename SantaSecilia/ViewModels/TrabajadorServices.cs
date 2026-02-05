@@ -1,9 +1,8 @@
-﻿using SantaSecilia.Domain;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SantaSecilia.Application.Services
+namespace SantaSecilia.ViewModels
 {
     public class trabajadorService{
         private readonly List<Trabajador> _trabajadores;

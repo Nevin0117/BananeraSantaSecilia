@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SantaSecilia.Domain
+namespace SantaSecilia.ViewModels
 {
     public class Trabajador {
         public Guid Id { get; set; }

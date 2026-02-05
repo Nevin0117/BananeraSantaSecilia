@@ -62,10 +62,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Folder Include="Application\Services\" />
 	  <Folder Include="Domain\Entities\" />
 	  <Folder Include="Infrastructure\Data\" />
 	  <Folder Include="Infrastructure\Repositories\" />
-	  <Folder Include="ViewModels\" />
 	  <Folder Include="Views\" />
 	</ItemGroup>
 
