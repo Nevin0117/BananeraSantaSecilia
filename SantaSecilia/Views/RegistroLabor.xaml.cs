@@ -1,4 +1,5 @@
 using Microsoft.Maui.Controls;
+using SantaSecilia.ViewModels;
 
 namespace SantaSecilia.Views
 {
@@ -7,6 +8,7 @@ namespace SantaSecilia.Views
         public RegistroLabor()
         {
             InitializeComponent();
+            BindingContext = new RegistroLaborViewModel();
         }
     }
 }

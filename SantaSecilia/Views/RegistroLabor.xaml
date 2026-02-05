@@ -3,6 +3,8 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="SantaSecilia.Views.RegistroLabor"
+    xmlns:viewmodels="clr-namespace:SantaSecilia.ViewModels"
+    x:DataType="viewmodels:RegistroLaborViewModel"
     BackgroundColor="#FAF4C6">
 
     <ScrollView>
@@ -66,6 +68,7 @@
                                 <Entry Placeholder="Buscar Trabajador"
                                        PlaceholderColor="#9CA3AF"
                                        TextColor="Black"
+                                       Text="{Binding TrabajadorBusqueda}"
                                        Margin="10,5"/>
                             </Border>
                         </VerticalStackLayout>
@@ -86,10 +89,12 @@
                                     Stroke="#D1D5DB"
                                     StrokeThickness="1"
                                     BackgroundColor="White">
-                                <Entry Placeholder="Buscar Actividad"
-                                       PlaceholderColor="#9CA3AF"
-                                       TextColor="Black"
-                                       Margin="10,5"/>
+                                <Picker Title="Seleccionar Actividad"
+                                        ItemsSource="{Binding Actividades}"
+                                        SelectedItem="{Binding ActividadSeleccionada}"
+                                        TextColor="Black"
+                                        TitleColor="#9CA3AF"
+                                        Margin="5,0"/>
                             </Border>
                         </VerticalStackLayout>
 
@@ -184,6 +189,7 @@
                                 <Entry Placeholder="0.0"
                                        PlaceholderColor="#9CA3AF"
                                        TextColor="Black"
+                                       Text="{Binding HorasTrabajadas}"
                                        Keyboard="Numeric"
                                        HorizontalTextAlignment="Start"
                                        Margin="10,5"/>
@@ -210,8 +216,8 @@
                                     Stroke="#D1D5DB"
                                     StrokeThickness="1"
                                     BackgroundColor="#F9FAFB">
-                                <Label Text="Autogenerado"
-                                       TextColor="#9CA3AF"
+                                <Label Text="{Binding MontoAutogenerado}"
+                                       TextColor="#4B5563"
                                        Margin="15,12"
                                        FontSize="14"/>
                             </Border>
@@ -239,10 +245,14 @@
                                        VerticalOptions="Center"
                                        HorizontalOptions="Center"/>
                             </Grid>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding GuardarRegistroCommand}"/>
+                            </Border.GestureRecognizers>
                         </Border>
 
                         <!-- Botón Cancelar -->
                         <Button Text="Cancelar"
+                                Command="{Binding CancelarCommand}"
                                 BackgroundColor="Transparent"
                                 TextColor="#EF4444"
                                 FontSize="14"
