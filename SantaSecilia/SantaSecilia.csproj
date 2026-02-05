@@ -66,8 +66,12 @@
 	  <Folder Include="Domain\Entities\" />
 	  <Folder Include="Infrastructure\Data\" />
 	  <Folder Include="Infrastructure\Repositories\" />
-	  <Folder Include="ViewModels\" />
-	  <Folder Include="Views\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="Views\ReporteGlobalPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	</ItemGroup>
 
 </Project>
