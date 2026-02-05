@@ -4,112 +4,113 @@
              x:Class="SantaSecilia.Views.ActividadesPage"
              Title="Actividades"
              BackgroundColor="#FAF4C6">
-    <!--Header-->
 
     <ScrollView Orientation="Both">
-        <VerticalStackLayout Padding="30" Spacing="20">
+        <VerticalStackLayout Padding="150, 30" Spacing="20">
 
             <Label Text="Actividades y Tarifas" 
-               FontSize="28" 
-               FontAttributes="Bold" 
-               HorizontalOptions="Center" 
-               TextColor="Black"
-               Margin="0,0,0,20"/>
+                   FontSize="32" 
+                   FontAttributes="Bold" 
+                   HorizontalOptions="Center" 
+                   TextColor="Black"
+                   Margin="0,0,0,40"/>
 
-            <Grid ColumnDefinitions="Auto, 650" 
-              ColumnSpacing="30"
-              VerticalOptions="Start">
+            <Grid ColumnDefinitions="Auto, 1100" 
+                  ColumnSpacing="50"
+                  HorizontalOptions="Start" 
+                  Margin="0,20">
 
-            <VerticalStackLayout Grid.Column= "0">
-                <Border Stroke="Black" 
-                        StrokeThickness="2" 
-                        Padding="20,10"
+                <VerticalStackLayout Grid.Column="0">
+                    <Border Stroke="Black" 
+                            StrokeThickness="2" 
+                            Padding="20,10"
+                            BackgroundColor="White">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="25" />
+                        </Border.StrokeShape>
+                        <HorizontalStackLayout Spacing="10"
+                                               VerticalOptions="Start">
+                            <Label Text="+" TextColor="#3498db" FontSize="20" FontAttributes="Bold"/>
+                            <Label Text="Registrar Actividad" FontSize="18" TextColor="Black" FontAttributes="Bold" VerticalOptions="Center" />
+                        </HorizontalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
+
+                <Border Grid.Column="1" 
+                        Stroke="Black" 
+                        StrokeThickness="1" 
                         BackgroundColor="White">
                     <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="25" />
+                        <RoundRectangle CornerRadius="15" />
                     </Border.StrokeShape>
-                    <HorizontalStackLayout Spacing="10">
-                        <Label Text="+" TextColor="#3498db" FontSize="20" FontAttributes="Bold"/>
-                            <Label Text="Registrar Actividad" TextColor="Black" FontAttributes="Bold" VerticalOptions="Center" />
-                    </HorizontalStackLayout>
-                </Border>
-            </VerticalStackLayout>
 
-            <Border Grid.Column="1" 
-                    Stroke="Black" 
-                    StrokeThickness="1" 
-                    BackgroundColor="White"
-                    MinimumWidthRequest="500">
-                <Border.StrokeShape>
-                    <RoundRectangle CornerRadius="15" />
-                </Border.StrokeShape>
+                    <VerticalStackLayout>
+                        <Grid ColumnDefinitions="2*, 2*, 2*, 1.5*" BackgroundColor="#4DB2FBA5" Padding="20">
+                            <Label Text="Actividad" TextColor="Black" FontSize="22" FontAttributes="Bold" VerticalOptions="Center" Grid.Column="0" />
+                            <Label Text="Tarifa" TextColor="Black" FontSize="22" FontAttributes="Bold" VerticalOptions="Center" HorizontalTextAlignment="Center" Grid.Column="1" />
+                            <Label Text="Estado" TextColor="Black" FontSize="22" FontAttributes="Bold" VerticalOptions="Center" HorizontalTextAlignment="Center" Grid.Column="2" />
+                            <BoxView Grid.Column="3" WidthRequest="80" Color="Transparent" />
+                        </Grid>
 
-                <VerticalStackLayout>
-                        <Grid ColumnDefinitions="150, 1*, 1*, 120" BackgroundColor="#4DB2FBA5" Padding="20">
-                            <Label Text="Actividad" TextColor="Black" FontSize="20" FontAttributes="Bold" VerticalOptions="Center" Grid.Column="0" />
-                            <Label Text="Tarifa" TextColor="Black" FontSize="20" FontAttributes="Bold" VerticalOptions="Center" HorizontalTextAlignment="Center" Grid.Column="1" />
-                            <Label Text="Estado" TextColor="Black" FontSize="20" FontAttributes="Bold" VerticalOptions="Center" HorizontalTextAlignment="Center" Grid.Column="2" />
-                        <BoxView Grid.Column="3" WidthRequest="80" Color="Transparent" />
-                    </Grid>
-                    <!--Division-->
                         <BoxView HeightRequest="1" Color="Black" HorizontalOptions="Fill" />
-                    
-                        <Grid ColumnDefinitions="150, 1*, 1*, 120" Padding="15">
-                        <!--Primera Fila-->
-                            <Label Text="Banderero" TextColor="Black" Grid.Column="0" VerticalOptions="Center"/>
-                            <Label Text="0.7790" TextColor="Black" Grid.Column="1" VerticalOptions="Center" HorizontalTextAlignment="Center"/>
-                            <Label Text="Activo" TextColor="Black" Grid.Column="2" VerticalOptions="Center" HorizontalTextAlignment="Center"/>
 
-                            <Border Grid.Column="3" Stroke="#A0A0A0" Padding="8,4" HorizontalOptions="Center">
-                            <Border.StrokeShape>
-                                <RoundRectangle CornerRadius="8"/>
-                            </Border.StrokeShape>
-                            <HorizontalStackLayout Spacing="5">
-                                <Label Text="✎" TextColor="#80BFFF" VerticalOptions="Center"/>
-                                <Label Text="Editar" TextColor="Black" VerticalOptions="Center"/>
-                            </HorizontalStackLayout>
-                        </Border>
-                    </Grid>
-                    
-                    <Grid ColumnDefinitions="150, 1*, 1*, 120" Padding="15">
-                        <!--Segunda Fila-->
-                            <Label Text="Soldador" TextColor="Black" Grid.Column="0" VerticalOptions="Center"/>
-                            <Label Text="1.0126" TextColor="Black" Grid.Column="1" VerticalOptions="Center" HorizontalTextAlignment="Center"/>
-                            <Label Text="Inactivo" TextColor="Black" Grid.Column="2" VerticalOptions="Center" HorizontalTextAlignment="Center"/>
+                        <VerticalStackLayout x:Name="TableRows">
 
-                            <Border Grid.Column="3" Stroke="#A0A0A0" Padding="8,4" HorizontalOptions="Center">
-                            <Border.StrokeShape>
-                                <RoundRectangle CornerRadius="8"/>
-                            </Border.StrokeShape>
-                            <HorizontalStackLayout Spacing="5">
-                                <Label Text="✎" TextColor="#80BFFF" VerticalOptions="Center"/>
-                                <Label Text="Editar" TextColor="Black" VerticalOptions="Center"/>
-                            </HorizontalStackLayout>
-                        </Border>
-                    </Grid>
-                    
-                    <Grid ColumnDefinitions="150, 1*, 1*, 120" Padding="15">
-                        <!--Tercera Fila-->
-                            <Label Text="Celador" TextColor="Black" Grid.Column="0" VerticalOptions="Center"/>
-                            <Label Text="0.8123" TextColor="Black" Grid.Column="1" VerticalOptions="Center" HorizontalTextAlignment="Center"/>
-                            <Label Text="Activo" TextColor="Black" Grid.Column="2" VerticalOptions="Center" HorizontalTextAlignment="Center"/>
+                            <Grid ColumnDefinitions="2*, 2*, 2*, 1.5*" Padding="20,15">
+                                <Label Text="Banderero" FontSize="18" TextColor="Black" Grid.Column="0" VerticalOptions="Center"/>
+                                <Label Text="0.7790" FontSize="18" TextColor="Black" Grid.Column="1" VerticalOptions="Center" HorizontalTextAlignment="Center"/>
+                                <Label Text="Activo" FontSize="18" TextColor="Black" Grid.Column="2" VerticalOptions="Center" HorizontalTextAlignment="Center"/>
 
-                            <Border Grid.Column="3" Stroke="#A0A0A0" Padding="8,4" HorizontalOptions="Center">
-                            <Border.StrokeShape>
-                                <RoundRectangle CornerRadius="8"/>
-                            </Border.StrokeShape>
-                            <HorizontalStackLayout Spacing="5">
-                                <Label Text="✎" TextColor="#80BFFF" VerticalOptions="Center"/>
-                                <Label Text="Editar" TextColor="Black" VerticalOptions="Center"/>
-                            </HorizontalStackLayout>
-                        </Border>
-                    </Grid>
-                    
-                    
-                    
-                </VerticalStackLayout>
-            </Border>
-        </Grid>
-      </VerticalStackLayout>
+                                <Border Grid.Column="3" Stroke="#A0A0A0" Padding="12,6" HorizontalOptions="Center" BackgroundColor="White">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="8"/>
+                                    </Border.StrokeShape>
+                                    <HorizontalStackLayout Spacing="8">
+                                        <Label Text="✎" TextColor="#3498db" VerticalOptions="Center" FontAttributes="Bold"/>
+                                        <Label Text="Editar" TextColor="Black" VerticalOptions="Center" FontSize="16"/>
+                                    </HorizontalStackLayout>
+                                </Border>
+                            </Grid>
+
+                            <!-- <BoxView HeightRequest="0.5" Color="#EEEEEE" Margin="20,0" /> -->
+
+                            <Grid ColumnDefinitions="2*, 2*, 2*, 1.5*" Padding="20,15">
+                                <Label Text="Limpiar Empacadora" FontSize="18" TextColor="Black" Grid.Column="0" VerticalOptions="Center"/>
+                                <Label Text="0.7790" FontSize="18" TextColor="Black" Grid.Column="1" VerticalOptions="Center" HorizontalTextAlignment="Center"/>
+                                <Label Text="Activo" FontSize="18" TextColor="Black" Grid.Column="2" VerticalOptions="Center" HorizontalTextAlignment="Center"/>
+
+                                <Border Grid.Column="3" Stroke="#A0A0A0" Padding="12,6" HorizontalOptions="Center" BackgroundColor="White">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="8"/>
+                                    </Border.StrokeShape>
+                                    <HorizontalStackLayout Spacing="8">
+                                        <Label Text="✎" TextColor="#3498db" VerticalOptions="Center" FontAttributes="Bold"/>
+                                        <Label Text="Editar" TextColor="Black" VerticalOptions="Center" FontSize="16"/>
+                                    </HorizontalStackLayout>
+                                </Border>
+                            </Grid>
+
+                           <!-- <BoxView HeightRequest="0.5" Color="#EEEEEE" Margin="20,0" /> -->
+
+                            <Grid ColumnDefinitions="2*, 2*, 2*, 1.5*" Padding="20,15">
+                                <Label Text="Soldador" FontSize="18" TextColor="Black" Grid.Column="0" VerticalOptions="Center"/>
+                                <Label Text="1.0126" FontSize="18" TextColor="Black" Grid.Column="1" VerticalOptions="Center" HorizontalTextAlignment="Center"/>
+                                <Label Text="Inactivo" FontSize="18" TextColor="Black" Grid.Column="2" VerticalOptions="Center" HorizontalTextAlignment="Center"/>
+
+                                <Border Grid.Column="3" Stroke="#A0A0A0" Padding="12,6" HorizontalOptions="Center" BackgroundColor="White">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="8"/>
+                                    </Border.StrokeShape>
+                                    <HorizontalStackLayout Spacing="8">
+                                        <Label Text="✎" TextColor="#3498db" VerticalOptions="Center" FontAttributes="Bold"/>
+                                        <Label Text="Editar" TextColor="Black" VerticalOptions="Center" FontSize="16"/>
+                                    </HorizontalStackLayout>
+                                </Border>
+                            </Grid>
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+                </Border>
+            </Grid>
+        </VerticalStackLayout>
     </ScrollView>
 </ContentPage>
