@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SantaSecilia.Domain.Services
+namespace SantaSecilia.ViewModels
 {
     public class BoletaService{
         public BoletaSemanal GenerarBoleta(
