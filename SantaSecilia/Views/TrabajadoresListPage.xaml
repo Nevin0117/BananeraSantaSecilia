@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    BackgroundColor="AntiqueWhite"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:SantaSecilia.ViewModels"
+    x:Class="SantaSecilia.Views.TrabajadoresListPage">
+
+    <ContentPage.BindingContext>
+        <vm:TrabajadoresListViewModel/>
+    </ContentPage.BindingContext>
+
+    <VerticalStackLayout Padding="20" Spacing="10">
+
+        <Label Text="Gestionar Trabajadores"
+               TextColor="Black"
+               FontSize="24"
+               FontAttributes="Bold"/>
+
+        <SearchBar Placeholder="Buscador"/>
+
+        <Button Text="+ Registrar Trabajador"
+                HorizontalOptions="End"/>
+
+        <CollectionView ItemsSource="{Binding Trabajadores}">
+            <CollectionView.Header>
+                <Grid ColumnDefinitions="1*,2*,2*,1*,1*" Background="CadetBlue">
+                    <Label Text="Código"/>
+                    <Label Grid.Column="1" Text="Nombre Completo"/>
+                    <Label Grid.Column="2" Text="Cédula"/>
+                    <Label Grid.Column="3" Text="Estado"/>
+                </Grid>
+            </CollectionView.Header>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid ColumnDefinitions="1*,2*,2*,1*,1*" Padding="5" Background="WhiteSmoke">
+
+                        <Label TextColor="Black" Text="{Binding Codigo}" />
+                        <Label TextColor="Black" Grid.Column="1" Text="{Binding Nombre}" />
+                        <Label TextColor="Black" Grid.Column="2" Text="{Binding Cedula}" />
+                        <Label TextColor="Black" Grid.Column="3" Text="{Binding Estado}"/>
+
+                        <Button Grid.Column="4"
+                                Text="Editar"
+                                FontSize="12"/>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </VerticalStackLayout>
+</ContentPage>
