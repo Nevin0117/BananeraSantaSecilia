@@ -7,12 +7,12 @@
     Title="SantaSecilia">
 
     <ShellContent
-        Title="Trabajadores"
+        Title="Componente Header"
         ContentTemplate="{DataTemplate local:TrabajadoresListPage}"
         Route="Trabajadores"/>
 
     <ShellContent
-    Title="Registrar"
-    ContentTemplate="{DataTemplate local:TrabajadorFormPage}" />
-
+        Title="Component Header x2"
+        ContentTemplate="{DataTemplate local:TrabajadorFormPage}" />
+    
 </Shell>

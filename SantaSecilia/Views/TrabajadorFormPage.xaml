@@ -9,7 +9,7 @@
         <vm:TrabajadorFormViewModel/>
     </ContentPage.BindingContext>
 
-    <VerticalStackLayout Padding="30" Spacing="15">
+    <VerticalStackLayout Padding="30" Spacing="15" BackgroundColor="#FAF4C6">
 
         <Label Text="Registro de Trabajador"
                FontSize="22"
@@ -30,8 +30,7 @@
                     TextColor="White"/>
 
             <Button Text="Cancelar"
-                    BackgroundColor="#FFCDD2"/>
+                    BackgroundColor="DarkRed"/>
         </HorizontalStackLayout>
-
     </VerticalStackLayout>
 </ContentPage>

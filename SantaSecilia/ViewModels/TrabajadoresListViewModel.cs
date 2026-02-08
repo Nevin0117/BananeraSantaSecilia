@@ -1,4 +1,7 @@
 using System.Collections.ObjectModel;
+using Microsoft.Maui.Controls;
+using SantaSecilia.Views;
+using System.Windows.Input;
 
 namespace SantaSecilia.ViewModels
 {
@@ -14,6 +17,9 @@ namespace SantaSecilia.ViewModels
     public class TrabajadoresListViewModel
     {
         public ObservableCollection<TrabajadorItem> Trabajadores { get; set; }
+        public ICommand RegistrarCommand { get; }
+        public ICommand EditarCommand { get; }
+
 
         public TrabajadoresListViewModel()
         {
@@ -25,6 +31,12 @@ namespace SantaSecilia.ViewModels
                 new(){Codigo=4,Nombre="David Villa",Cedula="9-450-9012",Activo=true},
                 new(){Codigo=5,Nombre="Juan Guerra",Cedula="3-8592-6709",Activo=false},
             };
+
+            RegistrarCommand = new Command(async () =>
+                await Shell.Current.GoToAsync(nameof(TrabajadorFormPage)));
+
+            EditarCommand = new Command<TrabajadorItem>(async (trabajador) =>
+                await Shell.Current.GoToAsync(nameof(EditarTrabajadorPage)));
         }
     }
 }
