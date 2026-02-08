@@ -10,9 +10,5 @@
         Title="Componente Header"
         ContentTemplate="{DataTemplate local:TrabajadoresListPage}"
         Route="Trabajadores"/>
-
-    <ShellContent
-        Title="Component Header x2"
-        ContentTemplate="{DataTemplate local:TrabajadorFormPage}" />
     
 </Shell>
