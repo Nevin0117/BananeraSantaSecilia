@@ -32,7 +32,7 @@
 
                     <Picker
                          HeightRequest="40"/>
-                    
+
                 </Border>
             </VerticalStackLayout>
 
@@ -46,7 +46,7 @@
                         Background="White">
 
                     <Picker HeightRequest="40"/>
-                    
+
                 </Border>
             </VerticalStackLayout>
 
@@ -105,5 +105,38 @@
                 <Label Text="Total a pagar:"/>
             </VerticalStackLayout>
         </Border>
+
+        <HorizontalStackLayout HorizontalOptions="Center"
+                               Spacing="25"
+                               Margin="0,15,0,0">
+
+            <!-- Exportar -->
+            <Border
+                BackgroundColor="#8DB3E2"
+                StrokeShape="RoundRectangle 12"
+                Padding="0">
+
+                <Button
+                    Text="Exportar"
+                    BackgroundColor="Transparent"
+                    TextColor="Black"
+                    Padding="25,8"/>
+            </Border>
+
+            <!-- Imprimir -->
+            <Border
+                BackgroundColor="#B7D7A8"
+                StrokeShape="RoundRectangle 12"
+                Padding="0">
+
+                <Button
+                    Text="Imprimir"
+                    BackgroundColor="Transparent"
+                    TextColor="Black"
+                    Padding="25,8"/>
+            </Border>
+        </HorizontalStackLayout>
+
     </VerticalStackLayout>
+
 </ContentPage>
