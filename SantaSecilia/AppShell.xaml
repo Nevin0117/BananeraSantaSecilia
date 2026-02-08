@@ -8,5 +8,6 @@
 
     <ShellContent
         ContentTemplate="{DataTemplate local:BoletaSemanalPage}"/>
-    
+
+
 </Shell>
