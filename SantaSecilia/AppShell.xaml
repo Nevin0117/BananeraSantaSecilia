@@ -11,4 +11,8 @@
         ContentTemplate="{DataTemplate local:TrabajadoresListPage}"
         Route="Trabajadores"/>
 
+    <ShellContent
+    Title="Registrar"
+    ContentTemplate="{DataTemplate local:TrabajadorFormPage}" />
+
 </Shell>
