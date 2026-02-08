@@ -2,101 +2,95 @@
 <ContentPage
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:SantaSecilia.ViewModels"
     x:Class="SantaSecilia.Views.EditarTrabajadorPage"
     Title="Component Header x3"
     BackgroundColor="#FAF4C6">
 
+    <ContentPage.BindingContext>
+        <vm:TrabajadorFormViewModel/>
+    </ContentPage.BindingContext>
+    
     <Grid>
         <!-- Card principal -->
-        <Frame
-            BackgroundColor="#F2F2F2"
-            CornerRadius="30"
-            Padding="0"
-            Margin="60"
-            HasShadow="True">
-
+        <Border
+            Stroke="#7A9E7E"
+            StrokeThickness="2"
+            BackgroundColor="White"
+            StrokeShape="RoundRectangle 28"
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            WidthRequest="540">
+            
             <VerticalStackLayout Spacing="0">
 
-                <!-- Header verde -->
-                <Grid BackgroundColor="#CFE3C8"
-                      Padding="15">
+                <!-- HEADER -->
+                <Border
+                    BackgroundColor="#CDE8C5"
+                    StrokeShape="RoundRectangle 18,18,0,0"
+                    Padding="12">
                     <Label
                         Text="Editar Trabajador"
-                        FontSize="22"
+                        FontSize="20"
                         FontAttributes="Bold"
                         HorizontalOptions="Center"/>
-                </Grid>
+                </Border>
 
-                <!-- Contenido -->
-                <Grid Padding="30"
-                      ColumnDefinitions="2*,2*"
-                      RowDefinitions="Auto">
+                <!-- CONTENIDO -->
+                <Grid Padding="20"
+                      ColumnDefinitions="*,220">
 
                     <!-- FORM -->
-                    <VerticalStackLayout Spacing="8">
-
-                        <!-- Nombre -->
-                        <Label Text="Nombre Completo"/>
-                        <Border Stroke="#CCC"
-                            StrokeShape="RoundRectangle 20"
-                            BackgroundColor="White"
-                            Padding="5">
-
-                            <Entry Text="Carlos Mendoza"
+                    <VerticalStackLayout Spacing="12">
+                        <Label Text="Nombre Completo" FontSize="12"/>
+                        <Border Stroke="#CCCCCC" StrokeShape="RoundRectangle 0">
+                            <Entry
+                                Text="{Binding Nombre}"
                                 BackgroundColor="Transparent"/>
                         </Border>
 
-                        <!-- Cedula -->
-                        <Label Text="Cédula"/>
-                        <Entry
-                            Text="4-834-2892"
-                            BackgroundColor="White"
-                            HeightRequest="40"/>
+                        <Label Text="Cédula" FontSize="12"/>
+                        <Border Stroke="#CCCCCC" StrokeShape="RoundRectangle 10">
+                            <Entry
+                                Text="{Binding Cedula}"
+                                BackgroundColor="Transparent"/>
+                        </Border>
 
-                        <!-- Estado -->
-                        <Label Text="Estado"/>
-                        <Picker HeightRequest="40">
-                            <Picker.Items>
-                                <x:String>Activo</x:String>
-                                <x:String>Inactivo</x:String>
-                            </Picker.Items>
-                        </Picker>
+                        <Label Text="Estado" FontSize="12"/>
+                        <Border Stroke="#CCCCCC" StrokeShape="RoundRectangle 10">
+                            <Picker
+                                ItemsSource="{Binding Estados}"
+                                BackgroundColor="Transparent"/>
+                        </Border>
 
-                        <!-- Botones -->
-                        <HorizontalStackLayout Spacing="15"
-                                               Margin="0,20,0,0">
-
+                        <!-- BOTONES -->
+                        <HorizontalStackLayout Spacing="20" Margin="10,10,0,0">
                             <Button
-                                Text="Guardar Cambios"
-                                BackgroundColor="#BFD3E0"
+                                Text="Guardar"
+                                BackgroundColor="#64B5F6"
                                 TextColor="Black"
-                                CornerRadius="20"/>
+                                CornerRadius="15"
+                                WidthRequest="120"/>
+
                             <Button
                                 Text="Cancelar"
-                                BackgroundColor="DarkRed"
-                                TextColor="White"
-                                Clicked="OnCancelarClicked"
-                                CornerRadius="20"/>
+                                BackgroundColor="#F28B82"
+                                TextColor="Black"
+                                CornerRadius="15"
+                                WidthRequest="120"
+                                Clicked="OnCancelarClicked"/>
                         </HorizontalStackLayout>
                     </VerticalStackLayout>
 
-                    <!-- Imagen derecha -->
-                    <Frame Grid.Column="1"
-                           BorderColor="Black"
-                           Padding="10"
-                           CornerRadius="80"
-                           HorizontalOptions="Center"
-                           VerticalOptions="Center">
-                        
-                        <!-- Cambia la ruta si tienes el logo -->
-                        <Image
-                            Source="logo_bananera.png"
-                            Aspect="AspectFit"
-                            HeightRequest="220"
-                            WidthRequest="220"/>
-                    </Frame>
+                    <!-- IMAGEN -->
+                    <Image
+                        Grid.Column="1"
+                        Source="logo.png"
+                        Aspect="AspectFit"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"/>
                 </Grid>
             </VerticalStackLayout>
-        </Frame>
+        </Border>
     </Grid>
 </ContentPage>
