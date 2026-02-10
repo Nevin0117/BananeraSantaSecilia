@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewmodels="clr-namespace:SantaSecilia.ViewModels"
              x:Class="SantaSecilia.Views.LoginPage"
-             Title="Inicio de Sesión"
+             Title="Inicio de SesiÃ³n"
              BackgroundColor="#FAF4C6">
 
     <ContentPage.BindingContext>
@@ -36,7 +36,7 @@
                 </VerticalStackLayout>
             </Border>
 
-            <Label Text="Inicio de Sesión" 
+            <Label Text="Inicio de SesiÃ³n" 
                    FontSize="24" 
                    FontAttributes="Bold" 
                    HorizontalOptions="Center" 
@@ -53,7 +53,7 @@
                 <Border Stroke="Black" 
                         StrokeThickness="1" 
                         BackgroundColor="White"
-                        CornerRadius="12">
+                        >
                     <Border.StrokeShape>
                         <RoundRectangle CornerRadius="12"/>
                     </Border.StrokeShape>
@@ -71,25 +71,24 @@
                 <Border Stroke="Black" 
                         StrokeThickness="1" 
                         BackgroundColor="White"
-                        CornerRadius="12">
+                        >
                     <Border.StrokeShape>
                         <RoundRectangle CornerRadius="12"/>
                     </Border.StrokeShape>
                     <HorizontalStackLayout Padding="12" Spacing="10">
                         <Image Source="lock_icon.png" HeightRequest="20" />
-                        <Entry Placeholder="Contraseña" 
+                        <Entry Placeholder="ContraseÃ±a" 
                                Text="{Binding Password}"
                                IsPassword="True"
                                TextColor="Black"
                                PlaceholderColor="#A0A0A0"
                                VerticalOptions="Center"
-                               HorizontalOptions="FillAndExpand"/>
+                               HorizontalOptions="Fill"/>
                     </HorizontalStackLayout>
                 </Border>
 
-                <Button Text="Iniciar Sesión"
+                <Button Text="Iniciar SesiÃ³n"
                         Command="{Binding LoginCommand}"
-                        IsEnabled="{Binding IsBusy, Converter={StaticResource InverseBooleanConverter}, TargetNullValue=true, FallbackValue=true}"
                         BackgroundColor="#E8F5E9"
                         TextColor="Black"
                         CornerRadius="20"

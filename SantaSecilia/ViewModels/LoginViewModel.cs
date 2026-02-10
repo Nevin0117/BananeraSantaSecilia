@@ -18,7 +18,8 @@ namespace SantaSecilia.ViewModels
         [RelayCommand]
         private async Task LoginAsync()
         {
-            if (IsBusy) return;
+            if (IsBusy) 
+                return;
 
             try
             {
