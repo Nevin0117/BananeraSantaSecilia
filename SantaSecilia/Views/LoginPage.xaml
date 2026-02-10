@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:SantaSecilia.ViewModels"
+             x:Class="SantaSecilia.Views.LoginPage"
+             Title="Inicio de Sesión"
+             BackgroundColor="#FAF4C6">
+
+    <ContentPage.BindingContext>
+        <viewmodels:LoginViewModel />
+    </ContentPage.BindingContext>
+
+    <ScrollView Orientation="Both">
+        <VerticalStackLayout 
+            Padding="30" 
+            Spacing="30"
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            WidthRequest="360">
+
+            <!-- Logo (TODO: agregar el logo para que funcione) -->
+            <Border Stroke="Black" StrokeThickness="1" BackgroundColor="White">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="20,20,20,20" />
+                </Border.StrokeShape>
+                <VerticalStackLayout Padding="15" Spacing="10">
+                    <Image Source="logo.png" 
+                           HeightRequest="100" 
+                           HorizontalOptions="Center" 
+                           Aspect="AspectFit"/>
+                    <Label Text="BANANERA SANTA CECILIA" 
+                           FontSize="16" 
+                           FontAttributes="Bold" 
+                           HorizontalOptions="Center" 
+                           TextColor="Black"/>
+                </VerticalStackLayout>
+            </Border>
+
+            <Label Text="Inicio de Sesión" 
+                   FontSize="24" 
+                   FontAttributes="Bold" 
+                   HorizontalOptions="Center" 
+                   TextColor="Black"/>
+
+            <Label Text="{Binding ErrorMessage}" 
+                   TextColor="Red" 
+                   FontSize="12"
+                   HorizontalOptions="Center"
+                   IsVisible="{Binding ErrorMessage, TargetNullValue=false, FallbackValue=false}"/>
+
+            <VerticalStackLayout Spacing="20">
+
+                <Border Stroke="Black" 
+                        StrokeThickness="1" 
+                        BackgroundColor="White"
+                        >
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="12"/>
+                    </Border.StrokeShape>
+                    <HorizontalStackLayout Padding="12" Spacing="10">
+                        <Image Source="user_icon.png" HeightRequest="20" />
+                        <Entry Placeholder="Usuario o Correo" 
+                               Text="{Binding Username}"
+                               TextColor="Black"
+                               PlaceholderColor="#A0A0A0"
+                               VerticalOptions="Center"
+                               HorizontalOptions="FillAndExpand"/>
+                    </HorizontalStackLayout>
+                </Border>
+
+                <Border Stroke="Black" 
+                        StrokeThickness="1" 
+                        BackgroundColor="White"
+                        >
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="12"/>
+                    </Border.StrokeShape>
+                    <HorizontalStackLayout Padding="12" Spacing="10">
+                        <Image Source="lock_icon.png" HeightRequest="20" />
+                        <Entry Placeholder="Contraseña" 
+                               Text="{Binding Password}"
+                               IsPassword="True"
+                               TextColor="Black"
+                               PlaceholderColor="#A0A0A0"
+                               VerticalOptions="Center"
+                               HorizontalOptions="Fill"/>
+                    </HorizontalStackLayout>
+                </Border>
+
+                <Button Text="Iniciar Sesión"
+                        Command="{Binding LoginCommand}"
+                        BackgroundColor="#E8F5E9"
+                        TextColor="Black"
+                        CornerRadius="20"
+                        BorderColor="Black"
+                        BorderWidth="1"
+                        HorizontalOptions="Fill"
+                        Margin="0,10"
+                />
+
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
