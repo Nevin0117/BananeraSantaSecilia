@@ -1,0 +1,106 @@
+﻿<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:SantaSecilia.ViewModels"
+	x:Class="SantaSecilia.Views.LotesPage"
+    BackgroundColor="#FAF4C6">
+
+	
+    <VerticalStackLayout Spacing="20">
+
+        <!-- Header -->
+        <Grid ColumnDefinitions="Auto,*,Auto"
+              BackgroundColor="White"
+              Padding="10">
+
+            <Image Source="logo.png"
+                   HeightRequest="70"/>
+
+            <Label Grid.Column="1"
+                   Text="Bananera Santa Cecilia"
+                   FontSize="25"
+                   VerticalOptions="Center"
+                   HorizontalOptions="Start"
+                   TextColor="Black"/>
+
+            <Image Grid.Column="2"
+                   Source="salida.png"
+                   HeightRequest="30"
+                   HorizontalOptions="End"
+                   Margin="20"/>
+        </Grid>
+
+		<Grid Padding="20"
+		  RowDefinitions="Auto,Auto,Auto,*"
+		  RowSpacing="15">
+
+			<!-- Título -->
+			<Label Grid.Row="0"
+			   Text="Gestionar Lotes"
+			   TextColor="Black"
+			   FontSize="26"
+			   FontAttributes="Bold"/>
+
+			
+
+			<!-- Botón -->
+			<Button Grid.Row="2"
+				Text="+ Registrar lote"
+				Command="{Binding RegistrarCommand}"
+				HorizontalOptions="End"
+				BackgroundColor="#B2FBA5"
+				TextColor="Black"
+				CornerRadius="12"
+				Padding="12,6"/>
+
+			<!-- LISTA SCROLLEABLE -->
+			<CollectionView Grid.Row="3"
+						ItemsSource="{Binding Lotes}"
+						HorizontalOptions="Center"
+						MaximumWidthRequest="550">
+
+				<CollectionView.Header>
+					<Border BackgroundColor="#80BFFF"
+						StrokeShape="RoundRectangle 12"
+						Padding="10">
+						<Grid ColumnDefinitions="1*,2*,2*">
+							<Label Text="Código" TextColor="Black" FontAttributes="Bold" HorizontalOptions="Center"/>
+							<Label Grid.Column="1" Text="Estado" TextColor="Black" FontAttributes="Bold" HorizontalOptions="Center"/>
+							
+							
+						</Grid>
+					</Border>
+				</CollectionView.Header>
+
+				<CollectionView.ItemTemplate>
+					<DataTemplate>
+						<Border Margin="0,6"
+							Padding="12"
+							BackgroundColor="White"
+							Stroke="#E0E0E0"
+							StrokeThickness="1"
+							StrokeShape="RoundRectangle 14">
+
+							<Grid ColumnDefinitions="1*,2*,2*">
+								<Label Text="{Binding Codigo}" TextColor="Black" HorizontalOptions="Center"/>
+								<Label Grid.Column="1" Text="{Binding Estado}" TextColor="Black" HorizontalOptions="Center"/>
+								
+		
+								<Button Grid.Column="2"
+									Text="Editar"
+									BackgroundColor="#80BFFF"
+									TextColor="Black"
+									CornerRadius="10"
+									FontSize="12"
+									Margin="30, 0"
+									Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.EditarCommand}"
+									CommandParameter="{Binding .}"
+									HorizontalOptions="End"/>
+							</Grid>
+						</Border>
+					</DataTemplate>
+				</CollectionView.ItemTemplate>
+			</CollectionView>
+		</Grid>
+    </VerticalStackLayout>
+</ContentPage>

@@ -8,8 +8,13 @@ namespace SantaSecilia
         {
             InitializeComponent();
 
+<<<<<<< HEAD
             Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
             Routing.RegisterRoute(nameof(RegistroLabor), typeof(RegistroLabor));
+=======
+            Routing.RegisterRoute(nameof(RegistrarLotesPage), typeof(RegistrarLotesPage));
+            Routing.RegisterRoute(nameof(EditarLotesPage), typeof(EditarLotesPage));
+>>>>>>> feature/lotes
         }
     }
 }
