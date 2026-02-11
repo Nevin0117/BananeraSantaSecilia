@@ -1,9 +1,11 @@
 ﻿<ContentPage
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    x:Class="SantaSecilia.Views.LotesPage"
+    xmlns:vm="clr-namespace:SantaSecilia.ViewModels"
+	x:Class="SantaSecilia.Views.LotesPage"
     BackgroundColor="#FAF4C6">
 
+	
     <VerticalStackLayout Spacing="20">
 
         <!-- Header -->
@@ -28,83 +30,77 @@
                    Margin="20"/>
         </Grid>
 
-        <!-- Título -->
-        <Label Text="Gestión de Lotes"
-               FontSize="28"
-               FontAttributes="Bold"
-               HorizontalOptions="Center"
-               TextColor="Black"/>
+		<Grid Padding="20"
+		  RowDefinitions="Auto,Auto,Auto,*"
+		  RowSpacing="15">
 
-        <!-- Contenido -->
-        <Grid ColumnDefinitions="Auto,*"
-              Padding="30"
-              ColumnSpacing="40">
+			<!-- Título -->
+			<Label Grid.Row="0"
+			   Text="Gestionar Lotes"
+			   TextColor="Black"
+			   FontSize="26"
+			   FontAttributes="Bold"/>
 
-            <!-- Botón Registrar -->
-            <Button Text="+  Registrar Lote"
-                    BackgroundColor="White"
-                    TextColor="Black"
-                    BorderColor="Black"
-                    BorderWidth="1"
-                    CornerRadius="12"
-                    HeightRequest="50"/>
+			
 
-            <!-- Tabla -->
-            <Border Grid.Column="1"
-                    BackgroundColor="White"
-                    StrokeShape="RoundRectangle 16"
-                    Padding="0,0,0,50">
+			<!-- Botón -->
+			<Button Grid.Row="2"
+				Text="+ Registrar lote"
+				Command="{Binding RegistrarCommand}"
+				HorizontalOptions="End"
+				BackgroundColor="#B2FBA5"
+				TextColor="Black"
+				CornerRadius="12"
+				Padding="12,6"/>
 
-                <VerticalStackLayout Spacing="10">
+			<!-- LISTA SCROLLEABLE -->
+			<CollectionView Grid.Row="3"
+						ItemsSource="{Binding Lotes}"
+						HorizontalOptions="Center"
+						MaximumWidthRequest="550">
 
-                    <!-- Titulos -->
-                    <Border BackgroundColor="#80BFFF"
-                            StrokeShape="RoundRectangle 16,16,0,0">
-                        <Grid ColumnDefinitions="*,*,Auto"
-                              Padding="12">
+				<CollectionView.Header>
+					<Border BackgroundColor="#80BFFF"
+						StrokeShape="RoundRectangle 12"
+						Padding="10">
+						<Grid ColumnDefinitions="1*,2*,2*">
+							<Label Text="Código" TextColor="Black" FontAttributes="Bold" HorizontalOptions="Center"/>
+							<Label Grid.Column="1" Text="Estado" TextColor="Black" FontAttributes="Bold" HorizontalOptions="Center"/>
+							
+							
+						</Grid>
+					</Border>
+				</CollectionView.Header>
 
-                            <Label Text="Código"
-                                   TextColor="Black"
-                                   FontAttributes="Bold"/>
+				<CollectionView.ItemTemplate>
+					<DataTemplate>
+						<Border Margin="0,6"
+							Padding="12"
+							BackgroundColor="White"
+							Stroke="#E0E0E0"
+							StrokeThickness="1"
+							StrokeShape="RoundRectangle 14">
 
-                            <Label Grid.Column="1"
-                                   Text="Estado"
-                                   TextColor="Black"
-                                   FontAttributes="Bold"/>
-
-                            <Label Grid.Column="2"
-                                   Text="Editar"
-                                   TextColor="Black"
-                                   FontAttributes="Bold"/>
-                        </Grid>
-
-                    </Border>
-
-                    <!-- Lista, todavía no hay datos, no se le ha pasado una lista -->
-                    <CollectionView>
-
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate>
-                                <Grid ColumnDefinitions="*,*,Auto"
-                                      Padding="10">
-
-                                    <Label Text="S01"/>
-
-                                    <Label Grid.Column="1"
-                                           Text="Activo"
-                                           TextColor="Black"/>
-
-                                    <Button Grid.Column="2"
-                                            Text="Editar"
-                                            BackgroundColor="#E3F2FD"
-                                            TextColor="Black"
-                                            CornerRadius="8"/>
-                                </Grid>
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
-                </VerticalStackLayout>
-            </Border>
-        </Grid>
+							<Grid ColumnDefinitions="1*,2*,2*">
+								<Label Text="{Binding Codigo}" TextColor="Black" HorizontalOptions="Center"/>
+								<Label Grid.Column="1" Text="{Binding Estado}" TextColor="Black" HorizontalOptions="Center"/>
+								
+		
+								<Button Grid.Column="2"
+									Text="Editar"
+									BackgroundColor="#80BFFF"
+									TextColor="Black"
+									CornerRadius="10"
+									FontSize="12"
+									Margin="30, 0"
+									Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.EditarCommand}"
+									CommandParameter="{Binding .}"
+									HorizontalOptions="End"/>
+							</Grid>
+						</Border>
+					</DataTemplate>
+				</CollectionView.ItemTemplate>
+			</CollectionView>
+		</Grid>
     </VerticalStackLayout>
 </ContentPage>
