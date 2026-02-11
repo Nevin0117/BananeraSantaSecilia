@@ -67,9 +67,9 @@
 	  <Folder Include="Domain\Entities\" />
 	  <Folder Include="Infrastructure\Data\" />
 	  <Folder Include="Infrastructure\Repositories\" />
-<<<<<<< HEAD
+
 	  <Folder Include="ViewModels\" />
-=======
+
 	</ItemGroup>
 
 	<ItemGroup>
@@ -82,7 +82,5 @@
 	  <MauiXaml Update="Views\RegistrarLotesPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
->>>>>>> feature/lotes
 	</ItemGroup>
-
 </Project>

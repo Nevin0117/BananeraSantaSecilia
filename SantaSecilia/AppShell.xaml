@@ -6,13 +6,10 @@
     xmlns:views="clr-namespace:SantaSecilia.Views"
     Title="SantaSecilia">
 
-    <ShellContent
-<<<<<<< HEAD
-        Title="Login"
-        ContentTemplate="{DataTemplate views:LoginPage}" />
-=======
-        Title="Lotes"
-        ContentTemplate="{DataTemplate views:LotesPage}" />
+	
 
->>>>>>> feature/lotes
+		<ShellContent Title="Login" ContentTemplate="{DataTemplate views:LoginPage}" />
+
+		<ShellContent Title="Lotes" ContentTemplate="{DataTemplate views:LotesPage}" />
+
 </Shell>
