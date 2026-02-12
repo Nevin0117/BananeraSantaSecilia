@@ -10,5 +10,10 @@ namespace SantaSecilia.Views
             InitializeComponent();
             BindingContext = new RegistroLaborViewModel();
         }
+
+        private async void OnCancelarClicked(object sender, EventArgs e)
+        {
+            await Shell.Current.GoToAsync("..");
+        }
     }
 }

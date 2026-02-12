@@ -256,15 +256,11 @@
                                 BackgroundColor="Transparent"
                                 TextColor="#EF4444"
                                 FontSize="14"
-                                HorizontalOptions="Center"/>
-
+                                HorizontalOptions="Center"
+                                Clicked="OnCancelarClicked"/>
                     </VerticalStackLayout>
-
                 </VerticalStackLayout>
-
             </Border>
-
         </VerticalStackLayout>
     </ScrollView>
-
 </ContentPage>
