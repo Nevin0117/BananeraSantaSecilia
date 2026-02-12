@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:SantaSecilia.ViewModels"
              x:Class="SantaSecilia.Views.ActividadesPage"
              Title="Actividades"
              BackgroundColor="#FAF4C6">
+
+    <ContentPage.BindingContext>
+        <vm:ActividadesViewModel/>
+    </ContentPage.BindingContext>
 
     <Grid Padding="20"
           RowDefinitions="Auto, Auto, Auto, *"
@@ -35,7 +40,7 @@
                 BorderColor="#949C94"
                 BorderWidth="2"
                 Padding="22,12"
-                Clicked="RegistrarActividad_Clicked"/>
+                Command="{Binding RegistrarCommand}"/>
 
         <!-- Tabla -->
         <Border Grid.Row="3"
@@ -52,10 +57,9 @@
                 <!-- Encabezado de la tabla -->
                 <Border Grid.Row="0"
                         BackgroundColor="#80BFFF"
-                        Stroke ="Transparent"
+                        Stroke="Transparent"
                         StrokeShape="RoundRectangle 12"
-                        Padding="12"
-                        >
+                        Padding="12">
                     <Grid ColumnDefinitions="3*, 2*, 2*, 2*">
                         <Label Text="Actividad"
                                FontAttributes="Bold"
@@ -87,12 +91,7 @@
 
                 <!-- Filas de la tabla -->
                 <CollectionView Grid.Row="2"
-                                x:Name="ActividadesCollection">
-                    <CollectionView.ItemsSource>
-                        <x:Array Type="{x:Type x:String}">
-                            <x:String>placeholder</x:String>
-                        </x:Array>
-                    </CollectionView.ItemsSource>
+                                ItemsSource="{Binding Actividades}">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <Border Margin="0,4"
@@ -102,7 +101,7 @@
                                     StrokeThickness="1"
                                     StrokeShape="RoundRectangle 10">
                                 <Grid ColumnDefinitions="3*, 2*, 2*, 2*">
-                                    <Label Text="{Binding Nombre}"
+                                    <Label Text="{Binding Actividad}"
                                            TextColor="Black"
                                            FontSize="15"
                                            VerticalOptions="Center"
@@ -119,15 +118,16 @@
                                            HorizontalTextAlignment="Center"
                                            VerticalOptions="Center"
                                            Grid.Column="2"/>
-                                    <Button Grid.Column="4"
+                                    <Button Grid.Column="3"
                                             Text="Editar"
-                                            BackgroundColor="#1976D2"
-                                            TextColor="White"
+                                            BackgroundColor="#80BFFF"
+                                            TextColor="Black"
                                             CornerRadius="10"
-                                            Padding="2,1"
                                             FontSize="12"
+                                            Margin="30,0"
+                                            HorizontalOptions="End"
                                             Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.EditarCommand}"
-                                            CommandParameter="{Binding .}" />
+                                            CommandParameter="{Binding .}"/>
                                 </Grid>
                             </Border>
                         </DataTemplate>
