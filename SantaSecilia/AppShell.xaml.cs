@@ -18,6 +18,10 @@ namespace SantaSecilia
             Routing.RegisterRoute(nameof(TrabajadorFormPage), typeof(TrabajadorFormPage));
             Routing.RegisterRoute(nameof(EditarTrabajadorPage), typeof(EditarTrabajadorPage));
 
+            //Pantallas de Registro y Edición de Actividades
+            Routing.RegisterRoute(nameof(RegistrarActividadPage), typeof(RegistrarActividadPage));
+            Routing.RegisterRoute(nameof(EditarActividadPage), typeof(EditarActividadPage));
+
         }
     }
 }
