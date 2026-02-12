@@ -10,8 +10,20 @@
 
 		<ShellContent Title="Login" ContentTemplate="{DataTemplate views:LoginPage}" />
 
-		<ShellContent Title="Lotes" ContentTemplate="{DataTemplate views:LotesPage}" />
+        <ShellContent Title="Home" ContentTemplate="{DataTemplate views:HomePage}" />
 
-        <ShellContent Title="Componente Header" ContentTemplate="{DataTemplate views:TrabajadoresListPage}" />
+        <ShellContent Title="Lotes" ContentTemplate="{DataTemplate views:LotesPage}" />
+
+        <ShellContent Title="Registor de Labor" ContentTemplate="{DataTemplate views:RegistroLabor}" />
+
+        <ShellContent Title="Trabajadores" ContentTemplate="{DataTemplate views:TrabajadoresListPage}" />
+
+        <ShellContent Title="Boleta Semanal" ContentTemplate="{DataTemplate views:BoletaSemanalPage}" />
+
+        <ShellContent Title="Actividades" ContentTemplate="{DataTemplate views:ActividadesPage}" />
+
+        <ShellContent Title="Repotes" ContentTemplate="{DataTemplate views:ReporteGlobalPage}" />
+
+
 
 </Shell>
