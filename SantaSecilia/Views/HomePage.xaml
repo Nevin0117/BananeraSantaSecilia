@@ -15,10 +15,12 @@
                    FontSize="25"
                    VerticalOptions="Center"/>
 
-			<Image Grid.Column="2"
-                   Source="salida.png"
+			<Button Grid.Column="2"
+                   BackgroundColor="Transparent"
+                   ImageSource="salida.png"
                    HeightRequest="30"
 				   Margin="20"
+                   Clicked="OnBackClicked"
 				   />
 		</Grid>
 
@@ -36,54 +38,60 @@
 		</VerticalStackLayout>
 
 		<!-- GRID DE OPCIONES -->
-		<Grid Padding="20"
+        <Grid Padding="20"
               RowDefinitions="Auto,Auto"
               ColumnDefinitions="*,*,*"
               RowSpacing="20"
               ColumnSpacing="20">
 
-			
-			<!-- Registro Laboral -->
-			<Border StrokeShape="RoundRectangle 12"
-                    BackgroundColor="White"
-					Grid.Row="0"
-					Grid.Column="0">
+            <!-- Registro Laboral -->
+           <Border StrokeShape="RoundRectangle 12"
+                BackgroundColor="White"
+                Grid.Row="0"
+                Grid.Column="0">
 
-				<Grid Padding="45"
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer 
+                        Tapped="IraRegistroLab"/>
+                    </Border.GestureRecognizers>
+
+                    <Grid Padding="45"
 					  ColumnDefinitions="Auto,*"
 					  ColumnSpacing="12">
 
-					<Border BackgroundColor="#B2FBA5"
+                        <Border BackgroundColor="#B2FBA5"
 							StrokeShape="RoundRectangle 12"
 							Padding="10"
 							VerticalOptions="Start">
-						<Image Source="registro.png"
+                            <Image Source="registro.png"
 							   HeightRequest="28" 
 							   WidthRequest="28" 
 							   VerticalOptions="Start"/>
-					</Border>
-					
-					<VerticalStackLayout Grid.Column="1" Spacing="4">
-						<Label Text="Registro Laboral" 
+                        </Border>
+
+                        <VerticalStackLayout Grid.Column="1" Spacing="4">
+                            <Label Text="Registro Laboral"
 							   FontAttributes="Bold" 
 							   TextColor="Black"/>
-						
-						<Label Text="Crear un registro laboral diario para un jornalero." 
+                            <Label Text="Crear un registro laboral diario para un jornalero." 
 							   FontSize="12"
 							   TextColor="Black"/>
-					</VerticalStackLayout>
-				</Grid>
-			</Border>
+                        </VerticalStackLayout>
+                    </Grid>
+                </Border>
 
-			
-			
-			<!-- Jornaleros -->
+
+                <!-- Jornaleros -->
 			<Border StrokeShape="RoundRectangle 12"
                     BackgroundColor="White"
 					Grid.Row="0"
 					Grid.Column="1">
-				
-				<Grid Padding="45"
+
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="IraTrabajadores"/>
+                </Border.GestureRecognizers>
+
+                <Grid Padding="45"
 					  ColumnDefinitions="Auto,*"
 					  ColumnSpacing="12">
 
@@ -112,47 +120,53 @@
 			
 			
 			<!-- Gestionar Lotes -->
-			<Border StrokeShape="RoundRectangle 12"
+            <Border StrokeShape="RoundRectangle 12"
                     BackgroundColor="White"
 					Grid.Row="0"
 					Grid.Column="2">
 
-				<Grid Padding="45"
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="IraLotes"/>
+                </Border.GestureRecognizers>
+
+                <Grid Padding="45"
 					  ColumnDefinitions="Auto,*"
 					  ColumnSpacing="12">
 
-					<Border BackgroundColor="#B2FBA5"
+                    <Border BackgroundColor="#B2FBA5"
 							StrokeShape="RoundRectangle 12"
 							Padding="10"
 							VerticalOptions="Start">
-						<Image Source="lotes.png"
+                        <Image Source="lotes.png"
 							   HeightRequest="28"
 							   WidthRequest="28"
 							   VerticalOptions="Start"/>
-					</Border>
-					
-					<VerticalStackLayout Grid.Column="1" Spacing="4">
-						<Label Text="Gestionar Lotes"
+                    </Border>
+
+                    <VerticalStackLayout Grid.Column="1" Spacing="4">
+                        <Label Text="Gestionar Lotes"
 							   FontAttributes="Bold"
 							   TextColor="Black"/>
-						
-						<Label Text="Administrar los lotes, agregar o modificar."
+
+                        <Label Text="Administrar los lotes, agregar o modificar."
 							   FontSize="12"
 							   TextColor="Black"/>
-					</VerticalStackLayout>
-				</Grid>
-			</Border>
+                    </VerticalStackLayout>
+                </Grid>
+            </Border>
+            
 
-			
-			
-			
-			<!-- Actividades -->
+            <!-- Actividades -->
 			<Border StrokeShape="RoundRectangle 12"
                     BackgroundColor="White"
 					Grid.Row="1"
 					Grid.Column="0">
 
-				<Grid Padding="45"
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="IraActividades"/>
+                </Border.GestureRecognizers>
+
+                <Grid Padding="45"
 					  ColumnDefinitions="Auto,*"
 					  ColumnSpacing="12">
 
@@ -185,7 +199,11 @@
 					Grid.Row="1"
 					Grid.Column="1">
 
-				<Grid Padding="45"
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="IraBoletaSemanal"/>
+                </Border.GestureRecognizers>
+
+                <Grid Padding="45"
 					  ColumnDefinitions="Auto,*"
 					  ColumnSpacing="12">
 
@@ -213,37 +231,40 @@
 
 			
 			<!-- Reporte Global -->
-			<Border StrokeShape="RoundRectangle 12"
+            <Border StrokeShape="RoundRectangle 12"
                     BackgroundColor="White"
 					Grid.Row="1"
 					Grid.Column="2">
 
-				<Grid Padding="45"
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="IraRepoteG"/>
+                </Border.GestureRecognizers>
+
+                <Grid Padding="45"
 					  ColumnDefinitions="Auto,*"
 					  ColumnSpacing="12">
 
-					<Border BackgroundColor="#80BFFF"
+                    <Border BackgroundColor="#80BFFF"
 							StrokeShape="RoundRectangle 12"
 							Padding="10"
 							VerticalOptions="Start">
-						<Image Source="registro.png"
+                        <Image Source="registro.png"
 							   HeightRequest="28"
 							   WidthRequest="28"
 							   VerticalOptions="Start"/>
-					</Border>
-					
-					<VerticalStackLayout Grid.Column="1" Spacing="4">
-						<Label Text="Reporte Global"
+                    </Border>
+
+                    <VerticalStackLayout Grid.Column="1" Spacing="4">
+                        <Label Text="Reporte Global"
 							   FontAttributes="Bold"
 							   TextColor="Black"/>
-						
-						<Label Text="Generar reporte global semanal."
+
+                        <Label Text="Generar reporte global semanal."
 							   FontSize="12"
 							   TextColor="Black"/>
-					</VerticalStackLayout>
-				</Grid>
-			</Border>
-
-		</Grid>
+                    </VerticalStackLayout>
+                </Grid>
+            </Border>
+        </Grid>
 	</VerticalStackLayout>
 </ContentPage>

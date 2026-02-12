@@ -4,6 +4,7 @@ namespace SantaSecilia
 {
     public partial class App : Microsoft.Maui.Controls.Application
     {
+        [Obsolete]
         public App()
         {
             InitializeComponent();

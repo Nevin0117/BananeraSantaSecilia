@@ -6,7 +6,6 @@
     xmlns:views="clr-namespace:SantaSecilia.Views"
     Title="SantaSecilia">
 
-	
 
 		<ShellContent Title="Login" ContentTemplate="{DataTemplate views:LoginPage}" />
 
@@ -23,7 +22,6 @@
         <ShellContent Title="Actividades" ContentTemplate="{DataTemplate views:ActividadesPage}" />
 
         <ShellContent Title="Repotes" ContentTemplate="{DataTemplate views:ReporteGlobalPage}" />
-
 
 
 </Shell>
