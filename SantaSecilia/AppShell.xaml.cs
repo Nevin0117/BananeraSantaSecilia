@@ -15,6 +15,9 @@ namespace SantaSecilia
             Routing.RegisterRoute(nameof(RegistrarLotesPage), typeof(RegistrarLotesPage));
             Routing.RegisterRoute(nameof(EditarLotesPage), typeof(EditarLotesPage));
 
+            Routing.RegisterRoute(nameof(TrabajadorFormPage), typeof(TrabajadorFormPage));
+            Routing.RegisterRoute(nameof(EditarTrabajadorPage), typeof(EditarTrabajadorPage));
+
         }
     }
 }

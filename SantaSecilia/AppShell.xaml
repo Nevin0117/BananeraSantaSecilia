@@ -12,4 +12,6 @@
 
 		<ShellContent Title="Lotes" ContentTemplate="{DataTemplate views:LotesPage}" />
 
+        <ShellContent Title="Componente Header" ContentTemplate="{DataTemplate views:TrabajadoresListPage}" />
+
 </Shell>
