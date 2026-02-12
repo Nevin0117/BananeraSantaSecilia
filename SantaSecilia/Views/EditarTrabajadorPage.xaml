@@ -70,7 +70,8 @@
                                 BackgroundColor="#64B5F6"
                                 TextColor="Black"
                                 CornerRadius="15"
-                                WidthRequest="120"/>
+                                WidthRequest="120"
+                                Clicked="OnCancelarClicked"/>
 
                             <Button
                                 Text="Cancelar"

@@ -73,6 +73,7 @@
                                 TextColor="Black"
                                 CornerRadius="22"                             
                                 WidthRequest="110"
+                                Clicked="OnCancelarClicked"
                                 />
 
                             <Button
