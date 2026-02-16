@@ -96,6 +96,7 @@
                         BorderWidth="1"
                         HorizontalOptions="Fill"
                         Margin="0,10"
+                        Clicked="OnLoginClicked"
                 />
 
             </VerticalStackLayout>

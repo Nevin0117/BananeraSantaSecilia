@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:SantaSecilia.ViewModels"
+             xmlns:views="clr-namespace:SantaSecilia.Views"
              x:Class="SantaSecilia.Views.BoletaSemanalPage"
              BackgroundColor="#FAF4C6">
 
@@ -9,7 +10,13 @@
         <vm:BoletaSemanalViewModel/>
     </ContentPage.BindingContext>
 
-    <VerticalStackLayout Padding="25" Spacing="18">
+   <VerticalStackLayout >
+        <!-- Header -->
+        <views:HeaderView Grid.Row="0"
+                  x:Name="MyHeader"/>
+
+        <VerticalStackLayout Padding="25" Spacing="18">
+
 
         <!-- Título -->
         <Label Text="Boleta Semanal"
@@ -138,5 +145,6 @@
         </HorizontalStackLayout>
 
     </VerticalStackLayout>
+   </VerticalStackLayout>
 
 </ContentPage>

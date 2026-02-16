@@ -5,6 +5,7 @@ public partial class ReporteGlobalPage : ContentPage
 	public ReporteGlobalPage()
 	{
 		InitializeComponent();
+        MyHeader.SetActivePage("ReporteGlobal");
 	}
 
     private void SemanaPicker_SelectedIndexChanged(object sender, EventArgs e)

@@ -8,6 +8,7 @@ public partial class LotesPage : ContentPage
     {
         InitializeComponent();
         BindingContext = new LotesViewModel();
+        MyHeader.SetActivePage("Lotes");
     }
 }
 

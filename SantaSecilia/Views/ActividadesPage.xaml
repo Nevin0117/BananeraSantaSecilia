@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:SantaSecilia.ViewModels"
+             xmlns:views="clr-namespace:SantaSecilia.Views"
              x:Class="SantaSecilia.Views.ActividadesPage"
              Title="Actividades"
              BackgroundColor="#FAF4C6">
@@ -10,27 +11,35 @@
         <vm:ActividadesViewModel/>
     </ContentPage.BindingContext>
 
-    <Grid Padding="20"
-          RowDefinitions="Auto, Auto, Auto, *"
-          RowSpacing="15">
+    <Grid RowDefinitions="Auto, *">
 
-        <!-- Título -->
-        <Label Grid.Row="0"
+        <!-- Header -->
+        <views:HeaderView Grid.Row="0"
+                          x:Name="MyHeader"/>
+
+        <!-- Contenido de la página con su padding normal -->
+        <Grid Grid.Row="1"
+              Padding="20"
+              RowDefinitions="Auto, Auto, Auto, *"
+              RowSpacing="15">
+
+            <!-- Título -->
+            <Label Grid.Row="0"
                Text="Actividades y Tarifas"
                TextColor="Black"
                FontSize="32"
                FontAttributes="Bold"/>
 
-        <!-- Subtítulo -->
-        <Label Grid.Row="1"
+            <!-- Subtítulo -->
+            <Label Grid.Row="1"
                Text="Gestión de Actividades"
                Margin="0,0,0,25"
                TextColor="#555555"
                FontSize="18"
                FontAttributes="Italic"/>
 
-        <!-- Botón Registrar -->
-        <Button Grid.Row="2"
+            <!-- Botón Registrar -->
+            <Button Grid.Row="2"
                 Text="+ Registrar Actividad"
                 FontAttributes="Italic"
                 HorizontalOptions="Start"
@@ -42,8 +51,8 @@
                 Padding="22,12"
                 Command="{Binding RegistrarCommand}"/>
 
-        <!-- Tabla -->
-        <Border Grid.Row="3"
+            <!-- Tabla -->
+            <Border Grid.Row="3"
                 Stroke="Transparent"
                 StrokeThickness="1"
                 StrokeShape="RoundRectangle 14"
@@ -52,73 +61,73 @@
                 MaximumWidthRequest="1000"
                 MinimumWidthRequest="400">
 
-            <Grid RowDefinitions="Auto, Auto, Auto">
+                <Grid RowDefinitions="Auto, Auto, Auto">
 
-                <!-- Encabezado de la tabla -->
-                <Border Grid.Row="0"
+                    <!-- Encabezado de la tabla -->
+                    <Border Grid.Row="0"
                         BackgroundColor="#80BFFF"
                         Stroke="Transparent"
                         StrokeShape="RoundRectangle 12"
                         Padding="12">
-                    <Grid ColumnDefinitions="3*, 2*, 2*, 2*">
-                        <Label Text="Actividad"
+                        <Grid ColumnDefinitions="3*, 2*, 2*, 2*">
+                            <Label Text="Actividad"
                                FontAttributes="Bold"
                                FontSize="16"
                                TextColor="Black"
                                Grid.Column="0"/>
-                        <Label Text="Tarifa"
+                            <Label Text="Tarifa"
                                FontAttributes="Bold"
                                FontSize="16"
                                TextColor="Black"
                                HorizontalTextAlignment="Center"
                                Grid.Column="1"/>
-                        <Label Text="Estado"
+                            <Label Text="Estado"
                                FontAttributes="Bold"
                                FontSize="16"
                                TextColor="Black"
                                HorizontalTextAlignment="Center"
                                Grid.Column="2"/>
-                        <BoxView Grid.Column="3"
+                            <BoxView Grid.Column="3"
                                  Color="Transparent"/>
-                    </Grid>
-                </Border>
+                        </Grid>
+                    </Border>
 
-                <!-- Línea divisora -->
-                <BoxView Grid.Row="1"
+                    <!-- Línea divisora -->
+                    <BoxView Grid.Row="1"
                          HeightRequest="1"
                          Color="#E0E0E0"
                          HorizontalOptions="Fill"/>
 
-                <!-- Filas de la tabla -->
-                <CollectionView Grid.Row="2"
+                    <!-- Filas de la tabla -->
+                    <CollectionView Grid.Row="2"
                                 ItemsSource="{Binding Actividades}">
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <Border Margin="0,4"
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Border Margin="0,4"
                                     Padding="12"
                                     BackgroundColor="White"
                                     Stroke="#E0E0E0"
                                     StrokeThickness="1"
                                     StrokeShape="RoundRectangle 10">
-                                <Grid ColumnDefinitions="3*, 2*, 2*, 2*">
-                                    <Label Text="{Binding Actividad}"
+                                    <Grid ColumnDefinitions="3*, 2*, 2*, 2*">
+                                        <Label Text="{Binding Actividad}"
                                            TextColor="Black"
                                            FontSize="15"
                                            VerticalOptions="Center"
                                            Grid.Column="0"/>
-                                    <Label Text="{Binding Tarifa}"
+                                        <Label Text="{Binding Tarifa}"
                                            TextColor="Black"
                                            FontSize="15"
                                            HorizontalTextAlignment="Center"
                                            VerticalOptions="Center"
                                            Grid.Column="1"/>
-                                    <Label Text="{Binding Estado}"
+                                        <Label Text="{Binding Estado}"
                                            TextColor="Black"
                                            FontSize="15"
                                            HorizontalTextAlignment="Center"
                                            VerticalOptions="Center"
                                            Grid.Column="2"/>
-                                    <Button Grid.Column="3"
+                                        <Button Grid.Column="3"
                                             Text="Editar"
                                             BackgroundColor="#80BFFF"
                                             TextColor="Black"
@@ -128,15 +137,15 @@
                                             HorizontalOptions="End"
                                             Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.EditarCommand}"
                                             CommandParameter="{Binding .}"/>
-                                </Grid>
-                            </Border>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
 
-            </Grid>
-        </Border>
-
+                </Grid>
+            </Border>
+        </Grid>
     </Grid>
 
 </ContentPage>

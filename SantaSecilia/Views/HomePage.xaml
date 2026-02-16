@@ -4,27 +4,9 @@
     x:Class="SantaSecilia.Views.HomePage"
     BackgroundColor="#FAF4C6">
 
-	<VerticalStackLayout Spacing="20">
+    <VerticalStackLayout Spacing="20">
 
-		<!-- HEADER -->
-		<Grid ColumnDefinitions="Auto,*,Auto" BackgroundColor="White">
-			<Image Source="logo.png" HeightRequest="70" Margin="15"/>
-			<Label Grid.Column="1"
-                   Text="Bananera Santa Cecilia"
-				   TextColor="Black"
-                   FontSize="25"
-                   VerticalOptions="Center"/>
-
-			<Button Grid.Column="2"
-                   BackgroundColor="Transparent"
-                   ImageSource="salida.png"
-                   HeightRequest="30"
-				   Margin="20"
-                   Clicked="OnBackClicked"
-				   />
-		</Grid>
-
-		<!-- TITULO -->
+        <!-- TITULO -->
 		<VerticalStackLayout Spacing="6" HorizontalOptions="Center">
 			<Label Text="Bienvenido"
 				   TextColor="Black"

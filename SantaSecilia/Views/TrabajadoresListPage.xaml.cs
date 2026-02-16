@@ -8,5 +8,6 @@ public partial class TrabajadoresListPage : ContentPage
     {
         InitializeComponent();
         BindingContext = new TrabajadoresListViewModel();
+        MyHeader.SetActivePage("Trabajadores");
     }
 }
