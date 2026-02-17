@@ -9,6 +9,7 @@ namespace SantaSecilia.Views
         {
             InitializeComponent();
             BindingContext = new RegistroLaborViewModel();
+            MyHeader.SetActivePage("RegistroLaboral");
         }
 
         private async void OnCancelarClicked(object sender, EventArgs e)

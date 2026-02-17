@@ -7,5 +7,6 @@ public partial class ActividadesPage : ContentPage
     {
         InitializeComponent();
         BindingContext = new ActividadesViewModel();
+        MyHeader.SetActivePage("Actividades");
     }
 }

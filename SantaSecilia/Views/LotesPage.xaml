@@ -2,6 +2,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:vm="clr-namespace:SantaSecilia.ViewModels"
+    xmlns:views="clr-namespace:SantaSecilia.Views"
 	x:Class="SantaSecilia.Views.LotesPage"
     BackgroundColor="#FAF4C6">
 
@@ -9,26 +10,8 @@
     <VerticalStackLayout Spacing="20">
 
         <!-- Header -->
-        <Grid ColumnDefinitions="Auto,*,Auto"
-              BackgroundColor="White"
-              Padding="10">
-
-            <Image Source="logo.png"
-                   HeightRequest="70"/>
-
-            <Label Grid.Column="1"
-                   Text="Bananera Santa Cecilia"
-                   FontSize="25"
-                   VerticalOptions="Center"
-                   HorizontalOptions="Start"
-                   TextColor="Black"/>
-
-            <Image Grid.Column="2"
-                   Source="salida.png"
-                   HeightRequest="30"
-                   HorizontalOptions="End"
-                   Margin="20"/>
-        </Grid>
+        <views:HeaderView Grid.Row="0"
+                  x:Name="MyHeader"/>
 
 		<Grid Padding="20"
 		  RowDefinitions="Auto,Auto,Auto,*"

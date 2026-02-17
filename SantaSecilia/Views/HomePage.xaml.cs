@@ -4,37 +4,30 @@ namespace SantaSecilia.Views
 {
     public partial class HomePage : ContentPage
     {
-        public HomePage(){
+        public HomePage()
+        {
             InitializeComponent();
         }
 
+        private async void OnBackClicked(object sender, EventArgs e)
+            => await Shell.Current.GoToAsync("//Login");
 
-        private async void OnBackClicked(object sender, EventArgs e){
-            await Shell.Current.GoToAsync("LoginPage");}
+        async void IraRegistroLab(object sender, EventArgs e)
+            => await Shell.Current.GoToAsync("//RegistroLaboral");
 
+        async void IraTrabajadores(object sender, EventArgs e)
+            => await Shell.Current.GoToAsync("//Trabajadores");
 
-        async void IraRegistroLab(object sender, EventArgs e){
-            await Shell.Current.GoToAsync(nameof(RegistroLabor));
-        }
+        async void IraLotes(object sender, EventArgs e)
+            => await Shell.Current.GoToAsync("//Lotes");
 
-        async void IraTrabajadores(object sender, EventArgs e){
-            await Shell.Current.GoToAsync(nameof(TrabajadoresListPage));
-        }
+        async void IraActividades(object sender, EventArgs e)
+            => await Shell.Current.GoToAsync("//Actividades");
 
-        async void IraLotes(object sender, EventArgs e){
-            await Shell.Current.GoToAsync(nameof(LotesPage));
-        }
+        async void IraBoletaSemanal(object sender, EventArgs e)
+            => await Shell.Current.GoToAsync("//BoletaSemanal");
 
-        async void IraActividades(object sender, EventArgs e){
-            await Shell.Current.GoToAsync(nameof(ActividadesPage));
-        }
-
-        async void IraBoletaSemanal(object sender, EventArgs e){
-            await Shell.Current.GoToAsync(nameof(BoletaSemanalPage));
-        }
-
-        async void IraRepoteG(object sender, EventArgs e){
-            await Shell.Current.GoToAsync(nameof(ReporteGlobalPage));
-        }
+        async void IraRepoteG(object sender, EventArgs e)
+            => await Shell.Current.GoToAsync("//ReporteGlobal");
     }
 }

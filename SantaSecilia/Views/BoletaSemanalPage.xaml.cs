@@ -5,5 +5,6 @@ public partial class BoletaSemanalPage : ContentPage
 	public BoletaSemanalPage()
 	{
 		InitializeComponent();
+		MyHeader.SetActivePage("BoletaSemanal");
 	}
 }
