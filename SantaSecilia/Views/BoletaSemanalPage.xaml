@@ -146,4 +146,5 @@
             </Border>
         </HorizontalStackLayout>
     </VerticalStackLayout>
+   </VerticalStackLayout>
 </ContentPage>
