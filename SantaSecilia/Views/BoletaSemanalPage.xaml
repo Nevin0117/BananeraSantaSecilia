@@ -24,6 +24,7 @@
             <!-- Trabajador -->
             <VerticalStackLayout>
                 <Label Text="Nombre del Trabajador"
+                       TextColor="Black"
                        FontSize="13"/>
 
                 <Border Stroke="#888"
@@ -39,6 +40,7 @@
             <!-- Semana -->
             <VerticalStackLayout Grid.Column="1">
                 <Label Text="Semana"
+                       TextColor="Black"
                        FontSize="13"/>
 
                 <Border Stroke="#888"
@@ -55,22 +57,22 @@
         <!-- TABLA -->
         <Border Stroke="#7A8FA6"
                 StrokeThickness="2"
-                Background="#E6EDF5"
+                Background="White"
                 StrokeShape="RoundRectangle 15"
                 HeightRequest="330">
 
             <Grid RowDefinitions="Auto,*">
 
                 <!-- Header -->
-                <Grid Background="#B7C7D8"
+                <Grid Background="#80BFFF"
                       Padding="8"
                       ColumnDefinitions="1.2*,2*,1*,1*,1.2*">
 
-                    <Label Text="Fecha"/>
-                    <Label Grid.Column="1" Text="Actividad"/>
-                    <Label Grid.Column="2" Text="Horas"/>
-                    <Label Grid.Column="3" Text="Tarifa"/>
-                    <Label Grid.Column="4" Text="Monto"/>
+                    <Label Text="Fecha" TextColor="Black"/>
+                    <Label Grid.Column="1" Text="Actividad" TextColor="Black"/>
+                    <Label Grid.Column="2" Text="Horas" TextColor="Black"/>
+                    <Label Grid.Column="3" Text="Tarifa" TextColor="Black"/>
+                    <Label Grid.Column="4" Text="Monto" TextColor="Black"/>
                 </Grid>
 
                 <!-- Área Scroll -->
@@ -95,14 +97,14 @@
 
         <!-- Totales -->
         <Border Stroke="#7A8FA6"
-                Background="#D5E0EC"
+                Background="White"
                 StrokeShape="RoundRectangle 15"
                 Padding="15">
 
             <VerticalStackLayout Spacing="6">
-                <Label Text="Total Devengado:"/>
-                <Label Text="Descuentos:"/>
-                <Label Text="Total a pagar:"/>
+                <Label Text="Total Devengado:" TextColor="Black"/>
+                <Label Text="Descuentos:" TextColor="Black"/>
+                <Label Text="Total a pagar:" TextColor="Black"/>
             </VerticalStackLayout>
         </Border>
 
@@ -125,7 +127,7 @@
 
             <!-- Imprimir -->
             <Border
-                BackgroundColor="#B7D7A8"
+                BackgroundColor="#B2FBA5"
                 StrokeShape="RoundRectangle 12"
                 Padding="0">
 
@@ -136,7 +138,5 @@
                     Padding="25,8"/>
             </Border>
         </HorizontalStackLayout>
-
     </VerticalStackLayout>
-
 </ContentPage>
