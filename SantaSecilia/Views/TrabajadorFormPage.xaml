@@ -13,8 +13,8 @@
     <!-- CENTRAR TARJETA -->
     <Grid>
         <Border
-            Stroke="#7A9E7E"
-            StrokeThickness="2"
+            Stroke="Black"
+            StrokeThickness="1"
             BackgroundColor="White"
             StrokeShape="RoundRectangle 18"
             Padding="0"
@@ -26,13 +26,14 @@
 
                 <!-- HEADER -->
                 <Border
-                    BackgroundColor="#CDE8C5"
-                    StrokeShape="RoundRectangle 18,18,0,0"
-                    Padding="12">
+                    BackgroundColor="#80BFFF"
+                    StrokeShape="RoundRectangle 10,5,0,0"
+                    Padding="16">
 
                     <Label
                         Text="Registro de Trabajador"
                         FontSize="20"
+                        TextColor="Black"
                         FontAttributes="Bold"
                         HorizontalOptions="Center"/>
                 </Border>
@@ -44,31 +45,32 @@
 
                     <!-- FORMULARIO -->
                     <VerticalStackLayout Spacing="12">
-
-                        <Label Text="Nombre Completo" FontSize="12"/>
-
+                        <Label Text="Nombre Completo" FontSize="12" TextColor="Black"/>
                         <Border Stroke="#CCCCCC" StrokeShape="RoundRectangle 10">
                             <Entry
-                                Placeholder="Nombre del Trabajador"
+                                Placeholder="Jornalero"
                                 Text="{Binding Nombre}"
+                                TextColor="Black"
                                 BackgroundColor="Transparent"/>
                         </Border>
 
-                        <Label Text="Cédula" FontSize="12"/>
+                        <Label Text="Cédula" FontSize="12" TextColor="Black"/>
 
                         <Border Stroke="#CCCCCC" StrokeShape="RoundRectangle 10">
                             <Entry
-                                Placeholder="Cédula del Trabajador"
+                                Placeholder="x-xxx-xxxx"
                                 Text="{Binding Cedula}"
+                                TextColor="Black"
                                 BackgroundColor="Transparent"/>
                         </Border>
 
-                        <Label Text="Estado" FontSize="12"/>
+                        <Label Text="Estado" FontSize="12" TextColor="Black"/>
 
                         <Border Stroke="#CCCCCC" StrokeShape="RoundRectangle 10">
-                            <Picker                              
-                                ItemsSource="{Binding Estados}"
-                                BackgroundColor="Transparent"/>
+                            <Picker                               
+                                    ItemsSource="{Binding Estados}"
+                                    TextColor="Black"
+                                    BackgroundColor="Transparent"/>
                         </Border>
 
                         <!-- BOTONES -->
@@ -76,16 +78,15 @@
 
                             <Button
                                 Text="Registrar"
-                                BackgroundColor="#9CCC65"
+                                BackgroundColor="#B2FBA5"
                                 TextColor="Black"
                                 CornerRadius="15"                             
                                 WidthRequest="120"
-                                Clicked="OnCancelarClicked"
-                                />
+                                Clicked="OnCancelarClicked"/>
 
                             <Button
                                 Text="Cancelar"
-                                BackgroundColor="#F28B82"
+                                BackgroundColor="#FF3C31"
                                 TextColor="Black"
                                 CornerRadius="15"
                                 WidthRequest="120"

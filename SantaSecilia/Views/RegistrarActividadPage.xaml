@@ -52,6 +52,7 @@
                             <Entry
                                 Placeholder="Nombre de la Actividad"
                                 Text="{Binding Actividad}"
+                                TextColor="Black"
                                 BackgroundColor="Transparent"/>
                         </Border>
 
