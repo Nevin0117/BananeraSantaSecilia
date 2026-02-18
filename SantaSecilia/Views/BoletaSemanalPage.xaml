@@ -111,15 +111,6 @@
 										 Spacing="25"
 										 Margin="0,15,0,0">
 
-                        <!-- Exportar -->
-                        <Border BackgroundColor="#80BFFF"
-								StrokeShape="RoundRectangle 12"
-								Padding="0">
-                            <Button Text="Exportar"
-									BackgroundColor="Transparent"
-									TextColor="Black"
-									Padding="25,8"/>
-                        </Border>
 
                         <!-- Imprimir -->
                         <Border BackgroundColor="#B2FBA5"
@@ -129,7 +120,8 @@
                             <Button Text="Imprimir"
 									BackgroundColor="Transparent"
 									TextColor="Black"
-									Padding="25,8"/>
+									Padding="25,8"
+                                    Clicked="Imprimir_Clicked"/>
                         </Border>
                   </HorizontalStackLayout>
               </VerticalStackLayout>
