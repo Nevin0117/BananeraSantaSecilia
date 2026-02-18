@@ -5,146 +5,150 @@
              xmlns:views="clr-namespace:SantaSecilia.Views"
              x:Class="SantaSecilia.Views.BoletaSemanalPage"
              BackgroundColor="#FAF4C6">
-
+    
     <ContentPage.BindingContext>
-        <vm:BoletaSemanalViewModel/>
-    </ContentPage.BindingContext>
+            <vm:BoletaSemanalViewModel/>
+        </ContentPage.BindingContext>
 
-   <VerticalStackLayout >
-        <!-- Header -->
-        <views:HeaderView Grid.Row="0"
+    <ScrollView>
+        <VerticalStackLayout Spacing="20">
+            
+            <VerticalStackLayout >
+                <!-- Header -->
+                <views:HeaderView Grid.Row="0"
                   x:Name="MyHeader"/>
 
-        <VerticalStackLayout Padding="25" Spacing="18">
+                <VerticalStackLayout Padding="25" Spacing="18">
 
-
-        <!-- Título -->
-        <Label Text="Boleta Semanal"
+                    <!-- Título -->
+                    <Label Text="Boleta Semanal"
                FontSize="26"
                FontAttributes="Bold"
                HorizontalOptions="Center"
                TextColor="Black"/>
 
-        <!-- Selectores -->
-        <Grid ColumnDefinitions="*,*" ColumnSpacing="15">
+                    <!-- Selectores -->
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="15">
 
-            <!-- Trabajador -->
-            <VerticalStackLayout>
-                <Label Text="Nombre del Trabajador"
+                        <!-- Trabajador -->
+                        <VerticalStackLayout>
+                            <Label Text="Nombre del Trabajador"
                        TextColor="Black"
                        FontSize="13"/>
 
-                <Border Stroke="#888"
+                            <Border Stroke="#888"
                         StrokeShape="RoundRectangle 10"
                         Background="White">
 
-                    <Picker
+                                <Picker
                          HeightRequest="40"/>
 
-                </Border>
-            </VerticalStackLayout>
+                            </Border>
+                        </VerticalStackLayout>
 
-            <!-- Semana -->
-            <VerticalStackLayout Grid.Column="1">
-                <Label Text="Semana"
+                        <!-- Semana -->
+                        <VerticalStackLayout Grid.Column="1">
+                            <Label Text="Semana"
                        TextColor="Black"
                        FontSize="13"/>
 
-                <Border Stroke="#888"
+                            <Border Stroke="#888"
                         StrokeShape="RoundRectangle 10"
                         Background="White">
 
-                    <Picker HeightRequest="40"/>
+                                <Picker HeightRequest="40"/>
 
-                </Border>
-            </VerticalStackLayout>
+                            </Border>
+                        </VerticalStackLayout>
 
-        </Grid>
+                    </Grid>
 
-        <!-- TABLA -->
-        <Border Stroke="#7A8FA6"
+                    <!-- TABLA -->
+                    <Border Stroke="#7A8FA6"
                 StrokeThickness="2"
                 Background="White"
                 StrokeShape="RoundRectangle 15"
                 HeightRequest="330">
 
-            <Grid RowDefinitions="Auto,*">
+                        <Grid RowDefinitions="Auto,*">
 
-                <!-- Header -->
-                <Grid Background="#80BFFF"
+                            <!-- Header -->
+                            <Grid Background="#80BFFF"
                       Padding="8"
                       ColumnDefinitions="1.2*,2*,1*,1*,1.2*">
 
-                    <Label Text="Fecha" TextColor="Black"/>
-                    <Label Grid.Column="1" Text="Actividad" TextColor="Black"/>
-                    <Label Grid.Column="2" Text="Horas" TextColor="Black"/>
-                    <Label Grid.Column="3" Text="Tarifa" TextColor="Black"/>
-                    <Label Grid.Column="4" Text="Monto" TextColor="Black"/>
-                </Grid>
+                                <Label Text="Fecha" TextColor="Black"/>
+                                <Label Grid.Column="1" Text="Actividad" TextColor="Black"/>
+                                <Label Grid.Column="2" Text="Horas" TextColor="Black"/>
+                                <Label Grid.Column="3" Text="Tarifa" TextColor="Black"/>
+                                <Label Grid.Column="4" Text="Monto" TextColor="Black"/>
+                            </Grid>
 
-                <!-- Área Scroll -->
-                <ScrollView Grid.Row="1">
-                    <VerticalStackLayout Padding="5" Spacing="6">
+                            <!-- Área Scroll -->
+                            <ScrollView Grid.Row="1">
+                                <VerticalStackLayout Padding="5" Spacing="6">
 
-                        <!-- Filas dummy (luego CollectionView) -->
-                        <Grid ColumnDefinitions="1.2*,2*,1*,1*,1.2*">
-                            <Label Text=""/>
-                            <Label Grid.Column="1" Text=""/>
-                            <Label Grid.Column="2" Text=""/>
-                            <Label Grid.Column="3" Text=""/>
-                            <Label Grid.Column="4" Text=""/>
+                                    <!-- Filas dummy (luego CollectionView) -->
+                                    <Grid ColumnDefinitions="1.2*,2*,1*,1*,1.2*">
+                                        <Label Text=""/>
+                                        <Label Grid.Column="1" Text=""/>
+                                        <Label Grid.Column="2" Text=""/>
+                                        <Label Grid.Column="3" Text=""/>
+                                        <Label Grid.Column="4" Text=""/>
+                                    </Grid>
+
+                                </VerticalStackLayout>
+                            </ScrollView>
+
                         </Grid>
 
-                    </VerticalStackLayout>
-                </ScrollView>
+                    </Border>
 
-            </Grid>
-
-        </Border>
-
-        <!-- Totales -->
-        <Border Stroke="#7A8FA6"
+                    <!-- Totales -->
+                    <Border Stroke="#7A8FA6"
                 Background="White"
                 StrokeShape="RoundRectangle 15"
                 Padding="15">
 
-            <VerticalStackLayout Spacing="6">
-                <Label Text="Total Devengado:" TextColor="Black"/>
-                <Label Text="Descuentos:" TextColor="Black"/>
-                <Label Text="Total a pagar:" TextColor="Black"/>
-            </VerticalStackLayout>
-        </Border>
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="Total Devengado:" TextColor="Black"/>
+                            <Label Text="Descuentos:" TextColor="Black"/>
+                            <Label Text="Total a pagar:" TextColor="Black"/>
+                        </VerticalStackLayout>
+                    </Border>
 
-        <HorizontalStackLayout HorizontalOptions="Center"
+                    <HorizontalStackLayout HorizontalOptions="Center"
                                Spacing="25"
                                Margin="0,15,0,0">
 
-            <!-- Exportar -->
-            <Border
+                        <!-- Exportar -->
+                        <Border
                 BackgroundColor="#8DB3E2"
                 StrokeShape="RoundRectangle 12"
                 Padding="0">
 
-                <Button
+                            <Button
                     Text="Exportar"
                     BackgroundColor="Transparent"
                     TextColor="Black"
                     Padding="25,8"/>
-            </Border>
+                        </Border>
 
-            <!-- Imprimir -->
-            <Border
+                        <!-- Imprimir -->
+                        <Border
                 BackgroundColor="#B2FBA5"
                 StrokeShape="RoundRectangle 12"
                 Padding="0">
 
-                <Button
+                            <Button
                     Text="Imprimir"
                     BackgroundColor="Transparent"
                     TextColor="Black"
                     Padding="25,8"/>
-            </Border>
-        </HorizontalStackLayout>
-    </VerticalStackLayout>
-   </VerticalStackLayout>
+                        </Border>
+                  </HorizontalStackLayout>
+              </VerticalStackLayout>
+         </VerticalStackLayout>
+      </VerticalStackLayout>
+  </ScrollView>
 </ContentPage>

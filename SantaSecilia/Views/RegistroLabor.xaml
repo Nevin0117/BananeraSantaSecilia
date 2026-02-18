@@ -83,7 +83,7 @@
                                         SelectedItem="{Binding ActividadSeleccionada}"
                                         TextColor="Black"
                                         TitleColor="#9CA3AF"
-                                        Margin="5,0"/>
+                                        Margin="10,5"/>
                             </Border>
                         </VerticalStackLayout>
 
@@ -207,45 +207,32 @@
                                     BackgroundColor="#F9FAFB">
                                 <Label Text="{Binding MontoAutogenerado}"
                                        TextColor="#4B5563"
-                                       Margin="15,12"
+                                       Margin="15,17"
                                        FontSize="14"/>
                             </Border>
                         </VerticalStackLayout>
 
                     </Grid>
-
                     <!-- BOTONES -->
-                    <VerticalStackLayout Spacing="15" Margin="0,20,0,0">
-
+                    <VerticalStackLayout Spacing="15" HorizontalOptions="Center">
                         <!-- Botón Guardar -->
-                        <Border StrokeShape="RoundRectangle 8"
-                                BackgroundColor="#3B82F6"
-                                Padding="0">
-                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10" Padding="15,0">
-                                <Image Source="guardar_icon.png"
-                                       HeightRequest="20"
-                                       WidthRequest="20"
-                                       VerticalOptions="Center"/>
-                                <Label Grid.Column="1"
-                                       Text="Guardar Registro"
-                                       TextColor="White"
-                                       FontSize="16"
-                                       FontAttributes="Bold"
-                                       VerticalOptions="Center"
-                                       HorizontalOptions="Center"/>
-                            </Grid>
-                            <Border.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding GuardarRegistroCommand}"/>
-                            </Border.GestureRecognizers>
-                        </Border>
+                        <Button Text="Guardar Registro"
+                            Command="{Binding GuardarRegistroCommand}"
+                            BackgroundColor="#B2FBA5"
+                            TextColor="Black"
+                            FontSize="16"
+                            CornerRadius="8"
+                            Padding="15,10"
+                            HorizontalOptions="Center"
+                            WidthRequest="220"/>
 
                         <!-- Botón Cancelar -->
                         <Button Text="Cancelar"
                                 Command="{Binding CancelarCommand}"
-                                BackgroundColor="Transparent"
-                                TextColor="#EF4444"
+                                BackgroundColor="#FF3C31"
+                                TextColor="Black"
                                 FontSize="14"
-                                HorizontalOptions="Center"
+                                Margin="20,10"
                                 Clicked="OnCancelarClicked"/>
                     </VerticalStackLayout>
                 </VerticalStackLayout>
