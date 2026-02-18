@@ -24,23 +24,19 @@
                     <RoundRectangle CornerRadius="20,20,20,20" />
                 </Border.StrokeShape>
                 <VerticalStackLayout Padding="15" Spacing="10">
+					<Label Text="Inicio de Sesión"
+						   FontSize="28"
+						   FontAttributes="Bold"
+						   HorizontalOptions="Center"
+						   TextColor="Black"/>
+					
                     <Image Source="logo.png" 
-                           HeightRequest="100" 
+                           HeightRequest="150" 
                            HorizontalOptions="Center" 
                            Aspect="AspectFit"/>
-                    <Label Text="BANANERA SANTA CECILIA" 
-                           FontSize="16" 
-                           FontAttributes="Bold" 
-                           HorizontalOptions="Center" 
-                           TextColor="Black"/>
+                    
                 </VerticalStackLayout>
             </Border>
-
-            <Label Text="Inicio de Sesión" 
-                   FontSize="24" 
-                   FontAttributes="Bold" 
-                   HorizontalOptions="Center" 
-                   TextColor="Black"/>
 
             <Label Text="{Binding ErrorMessage}" 
                    TextColor="Red" 
@@ -89,9 +85,9 @@
 
                 <Button Text="Iniciar Sesión"
                         Command="{Binding LoginCommand}"
-                        BackgroundColor="#E8F5E9"
+                        BackgroundColor="#80BFFF"
                         TextColor="Black"
-                        CornerRadius="20"
+                        CornerRadius="10"
                         BorderColor="Black"
                         BorderWidth="1"
                         HorizontalOptions="Fill"

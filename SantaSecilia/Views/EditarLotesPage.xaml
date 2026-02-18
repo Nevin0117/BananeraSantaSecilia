@@ -69,20 +69,18 @@
 
 							<Button
                                 Text="Registrar"
-								FontAttributes="Bold"
                                 BackgroundColor="#B2FBA5"
                                 TextColor="Black"
-                                CornerRadius="22"
+                                CornerRadius="10"
                                 WidthRequest="110"
                                 Clicked="OnCancelarClicked"
                                 />
 
 							<Button
                                 Text="Cancelar"
-								FontAttributes="Bold"
-                                BackgroundColor="#FF3C31"
+                                BackgroundColor="#F57E76"
                                 TextColor="Black"
-                                CornerRadius="22"
+                                CornerRadius="10"
                                 WidthRequest="110"
                                 Clicked="OnCancelarClicked"/>
 						</HorizontalStackLayout>

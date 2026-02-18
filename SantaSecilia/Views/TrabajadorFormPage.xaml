@@ -12,15 +12,14 @@
 
     <!-- CENTRAR TARJETA -->
     <Grid>
-        <Border
-            Stroke="Black"
-            StrokeThickness="1"
-            BackgroundColor="White"
-            StrokeShape="RoundRectangle 18"
-            Padding="0"
-            HorizontalOptions="Center"
-            VerticalOptions="Center"
-            WidthRequest="520">
+        <Border Stroke="Black"
+				StrokeThickness="1"
+				BackgroundColor="White"
+				StrokeShape="RoundRectangle 18"
+				Padding="0"
+				HorizontalOptions="Center"
+				VerticalOptions="Center"
+				WidthRequest="520">
 
             <VerticalStackLayout Spacing="0">
 
@@ -30,12 +29,11 @@
                     StrokeShape="RoundRectangle 10,5,0,0"
                     Padding="16">
 
-                    <Label
-                        Text="Registro de Trabajador"
-                        FontSize="20"
-                        TextColor="Black"
-                        FontAttributes="Bold"
-                        HorizontalOptions="Center"/>
+                    <Label Text="Registro de Trabajador"
+						   FontSize="20"
+						   TextColor="Black"
+						   FontAttributes="Bold"
+						   HorizontalOptions="Center"/>
                 </Border>
 
                 <!-- CONTENIDO -->
@@ -47,11 +45,10 @@
                     <VerticalStackLayout Spacing="12">
                         <Label Text="Nombre Completo" FontSize="12" TextColor="Black"/>
                         <Border Stroke="#CCCCCC" StrokeShape="RoundRectangle 10">
-                            <Entry
-                                Placeholder="Jornalero"
-                                Text="{Binding Nombre}"
-                                TextColor="Black"
-                                BackgroundColor="Transparent"/>
+                            <Entry Placeholder="Jornalero"
+								   Text="{Binding Nombre}"
+								   TextColor="Black"
+								   BackgroundColor="Transparent"/>
                         </Border>
 
                         <Label Text="Cédula" FontSize="12" TextColor="Black"/>
@@ -67,8 +64,7 @@
                         <Label Text="Estado" FontSize="12" TextColor="Black"/>
 
                         <Border Stroke="#CCCCCC" StrokeShape="RoundRectangle 10">
-                            <Picker                               
-                                    ItemsSource="{Binding Estados}"
+                            <Picker ItemsSource="{Binding Estados}"
                                     TextColor="Black"
                                     BackgroundColor="Transparent"/>
                         </Border>
@@ -76,31 +72,28 @@
                         <!-- BOTONES -->
                         <HorizontalStackLayout Spacing="10" Margin="0,10,0,0">
 
-                            <Button
-                                Text="Registrar"
-                                BackgroundColor="#B2FBA5"
-                                TextColor="Black"
-                                CornerRadius="15"                             
-                                WidthRequest="120"
-                                Clicked="OnCancelarClicked"/>
+                            <Button Text="Registrar"
+									BackgroundColor="#B2FBA5"
+									TextColor="Black"
+									CornerRadius="15"                             
+									WidthRequest="120"
+									Clicked="OnCancelarClicked"/>
 
-                            <Button
-                                Text="Cancelar"
-                                BackgroundColor="#FF3C31"
-                                TextColor="Black"
-                                CornerRadius="15"
-                                WidthRequest="120"
-                                Clicked="OnCancelarClicked"/>
+                            <Button Text="Cancelar"
+									BackgroundColor="#F57E76"
+									TextColor="Black"
+									CornerRadius="15"
+									WidthRequest="120"
+									Clicked="OnCancelarClicked"/>
                         </HorizontalStackLayout>
                     </VerticalStackLayout>
 
                     <!-- IMAGEN DERECHA -->
-                    <Image
-                        Grid.Column="1"
-                        Source="logo.png"
-                        Aspect="AspectFit"
-                        HorizontalOptions="Center"
-                        VerticalOptions="Center"/>
+                    <Image Grid.Column="1"
+						   Source="logo.png"
+						   Aspect="AspectFit"
+						   HorizontalOptions="Center"
+						   VerticalOptions="Center"/>
                 </Grid>
             </VerticalStackLayout>
         </Border>
