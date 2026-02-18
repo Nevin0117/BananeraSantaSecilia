@@ -60,7 +60,12 @@ namespace SantaSecilia.ViewModels
 
         public decimal TotalDevengado => Filas.Sum(f => f.Monto);
 
-        public decimal Descuentos => 0; // placeholder
+        // TODO: obtener desde WeeklyPayStub.SsDeduction (tasa seguro social aplicada al devengado bruto)
+        public decimal Descuentos => 0;
+
+        // TODO: obtener desde WeeklyPayStub.SeDeduction (tasa seguro educativo aplicada al devengado bruto)
+
+        // TODO: obtener desde WeeklyPayStub.UnionDues (cuota fija semanal del sindicato)
 
         public decimal TotalPagar => TotalDevengado - Descuentos;
 
