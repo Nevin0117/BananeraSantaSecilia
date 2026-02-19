@@ -46,7 +46,7 @@
 								StrokeShape="RoundRectangle 10"
 								Margin="0,30,0,0">
                             <Entry Placeholder="Código"
-								   Text="{Binding Nombre}"
+								   Text="{Binding Codigo}"
 								   TextColor="Black"
 								   BackgroundColor="Transparent"/>
                         </Border>
@@ -72,14 +72,14 @@
 									TextColor="Black"
 									CornerRadius="10"
 									WidthRequest="110"
-									Clicked="OnCancelarClicked"/>
+									Command="{Binding RegistrarCommand}"/>
 
                             <Button Text="Cancelar"
 									BackgroundColor="#F57E76"
 									TextColor="Black"
 									CornerRadius="10"
 									WidthRequest="110"
-									Clicked="OnCancelarClicked"/>
+									Command="{Binding CancelarCommand}"/>
                         </HorizontalStackLayout>
                     </VerticalStackLayout>
 

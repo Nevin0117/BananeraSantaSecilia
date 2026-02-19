@@ -65,8 +65,14 @@
 							StrokeShape="RoundRectangle 14">
 
 							<Grid ColumnDefinitions="1*,2*,2*">
-								<Label Text="{Binding Codigo}" TextColor="Black" HorizontalOptions="Center"/>
-								<Label Grid.Column="1" Text="{Binding Estado}" TextColor="Black" HorizontalOptions="Center"/>
+								<Label Text="{Binding Code}" 
+									   TextColor="Black" 
+									   HorizontalOptions="Center"/>
+								
+								<Label Grid.Column="1"
+									   Text="{Binding EstadoTexto}"
+									   TextColor="Black" 
+									   HorizontalOptions="Center"/>
 								
 		
 								<Button Grid.Column="2"

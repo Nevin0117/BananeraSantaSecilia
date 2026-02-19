@@ -1,40 +1,34 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
+using SantaSecilia.Domain.Entities;
+using SantaSecilia.Infrastructure.Repositories;
 using SantaSecilia.Views;
 
-namespace SantaSecilia.ViewModels
+namespace SantaSecilia.ViewModels;
+
+public class LotesViewModel
 {
-    public class LotesViewModel
+    private readonly LotRepository _repository;
+
+    public ObservableCollection<Lot> Lotes { get; set; } = new();
+
+    public ICommand RegistrarCommand { get; }
+
+    public LotesViewModel(LotRepository repository)
     {
-        public ObservableCollection<LoteItem> Lotes { get; set; }
+        _repository = repository;
 
-        public ICommand RegistrarCommand { get; }
-        public ICommand EditarCommand { get; }
-
-        public LotesViewModel()
-        {
-            Lotes = new ObservableCollection<LoteItem>
-            {
-                new() { Codigo = 101, Activo = true },
-                new() { Codigo = 102, Activo = false },
-                new() { Codigo = 103, Activo = true },
-                new() { Codigo = 104, Activo = false },
-            };
-
-            RegistrarCommand = new Command(async () =>
-                await Shell.Current.GoToAsync(nameof(RegistrarLotesPage)));
-
-            EditarCommand = new Command<LoteItem>(async (lote) =>
-                await Shell.Current.GoToAsync(nameof(EditarLotesPage)));
-        }
+        RegistrarCommand = new Command(async () =>
+            await Shell.Current.GoToAsync(nameof(RegistrarLotesPage)));
     }
 
-    public class LoteItem
+    public async Task LoadAsync()
     {
-        public int Codigo { get; set; }
-        public bool Activo { get; set; }
-        public string Estado => Activo ? "Activo" : "Inactivo";
+        var lots = await _repository.GetAllAsync();
+
+        Lotes.Clear();
+
+        foreach (var lot in lots)
+            Lotes.Add(lot);
     }
 }
-
-

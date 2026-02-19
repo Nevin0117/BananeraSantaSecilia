@@ -1,10 +1,15 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using SantaSecilia.Application.Services;
 using SantaSecilia.Infrastructure.Data;
+using SantaSecilia.Infrastructure.Repositories;
+using SantaSecilia.ViewModels;
+using SantaSecilia.Views;
 
 namespace SantaSecilia;
 public static class MauiProgram
 {
+
     public static MauiApp CreateMauiApp()
     {
         // Asegura que SQLite esté inicializado en todas las plataformas (incluido mobile)
@@ -29,6 +34,14 @@ public static class MauiProgram
             options.EnableSensitiveDataLogging().EnableDetailedErrors();
 #endif
         });
+
+        builder.Services.AddScoped<LotRepository>();
+        builder.Services.AddScoped<LotService>();
+        builder.Services.AddScoped<LotesViewModel>();
+        builder.Services.AddScoped<LotesPage>();
+        builder.Services.AddScoped<RegistrarLotesViewModel>();
+
+        
 
 #if DEBUG
         builder.Logging.AddDebug();
@@ -56,5 +69,7 @@ public static class MauiProgram
             // Si ocurre un error durante la migración, intenta crear la base de datos desde cero
             await db.Database.EnsureCreatedAsync();
         }
+
     }
+
 }

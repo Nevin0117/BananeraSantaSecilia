@@ -72,7 +72,6 @@
 	<ItemGroup>
 	  <Folder Include="Domain\Entities\" />
 	  <Folder Include="Infrastructure\Data\" />
-	  <Folder Include="Infrastructure\Repositories\" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -100,8 +99,6 @@
 	  <MauiXaml Update="Views\TrabajadorFormPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-
-	  <Folder Include="ViewModels\" />
 
 	</ItemGroup>
 

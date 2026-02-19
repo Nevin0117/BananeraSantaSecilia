@@ -1,30 +1,12 @@
-﻿using Microsoft.Maui.Controls;
-using System.Collections.Generic;
+﻿using SantaSecilia.ViewModels;
 
 namespace SantaSecilia.Views;
 
 public partial class RegistrarLotesPage : ContentPage
 {
-    public List<string> Estados { get; set; }
-
-    public string EstadoSeleccionado { get; set; }
-
-    public RegistrarLotesPage()
+    public RegistrarLotesPage(RegistrarLotesViewModel viewModel)
     {
         InitializeComponent();
-
-        Estados = new List<string>
-        {
-            "Activo",
-            "Inactivo"
-
-        };
-
-        BindingContext = this;
-    }
-
-    private async void OnCancelarClicked(object sender, EventArgs e)
-    {
-        await Shell.Current.GoToAsync("..");
+        BindingContext = viewModel;
     }
 }
