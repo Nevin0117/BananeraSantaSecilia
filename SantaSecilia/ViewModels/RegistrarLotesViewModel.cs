@@ -29,7 +29,7 @@ public class RegistrarLotesViewModel
 
     private async Task RegistrarAsync()
     {
-        // 1️⃣ Validar que no esté vacío
+        // Validar que no esté vacío
         if (string.IsNullOrWhiteSpace(Codigo))
         {
             await Shell.Current.DisplayAlertAsync("Error",
@@ -38,7 +38,7 @@ public class RegistrarLotesViewModel
             return;
         }
 
-        // 2️⃣ Validar que sea número válido
+        // Validar que sea número válido
         if (!int.TryParse(Codigo, out int codigoNumerico))
         {
             await Shell.Current.DisplayAlertAsync("Error",

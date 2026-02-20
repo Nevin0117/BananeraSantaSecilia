@@ -1,28 +1,21 @@
-﻿using Microsoft.Maui.Controls;
+﻿using SantaSecilia.ViewModels;
 
 namespace SantaSecilia.Views;
 
 public partial class EditarLotesPage : ContentPage
 {
-    public List<string> Estados { get; set; }
+    private readonly EditarLotesViewModel _viewModel;
 
-    public string EstadoSeleccionado { get; set; }
-    public EditarLotesPage()
+    public EditarLotesPage(EditarLotesViewModel viewModel)
     {
         InitializeComponent();
-
-        Estados = new List<string>
-        {
-            "Activo",
-            "Inactivo"
-        };
-
-        BindingContext = this;
+        BindingContext = viewModel;
+        _viewModel = viewModel;
     }
 
-    private async void OnCancelarClicked(object sender, EventArgs e)
+    protected override void OnAppearing()
     {
-        // Lógica para editar el lote
-        await Shell.Current.GoToAsync("..");
+        base.OnAppearing();
+        _viewModel.OnAppearing();
     }
 }

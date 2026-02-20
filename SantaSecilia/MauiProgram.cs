@@ -40,6 +40,8 @@ public static class MauiProgram
         builder.Services.AddScoped<LotesViewModel>();
         builder.Services.AddScoped<LotesPage>();
         builder.Services.AddScoped<RegistrarLotesViewModel>();
+        builder.Services.AddScoped<EditarLotesViewModel>();
+        builder.Services.AddScoped<EditarLotesPage>();
 
         
 

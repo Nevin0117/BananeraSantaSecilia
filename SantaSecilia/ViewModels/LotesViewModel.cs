@@ -13,6 +13,7 @@ public class LotesViewModel
     public ObservableCollection<Lot> Lotes { get; set; } = new();
 
     public ICommand RegistrarCommand { get; }
+    public ICommand EditarCommand { get; }
 
     public LotesViewModel(LotRepository repository)
     {
@@ -20,6 +21,16 @@ public class LotesViewModel
 
         RegistrarCommand = new Command(async () =>
             await Shell.Current.GoToAsync(nameof(RegistrarLotesPage)));
+
+
+        EditarCommand = new Command<Lot>(async (lot) =>
+        {
+            if (lot == null)
+                return;
+
+            await Shell.Current.GoToAsync($"{nameof(EditarLotesPage)}?id={lot.Id}");
+        });
+
     }
 
     public async Task LoadAsync()
