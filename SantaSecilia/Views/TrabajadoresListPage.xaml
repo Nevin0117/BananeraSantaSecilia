@@ -15,53 +15,58 @@
 
         <!-- Header fuera del padding -->
         <views:HeaderView Grid.Row="0"
-                      x:Name="MyHeader"/>
+						  x:Name="MyHeader"/>
 
-            <Grid   Grid.Row="1" 
-                Padding="20"
-                RowDefinitions="Auto,Auto,Auto,*"
-                RowSpacing="15">
+            <Grid Grid.Row="1" 
+				  Padding="20"
+				  RowDefinitions="Auto,Auto,Auto,*"
+				  RowSpacing="15">
 
             <!-- Título -->
             <Label Grid.Row="0"
-           Text="Gestionar Trabajadores"
-           TextColor="Black"
-           FontSize="26"
-           FontAttributes="Bold"/>
+				   Text="Gestionar Trabajadores"
+				   TextColor="Black"
+				   FontSize="28"
+				   FontAttributes="Bold"/>
 
             <!-- Buscador -->
             <Border Grid.Row="1"
-            Stroke="#DDD"
-            StrokeThickness="1"
-            BackgroundColor="White"
-            StrokeShape="RoundRectangle 12">
-                <SearchBar Placeholder="Buscar trabajador..."
-                   BackgroundColor="Transparent"/>
+					Stroke="#DDD"
+					StrokeThickness="1"
+					BackgroundColor="White"
+					StrokeShape="RoundRectangle 12"
+					HorizontalOptions="Start"
+					WidthRequest="500">
+                    <SearchBar Placeholder="Buscar trabajador..."
+							   TextColor="Black"
+							   BackgroundColor="Transparent"/>
             </Border>
 
             <!-- Botón -->
-            <Button Grid.Row="2"
-            Text="+ Registrar Trabajador"
-            Command="{Binding RegistrarCommand}"
-            HorizontalOptions="End"
-            BackgroundColor="#4CAF50"
-            TextColor="White"
-            CornerRadius="12"
-            Padding="12,6"/>
+                <Button Grid.Row="1"
+						Text="+ Registrar Trabajador"
+						Command="{Binding RegistrarCommand}"
+						HorizontalOptions="End"
+						BackgroundColor="#B2FBA5"
+						TextColor="Black"
+						CornerRadius="12"
+						BorderColor="#949C94"
+						BorderWidth="1"
+						Padding="12,6"/>
 
             <!-- LISTA SCROLLEABLE -->
             <CollectionView Grid.Row="3"
                     ItemsSource="{Binding Trabajadores}">
 
                 <CollectionView.Header>
-                    <Border BackgroundColor="#2F7F89"
-                    StrokeShape="RoundRectangle 12"
-                    Padding="10">
+                    <Border BackgroundColor="#80BFFF"
+							StrokeShape="RoundRectangle 12"
+							Padding="10">
                         <Grid ColumnDefinitions="1*,2*,2*,1*,1*">
-                            <Label Text="Código" TextColor="White"/>
-                            <Label Grid.Column="1" Text="Nombre Completo" TextColor="White"/>
-                            <Label Grid.Column="2" Text="Cédula" TextColor="White"/>
-                            <Label Grid.Column="3" Text="Estado" TextColor="White"/>
+                            <Label Text="Código" TextColor="Black" FontAttributes="Bold"/>
+                            <Label Grid.Column="1" Text="Nombre Completo" TextColor="Black" FontAttributes="Bold"/>
+                            <Label Grid.Column="2" Text="Cédula" TextColor="Black" FontAttributes="Bold"/>
+                            <Label Grid.Column="3" Text="Estado" TextColor="Black" FontAttributes="Bold" />
                         </Grid>
                     </Border>
                 </CollectionView.Header>
@@ -69,11 +74,11 @@
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Border Margin="0,6"
-                        Padding="12"
-                        BackgroundColor="White"
-                        Stroke="#E0E0E0"
-                        StrokeThickness="1"
-                        StrokeShape="RoundRectangle 14">
+								Padding="12"
+								BackgroundColor="White"
+								Stroke="#E0E0E0"
+								StrokeThickness="1"
+								StrokeShape="RoundRectangle 14">
 
                             <Grid ColumnDefinitions="1*,2*,2*,1*,1*">
                                 <Label Text="{Binding Codigo}" TextColor="Black"/>
@@ -82,13 +87,13 @@
                                 <Label Grid.Column="3" Text="{Binding Estado}" TextColor="Black"/>
 
                                 <Button Grid.Column="4"
-                                Text="Editar"
-                                BackgroundColor="#1976D2"
-                                TextColor="White"
-                                CornerRadius="10"
-                                FontSize="12"
-                                Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.EditarCommand}"
-                                CommandParameter="{Binding .}" />
+										Text="Editar"
+										BackgroundColor="#80BFFF"
+										TextColor="Black"
+										CornerRadius="10"
+										FontSize="12"
+										Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.EditarCommand}"
+										CommandParameter="{Binding .}" />
                             </Grid>
                         </Border>
                     </DataTemplate>

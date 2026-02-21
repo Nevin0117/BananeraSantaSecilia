@@ -78,7 +78,7 @@
 
                             <Button
                                 Text="Cancelar"
-                                BackgroundColor="#F28B82"
+                                BackgroundColor="#F57E76"
                                 TextColor="Black"
                                 CornerRadius="15"
                                 WidthRequest="120"

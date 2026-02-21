@@ -10,30 +10,27 @@
 
     <!-- CENTRAR TARJETA -->
     <Grid>
-        <Border
-            Stroke="#7A9E7E"
-            StrokeThickness="2"
-            BackgroundColor="White"
-            StrokeShape="RoundRectangle 18"
-            Padding="0"
-            HorizontalOptions="Center"
-            VerticalOptions="Center"
-            WidthRequest="520">
+        <Border Stroke="#7A9E7E"
+				StrokeThickness="2"
+				BackgroundColor="White"
+				StrokeShape="RoundRectangle 18"
+				Padding="0"
+				HorizontalOptions="Center"
+				VerticalOptions="Center"
+				WidthRequest="520">
 
             <VerticalStackLayout Spacing="0">
 
                 <!-- HEADER -->
-                <Border
-                    BackgroundColor="#80BFFF"
-                    StrokeShape="RoundRectangle 18,18,0,0"
-                    Padding="12">
+                <Border BackgroundColor="#80BFFF"
+						StrokeShape="RoundRectangle 18,18,0,0"
+						Padding="12">
 
-                    <Label
-                        Text="Registro de Lotes"
-						TextColor="Black"
-                        FontSize="20"
-                        FontAttributes="Bold"
-                        HorizontalOptions="Center"/>
+                    <Label Text="Registro de Lotes"
+						   TextColor="Black"
+						   FontSize="20"
+						   FontAttributes="Bold"
+						   HorizontalOptions="Center"/>
                 </Border>
 
                 <!-- CONTENIDO -->
@@ -45,55 +42,53 @@
                     <VerticalStackLayout Spacing="15">
 
                         
-                        <Border Stroke="#949C94" StrokeShape="RoundRectangle 10" Margin="0,30,0,0">
-                            <Entry
-                                Placeholder="Código"
-                                Text="{Binding Nombre}"
-								TextColor="Black"
-                                BackgroundColor="Transparent"/>
+                        <Border Stroke="#949C94"
+								StrokeShape="RoundRectangle 10"
+								Margin="0,30,0,0">
+                            <Entry Placeholder="Código"
+								   Text="{Binding Codigo}"
+								   TextColor="Black"
+								   BackgroundColor="Transparent"/>
                         </Border>
 
-                        <Label Text="Estado" FontSize="12" TextColor="Black"/>
+                        <Label Text="Estado"
+							   FontSize="12"
+							   TextColor="Black"/>
 
-                        <Border Stroke="#949C94" StrokeShape="RoundRectangle 10">
-                            <Picker                              
-								ItemsSource="{Binding Estados}"
-								SelectedItem="{Binding EstadoSeleccionado}"
-								TextColor="Black"
-                                BackgroundColor="Transparent"/>
+                        <Border Stroke="#949C94"
+								StrokeShape="RoundRectangle 10">
+                            <Picker ItemsSource="{Binding Estados}"
+									SelectedItem="{Binding EstadoSeleccionado}"
+									TextColor="Black"
+									BackgroundColor="Transparent"/>
                         </Border>
 
                         <!-- BOTONES -->
-                        <HorizontalStackLayout Spacing="10" Margin="0,40,0,0">
+                        <HorizontalStackLayout Spacing="10" 
+											   Margin="0,40,0,0">
 
-                            <Button
-                                Text="Registrar"
-								FontAttributes="Bold"
-                                BackgroundColor="#B2FBA5"
-                                TextColor="Black"
-                                CornerRadius="22"                             
-                                WidthRequest="110"
-                                Clicked="OnCancelarClicked"
-                                />
+                            <Button Text="Registrar"
+									BackgroundColor="#B2FBA5"
+									TextColor="Black"
+									CornerRadius="10"
+									WidthRequest="110"
+									Command="{Binding RegistrarCommand}"/>
 
-                            <Button
-                                Text="Cancelar"
-								FontAttributes="Bold"
-                                BackgroundColor="#FF3C31"
-                                TextColor="Black"
-                                CornerRadius="22"
-                                WidthRequest="110"
-                                Clicked="OnCancelarClicked"/>
+                            <Button Text="Cancelar"
+									BackgroundColor="#F57E76"
+									TextColor="Black"
+									CornerRadius="10"
+									WidthRequest="110"
+									Command="{Binding CancelarCommand}"/>
                         </HorizontalStackLayout>
                     </VerticalStackLayout>
 
                     <!-- IMAGEN DERECHA -->
-                    <Image
-                        Grid.Column="1"
-                        Source="logo.png"
-                        Aspect="AspectFit"
-                        HorizontalOptions="Center"
-                        VerticalOptions="Center"/>
+                    <Image Grid.Column="1"
+						   Source="logo.png"
+						   Aspect="AspectFit"
+						   HorizontalOptions="Center"
+						   VerticalOptions="Center"/>
                 </Grid>
             </VerticalStackLayout>
         </Border>

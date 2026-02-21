@@ -21,19 +21,19 @@
 			<Label Grid.Row="0"
 			   Text="Gestionar Lotes"
 			   TextColor="Black"
-			   FontSize="26"
+			   FontSize="28"
 			   FontAttributes="Bold"/>
-
-			
 
 			<!-- Botón -->
 			<Button Grid.Row="2"
 				Text="+ Registrar lote"
 				Command="{Binding RegistrarCommand}"
-				HorizontalOptions="End"
+				HorizontalOptions="Start"
 				BackgroundColor="#B2FBA5"
 				TextColor="Black"
 				CornerRadius="12"
+				BorderColor="#949C94"
+                BorderWidth="1"
 				Padding="12,6"/>
 
 			<!-- LISTA SCROLLEABLE -->
@@ -65,8 +65,14 @@
 							StrokeShape="RoundRectangle 14">
 
 							<Grid ColumnDefinitions="1*,2*,2*">
-								<Label Text="{Binding Codigo}" TextColor="Black" HorizontalOptions="Center"/>
-								<Label Grid.Column="1" Text="{Binding Estado}" TextColor="Black" HorizontalOptions="Center"/>
+								<Label Text="{Binding Code}" 
+									   TextColor="Black" 
+									   HorizontalOptions="Center"/>
+								
+								<Label Grid.Column="1"
+									   Text="{Binding EstadoTexto}"
+									   TextColor="Black" 
+									   HorizontalOptions="Center"/>
 								
 		
 								<Button Grid.Column="2"

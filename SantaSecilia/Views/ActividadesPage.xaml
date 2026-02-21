@@ -27,7 +27,7 @@
             <Label Grid.Row="0"
                Text="Actividades y Tarifas"
                TextColor="Black"
-               FontSize="32"
+               FontSize="28"
                FontAttributes="Bold"/>
 
             <!-- Subtítulo -->
@@ -43,11 +43,11 @@
                 Text="+ Registrar Actividad"
                 FontAttributes="Italic"
                 HorizontalOptions="Start"
-                BackgroundColor="White"
+                BackgroundColor="#B2FBA5"
                 TextColor="Black"
                 CornerRadius="12"
                 BorderColor="#949C94"
-                BorderWidth="2"
+                BorderWidth="1"
                 Padding="22,12"
                 Command="{Binding RegistrarCommand}"/>
 
