@@ -34,15 +34,13 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
             e.ToTable("workers");
             e.HasKey(x => x.Id);
             e.Property(x => x.Id).HasColumnName("id").ValueGeneratedOnAdd();
-            e.Property(x => x.Code).HasColumnName("code").IsRequired();
             e.Property(x => x.FullName).HasColumnName("full_name").IsRequired();
-            e.Property(x => x.IdNumber).HasColumnName("id_number").IsRequired();
+            e.Property(x => x.IdentificationNumber).HasColumnName("identification_number").IsRequired();
             e.Property(x => x.IsActive).HasColumnName("is_active").IsRequired().HasDefaultValue(true);
             e.Property(x => x.DeactivatedAt).HasColumnName("deactivated_at");
             e.Property(x => x.CreatedAt).HasColumnName("created_at").IsRequired();
             e.Property(x => x.UpdatedAt).HasColumnName("updated_at");
-            e.HasIndex(x => x.Code).IsUnique();
-            e.HasIndex(x => x.IdNumber).IsUnique();
+            e.HasIndex(x => x.IdentificationNumber).IsUnique();
         });
 
         b.Entity<Lot>(e =>
@@ -116,8 +114,8 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
             e.Property(x => x.WeekEnd).HasColumnName("week_end").IsRequired();
             e.Property(x => x.TotalHours).HasColumnName("total_hours").IsRequired();
             e.Property(x => x.GrossEarnings).HasColumnName("gross_earnings").IsRequired().HasColumnType("TEXT");
-            e.Property(x => x.SsDeduction).HasColumnName("ss_deduction").IsRequired().HasColumnType("TEXT");
-            e.Property(x => x.SeDeduction).HasColumnName("se_deduction").IsRequired().HasColumnType("TEXT");
+            e.Property(x => x.SocialSecurityDeduction).HasColumnName("social_security_deduction").IsRequired().HasColumnType("TEXT");
+            e.Property(x => x.EducationInsuranceDeduction).HasColumnName("education_insurance_deduction").IsRequired().HasColumnType("TEXT");
             e.Property(x => x.UnionDues).HasColumnName("union_dues").IsRequired().HasColumnType("TEXT");
             e.Property(x => x.TotalDeductions).HasColumnName("total_deductions").IsRequired().HasColumnType("TEXT");
             e.Property(x => x.NetPay).HasColumnName("net_pay").IsRequired().HasColumnType("TEXT");
