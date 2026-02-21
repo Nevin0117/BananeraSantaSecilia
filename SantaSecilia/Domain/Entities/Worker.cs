@@ -1,4 +1,8 @@
 namespace SantaSecilia.Domain.Entities;
+
+/// <summary>
+/// Jornaleros de la finca
+/// </summary>
 public class Worker
 {
     public int Id { get; set; }

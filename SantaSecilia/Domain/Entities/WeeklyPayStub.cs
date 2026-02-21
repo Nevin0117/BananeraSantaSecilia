@@ -1,4 +1,8 @@
 namespace SantaSecilia.Domain.Entities;
+
+/// <summary>
+/// Boleta de pago semanal - almacena el cálculo completo de nómina por jornalero por semana
+/// </summary>
 public class WeeklyPayStub
 {
     public int Id { get; set; }

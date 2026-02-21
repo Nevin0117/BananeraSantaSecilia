@@ -1,4 +1,8 @@
 namespace SantaSecilia.Domain.Entities;
+
+/// <summary>
+/// Lotes/Parcelas de la finca bananera
+/// </summary>
 public class Lot
 {
     public int Id { get; set; }
