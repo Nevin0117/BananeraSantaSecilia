@@ -21,7 +21,7 @@ public class EditarLotesViewModel : INotifyPropertyChanged
 
     public int Id { get; set; }
 
-    private string _codigo;
+    private string _codigo = string.Empty;
     public string Codigo
     {
         get => _codigo;
@@ -35,7 +35,7 @@ public class EditarLotesViewModel : INotifyPropertyChanged
     public ObservableCollection<string> Estados { get; } =
         new ObservableCollection<string> { "Activo", "Inactivo" };
 
-    private string _estadoSeleccionado;
+    private string _estadoSeleccionado = "Activo";
     public string EstadoSeleccionado
     {
         get => _estadoSeleccionado;

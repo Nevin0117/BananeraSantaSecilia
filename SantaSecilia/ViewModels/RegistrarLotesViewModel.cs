@@ -9,7 +9,7 @@ public class RegistrarLotesViewModel
 {
     private readonly LotRepository _repository;
 
-    public string Codigo { get; set; }
+    public string Codigo { get; set; } = string.Empty;
 
     public ObservableCollection<string> Estados { get; } =
         new ObservableCollection<string> { "Activo", "Inactivo" };
@@ -47,7 +47,17 @@ public class RegistrarLotesViewModel
             return;
         }
 
-        // 3️⃣ Validar que no exista ya
+        // No aceptar números negativos y cero
+        if (codigoNumerico <= 0)
+        {
+            await Shell.Current.DisplayAlertAsync("Error",
+                "El código debe ser un número positivo.",
+                "OK");
+            return;
+        }
+
+
+        // Validar que no exista ya
         if (await _repository.ExistsByCodeAsync(codigoNumerico))
         {
             await Shell.Current.DisplayAlertAsync("Error",
@@ -56,7 +66,7 @@ public class RegistrarLotesViewModel
             return;
         }
 
-        // 4️⃣ Crear lote
+        // Crear lote
         var nuevoLote = new Lot
         {
             Code = codigoNumerico,
