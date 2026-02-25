@@ -5,7 +5,6 @@
     BackgroundColor="#FAF4C6">
 
     <VerticalStackLayout Spacing="20">
-
         <!-- TITULO -->
 		<VerticalStackLayout Spacing="6" HorizontalOptions="Center">
 			<Label Text="Bienvenido"
@@ -13,11 +12,10 @@
                    FontSize="32"
                    FontAttributes="Bold"
 				   HorizontalOptions="Center"/>
-			<Label Text="Seleccione una de las opciones para comenzar."
+            <Label Text="Seleccione una de las opciones para comenzar."
 				   TextColor="Black"
                    FontSize="14"/>
-			
-		</VerticalStackLayout>
+        </VerticalStackLayout>
 
 		<!-- GRID DE OPCIONES -->
         <Grid Padding="20"
