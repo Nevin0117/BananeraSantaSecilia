@@ -1,11 +1,14 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using SantaSecilia.Application.Services;
 using System.Threading.Tasks;
 
 namespace SantaSecilia.ViewModels
 {
     public partial class LoginViewModel : ObservableObject
     {
+        private readonly AuthService _authService;
+
         [ObservableProperty]
         private string _username = "";
         [ObservableProperty]
@@ -14,6 +17,11 @@ namespace SantaSecilia.ViewModels
         private bool _isBusy;
         [ObservableProperty]
         private string _errorMessage = "";
+
+        public LoginViewModel(AuthService authService)
+        {
+            _authService = authService;
+        }
 
         [RelayCommand]
         private async Task LoginAsync()
@@ -34,33 +42,26 @@ namespace SantaSecilia.ViewModels
 
                 if (string.IsNullOrWhiteSpace(Password))
                 {
-                    ErrorMessage = "Por favor ingrese una contraseÒa";
+                    ErrorMessage = "Por favor ingrese una contrase√±a";
                     return;
                 }
 
-                // TODO: reemplazar con un API endpoint (/login)
-                await Task.Delay(1000); // Simulate network delay
+                var user = await _authService.ValidateCredentialsAsync(Username, Password);
 
-                if (ValidateCredentials(Username, Password))
+                if (user != null)
                 {
+                    await _authService.SetCurrentUserAsync(user.Id);
                     await Shell.Current.GoToAsync("//MainPage");
                 }
                 else
                 {
-                    ErrorMessage = "Credenciales inv·lidas";
+                    ErrorMessage = "Credenciales inv√°lidas";
                 }
             }
             finally
             {
                 IsBusy = false;
             }
-        }
-
-        private bool ValidateCredentials(string username, string password)
-        {
-            // NOTE: Este return solo realiza una validacion mockup. Se debe reemplazar directamente con el backend.
-            return (username == "admin" && password == "admin") ||
-                   (username == "user" && password == "user");
         }
     }
 }
