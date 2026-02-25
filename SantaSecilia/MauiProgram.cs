@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using SantaSecilia.Application.Services;
+using SantaSecilia.Infrastructure;
 using SantaSecilia.Infrastructure.Data;
 using SantaSecilia.Infrastructure.Repositories;
 using SantaSecilia.ViewModels;
@@ -43,6 +44,11 @@ public static class MauiProgram
         builder.Services.AddScoped<EditarLotesViewModel>();
         builder.Services.AddScoped<EditarLotesPage>();
 
+        builder.Services.AddScoped<UserRepository>();
+        builder.Services.AddScoped<AuthService>();
+        builder.Services.AddScoped<LoginViewModel>();
+        builder.Services.AddScoped<LoginPage>();
+
         
 
 #if DEBUG
@@ -53,6 +59,10 @@ public static class MauiProgram
 
         // Aplica migraciones al iniciar la aplicación (si las hay)
         ApplyMigrationsAsync(app.Services).GetAwaiter().GetResult();
+
+        // Seed initial data
+        DatabaseSeeder.SeedUsersAsync(app.Services).GetAwaiter().GetResult();
+        DatabaseSeeder.SeedActivitiesAsync(app.Services).GetAwaiter().GetResult();
 
         return app;
     }
