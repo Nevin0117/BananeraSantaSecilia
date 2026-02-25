@@ -1,13 +1,18 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using SantaSecilia.Application.Services;
+using SantaSecilia.Domain.Entities;
 using System.Collections.ObjectModel;
 
 namespace SantaSecilia.ViewModels;
 
-public partial class RegistrarActividadViewModel : ObservableObject
+[QueryProperty(nameof(ActividadId), "ActividadId")]
+public partial class EditarActividadViewModel : ObservableObject
 {
     private readonly ActivityService _activityService;
+
+    [ObservableProperty]
+    private int actividadId;
 
     [ObservableProperty]
     private string actividad = "";
@@ -21,16 +26,34 @@ public partial class RegistrarActividadViewModel : ObservableObject
     public ObservableCollection<string> EstadoOpciones { get; } =
         new ObservableCollection<string> { "Activo", "Inactivo" };
 
-    public RegistrarActividadViewModel(ActivityService activityService)
+    public EditarActividadViewModel(ActivityService activityService)
     {
         _activityService = activityService;
     }
 
-    public void LimpiarCampos()
+    partial void OnActividadIdChanged(int value)
     {
-        Actividad = "";
-        Tarifa = "";
-        EstadoSeleccionado = "Activo";
+        _ = CargarActividadAsync(value);
+    }
+
+    private async Task CargarActividadAsync(int actividadId)
+    {
+        try
+        {
+            var actividades = await _activityService.ObtenerActividadesAsync();
+            var actividad = actividades.FirstOrDefault(a => a.Id == actividadId);
+
+            if (actividad != null)
+            {
+                Actividad = actividad.Name;
+                Tarifa = actividad.HourlyRate.ToString();
+                EstadoSeleccionado = actividad.IsActive ? "Activo" : "Inactivo";
+            }
+        }
+        catch (Exception ex)
+        {
+            await Shell.Current.DisplayAlertAsync("Error", $"No se pudo cargar la actividad: {ex.Message}", "OK");
+        }
     }
 
     [RelayCommand]
@@ -44,13 +67,14 @@ public partial class RegistrarActividadViewModel : ObservableObject
                 return;
             }
 
+            // Validar que la tarifa solo contenga números y punto decimal
             if (string.IsNullOrWhiteSpace(tarifa))
             {
                 await Shell.Current.DisplayAlertAsync("Error", "La tarifa es requerida", "OK");
                 return;
             }
 
-           
+            // Intentar convertir a decimal
             if (!decimal.TryParse(tarifa, out decimal tarifaDecimal))
             {
                 await Shell.Current.DisplayAlertAsync("Error", "La tarifa debe ser un número válido", "OK");
@@ -69,21 +93,28 @@ public partial class RegistrarActividadViewModel : ObservableObject
                 return;
             }
 
-            if (await _activityService.ExisteActividadConNombreAsync(Actividad))
+            if (await _activityService.ExisteActividadConNombreAsync(Actividad, ActividadId))
             {
-                await Shell.Current.DisplayAlertAsync("Error", "Ya existe una actividad con ese nombre", "OK");
+                await Shell.Current.DisplayAlertAsync("Error", "Ya existe otra actividad con ese nombre", "OK");
                 return;
             }
 
-            bool activa = EstadoSeleccionado == "Activo";
-            await _activityService.CrearActividadAsync(Actividad, tarifaDecimal, activa);
+            var actividad = new Activity
+            {
+                Id = ActividadId,
+                Name = Actividad,
+                HourlyRate = tarifaDecimal,
+                IsActive = EstadoSeleccionado == "Activo"
+            };
 
-            await Shell.Current.DisplayAlertAsync("Éxito", "Actividad registrada correctamente", "OK");
+            await _activityService.ActualizarActividadAsync(actividad);
+
+            await Shell.Current.DisplayAlertAsync("Éxito", "Actividad actualizada correctamente", "OK");
             await Shell.Current.GoToAsync("..");
         }
         catch (Exception ex)
         {
-            await Shell.Current.DisplayAlertAsync("Error", $"No se pudo guardar: {ex.Message}", "OK");
+            await Shell.Current.DisplayAlertAsync("Error", $"No se pudo actualizar la actividad: {ex.Message}", "OK");
         }
     }
 

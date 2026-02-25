@@ -6,10 +6,6 @@
     xmlns:vm="clr-namespace:SantaSecilia.ViewModels"
     x:Class="SantaSecilia.Views.RegistrarActividadPage">
 
-    <ContentPage.BindingContext>
-        <vm:RegistrarActividadViewModel/>
-    </ContentPage.BindingContext>
-
     <!-- CENTRAR TARJETA -->
     <Grid>
         <Border Stroke="#7A9E7E"
@@ -62,7 +58,8 @@
                         <Border Stroke="#CCCCCC" StrokeShape="RoundRectangle 10">
                             <Entry
                                 TextColor="Black"
-                                Text="{Binding Tarifa}"
+                                Text="{Binding Tarifa, StringFormat='{0}'}"
+                                Keyboard="Default"
                                 BackgroundColor="Transparent"/>
                         </Border>
 
@@ -74,7 +71,8 @@
 								StrokeShape="RoundRectangle 10">
                             <Picker       
                                 TextColor="Black"
-                                ItemsSource="{Binding Estado}"
+                                ItemsSource="{Binding EstadoOpciones}"
+                                SelectedItem="{Binding EstadoSeleccionado}"
                                 BackgroundColor="Transparent"/>
                         </Border>
 
@@ -86,14 +84,14 @@
 									TextColor="Black"
 									CornerRadius="15"
 									WidthRequest="120"
-									Clicked="OnCancelarClicked"/>
+									Command="{Binding GuardarCommand}"/>
 
                             <Button Text="Cancelar"
 									BackgroundColor="#F57E76"
 									TextColor="Black"
 									CornerRadius="15"
 									WidthRequest="120"
-									Clicked="OnCancelarClicked"/>
+									Command="{Binding CancelarCommand}"/>
                         </HorizontalStackLayout>
                     </VerticalStackLayout>
 

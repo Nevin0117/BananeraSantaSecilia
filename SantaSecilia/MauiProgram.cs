@@ -34,7 +34,7 @@ public static class MauiProgram
             options.EnableSensitiveDataLogging().EnableDetailedErrors();
 #endif
         });
-
+        //Lotes
         builder.Services.AddScoped<LotRepository>();
         builder.Services.AddScoped<LotService>();
         builder.Services.AddScoped<LotesViewModel>();
@@ -43,7 +43,17 @@ public static class MauiProgram
         builder.Services.AddScoped<EditarLotesViewModel>();
         builder.Services.AddScoped<EditarLotesPage>();
 
-        
+        //Actividades
+        // Actividades
+        builder.Services.AddScoped<ActivityRepository>();
+        builder.Services.AddScoped<ActivityService>();
+        builder.Services.AddScoped<ActividadesViewModel>();
+        builder.Services.AddScoped<ActividadesPage>();
+        builder.Services.AddScoped<RegistrarActividadViewModel>();
+        builder.Services.AddScoped<RegistrarActividadPage>();
+        builder.Services.AddScoped<EditarActividadViewModel>();
+        builder.Services.AddScoped<EditarActividadPage>();
+
 
 #if DEBUG
         builder.Logging.AddDebug();
