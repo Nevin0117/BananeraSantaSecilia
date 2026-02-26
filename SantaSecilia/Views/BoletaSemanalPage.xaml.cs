@@ -1,36 +1,53 @@
 using SantaSecilia.Application.Services;
+using SantaSecilia.Infrastructure.Data;
+using SantaSecilia.ViewModels;
 
 namespace SantaSecilia.Views;
 
 public partial class BoletaSemanalPage : ContentPage
 {
-    public BoletaSemanalPage()
+    public BoletaSemanalPage(AppDbContext context)
     {
         InitializeComponent();
+        BindingContext = new BoletaSemanalViewModel(context);
         MyHeader.SetActivePage("BoletaSemanal");
+    }
+
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+
+        if (BindingContext is BoletaSemanalViewModel vm)
+        {
+            await vm.CargarDatos();
+            vm.GenerarDatosDemo();
+        }
     }
 
     private async void Imprimir_Clicked(object sender, EventArgs e)
     {
         try
         {
-            // Datos de prueba para el trabajador
-            var nombreTrabajador = "Carlos Mendoza";
-            var semana = "04/01/26 - 08/01/26";
+            var vm = BindingContext as BoletaSemanalViewModel;
 
-            // Datos de prueba de actividades
-            var registros = new List<BoletaSemanalPDFGenerator.RegistroActividad>
+            if (vm == null)
+                return;
+
+            var nombreTrabajador = vm.TrabajadorSeleccionado ?? "Trabajador";
+            var semana = vm.SemanaSeleccionada ?? "Semana";
+
+            var registros = vm.Filas.Select(f => new BoletaSemanalPDFGenerator.RegistroActividad
             {
-                new() { Fecha = "04/01/26", Actividad = "Fumigar bolsas", Horas = "8", Tarifa = "0.7790", Monto = "B/. 6.23" },
-                new() { Fecha = "05/01/26", Actividad = "Celador", Horas = "10", Tarifa = "0.8123", Monto = "B/. 8.12" },
-                new() { Fecha = "06/01/26", Actividad = "Fumigar bolsas", Horas = "7", Tarifa = "0.7790", Monto = "B/. 5.45" },
-                new() { Fecha = "07/01/26", Actividad = "Cargar Bambú", Horas = "9", Tarifa = "0.7011", Monto = "B/. 6.31" },
-                new() { Fecha = "08/01/26", Actividad = "Soldador", Horas = "6", Tarifa = "1.0126", Monto = "B/. 6.08" }
-            };
+                Fecha = f.Fecha.ToString("dd/MM/yy"),
+                Actividad = f.Actividad,
+                Horas = f.Horas.ToString(),
+                Tarifa = f.Tarifa.ToString(),
+                Monto = $"B/. {f.Monto:F2}"
+            }).ToList();
 
-            var totalDevengado = "B/. 32.19";
-            var descuentos = "B/. 2.50";
-            var totalAPagar = "B/. 29.69";
+            var totalDevengado = $"B/. {vm.TotalDevengado:F2}";
+            var descuentos = $"B/. {vm.Descuentos:F2}";
+            var totalAPagar = $"B/. {vm.TotalPagar:F2}";
 
             // Cargar el logo
             byte[] logoBytes;

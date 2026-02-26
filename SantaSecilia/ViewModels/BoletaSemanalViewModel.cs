@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using SantaSecilia.Domain.Entities;
 using SantaSecilia.Infrastructure.Data;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -21,7 +22,6 @@ namespace SantaSecilia.ViewModels
         private readonly AppDbContext contex;
 
         public event PropertyChangedEventHandler? PropertyChanged;
-
         void OnPropertyChanged([CallerMemberName] string name = null!)
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 
@@ -51,10 +51,12 @@ namespace SantaSecilia.ViewModels
         }
 
         public ObservableCollection<BoletaFila> Filas { get; set; } = new();
-
         public decimal TotalDevengado => Filas.Sum(f => f.Monto);
 
-        public decimal Descuentos => 0;    
+        public decimal SeguroSocial => TotalDevengado * 0.0975m;
+        public decimal SeguroEducativo => TotalDevengado * 0.0125m;
+        public decimal Sindicato => 2.50m;
+        public decimal Descuentos => SeguroSocial + SeguroEducativo + Sindicato;
 
         public decimal TotalPagar => TotalDevengado - Descuentos;
 
@@ -63,6 +65,12 @@ namespace SantaSecilia.ViewModels
             contex = context;
 
             _ = CargarTrabajadores();
+        }
+
+        public async Task CargarDatos()
+        {
+            await CargarTrabajadores();
+            CargarSemanas();
         }
 
         async Task CargarTrabajadores()
@@ -74,7 +82,40 @@ namespace SantaSecilia.ViewModels
             foreach (var w in workers)
                 Trabajadores.Add(w.FullName);
                 Trabajadores.Add("Prueba 1");
-                Trabajadores.Add("Prueba 2");
         }
+
+        void CargarSemanas()
+        {
+            Semanas.Clear();
+
+            var hoy = DateTime.Today;
+
+            for (int i = 0; i < 6; i++)
+            {
+                var inicio = hoy.AddDays(-7 * i);
+                var fin = inicio.AddDays(6);
+
+                Semanas.Add($"{inicio:dd/MM/yyyy} - {fin:dd/MM/yyyy}");
+            }
+        }
+
+        public void RefrescarTotales()
+        {
+            OnPropertyChanged(nameof(TotalDevengado));
+            OnPropertyChanged(nameof(TotalPagar));
+        }
+
+
+        public void GenerarDatosDemo()
+        {
+            Filas.Clear();
+
+            Filas.Add(new BoletaFila { Fecha = DateTime.Today, Actividad = "Fumigar", Horas = 8, Tarifa = 0.78m });
+            Filas.Add(new BoletaFila { Fecha = DateTime.Today, Actividad = "Celador", Horas = 6, Tarifa = 0.90m });
+            Filas.Add(new BoletaFila { Fecha = DateTime.Today, Actividad = "Soldador", Horas = 5, Tarifa = 1.10m });
+
+            RefrescarTotales();
+        }
+
     }
 }
