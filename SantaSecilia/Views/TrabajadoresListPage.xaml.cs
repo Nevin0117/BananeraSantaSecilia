@@ -1,14 +1,14 @@
 using SantaSecilia.ViewModels;
-using SantaSecilia.Infrastructure.Data;
+using SantaSecilia.Application.Services;
 
 namespace SantaSecilia.Views;
 
 public partial class TrabajadoresListPage : ContentPage
 {
-    public TrabajadoresListPage(AppDbContext context)
+    public TrabajadoresListPage(WorkerService worker)
     {
         InitializeComponent();
-        BindingContext = new TrabajadoresListViewModel(context);
+        BindingContext = new TrabajadoresListViewModel(worker);
         MyHeader.SetActivePage("Trabajadores");
     }
 
@@ -17,7 +17,6 @@ public partial class TrabajadoresListPage : ContentPage
         base.OnAppearing();
 
         if (BindingContext is TrabajadoresListViewModel vm)
-            vm.Recargar();
+            _ = vm.CargarTrabajadoresAsync();
     }
-
 }

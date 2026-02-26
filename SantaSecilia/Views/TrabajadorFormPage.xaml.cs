@@ -1,14 +1,13 @@
 using SantaSecilia.ViewModels;
-using SantaSecilia.Infrastructure.Data;
 
 namespace SantaSecilia.Views;
 
 public partial class TrabajadorFormPage : ContentPage
 {
-	public TrabajadorFormPage(AppDbContext context)
-	{
+    public TrabajadorFormPage(TrabajadorFormViewModel vm)
+    {
         InitializeComponent();
-        BindingContext = new TrabajadorFormViewModel(context);
+        BindingContext = vm;
     }
 
     private async void OnCancelarClicked(object sender, EventArgs e)

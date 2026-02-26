@@ -44,7 +44,7 @@
                         <Border Stroke="#CCCCCC"
 								StrokeShape="RoundRectangle 10">
 							
-                            <Entry Text="{Binding Nombre, Mode=TwoWay}"
+                            <Entry Text="{Binding Nombre}"
 								   TextColor="Black"
 								   BackgroundColor="Transparent"/>
                         </Border>
@@ -57,7 +57,7 @@
 								StrokeShape="RoundRectangle 10">
 							
                             <Entry
-                                Text="{Binding Cedula, Mode=TwoWay}"
+                                Text="{Binding Cedula}"
                                 TextColor="Black"
                                 BackgroundColor="Transparent"/>
                         </Border>
@@ -65,11 +65,10 @@
                         <Label Text="Estado" 
 							   FontSize="12"
 							   TextColor="Black"/>
-						
+
                         <Border Stroke="#CCCCCC"
 								StrokeShape="RoundRectangle 10">
-							
-                            <Picker ItemsSource="{Binding Estados}"
+                            <Picker ItemsSource="{Binding Estado}"
 									TextColor="Black"
 									BackgroundColor="Transparent"/>
                         </Border>

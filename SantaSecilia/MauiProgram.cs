@@ -44,8 +44,14 @@ public static class MauiProgram
         builder.Services.AddScoped<EditarLotesPage>();
 
         //Trabajadores
-        builder.Services.AddTransient<EditarTrabajadorViewModel>();
-        builder.Services.AddTransient<EditarTrabajadorPage>();
+        builder.Services.AddScoped<WorkerRepository>();
+        builder.Services.AddScoped<WorkerService>();
+        builder.Services.AddScoped<TrabajadoresListViewModel>();
+        builder.Services.AddScoped<TrabajadoresListPage>();
+        builder.Services.AddScoped<TrabajadorFormViewModel>();
+        builder.Services.AddScoped<TrabajadorFormPage>();
+        builder.Services.AddScoped<EditarTrabajadorViewModel>();
+        builder.Services.AddScoped<EditarTrabajadorPage>();
 
         // Actividades
         builder.Services.AddScoped<ActivityRepository>();

@@ -1,3 +1,4 @@
+using SantaSecilia.Application.Services;
 using SantaSecilia.Domain.Entities;
 using SantaSecilia.Infrastructure.Data;
 using System.Collections.ObjectModel;
@@ -7,7 +8,7 @@ namespace SantaSecilia.ViewModels
 {
     public class TrabajadorFormViewModel
     {
-        private readonly AppDbContext _context;
+        private readonly WorkerService _workerService;
         public string Nombre { get; set; } = "";
         public string Cedula { get; set; } = "";
         public ObservableCollection<string> Estados { get; } =
@@ -15,14 +16,28 @@ namespace SantaSecilia.ViewModels
 
         public ICommand GuardarCommand { get; }
 
-        public TrabajadorFormViewModel(AppDbContext context)
+        [Obsolete]
+        public TrabajadorFormViewModel(WorkerService workerService)
         {
-            _context = context;
+            _workerService = workerService;
             GuardarCommand = new Command(async () => await Guardar());
         }
 
+        [Obsolete]
         async Task Guardar()
         {
+            if (string.IsNullOrWhiteSpace(Nombre))
+            {
+                await Shell.Current.DisplayAlert("Error", "El nombre es obligatorio", "OK");
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(Cedula))
+            {
+                await Shell.Current.DisplayAlert("Error", "La cédula es obligatoria", "OK");
+                return;
+            }
+
             var worker = new Worker
             {
                 FullName = Nombre,
@@ -31,8 +46,7 @@ namespace SantaSecilia.ViewModels
                 IsActive = true
             };
 
-            _context.Workers.Add(worker);
-            await _context.SaveChangesAsync();
+            await _workerService.AgregarTrabajadorAsync(worker);
 
             await Shell.Current.GoToAsync("..");
         }

@@ -1,66 +1,64 @@
 using SantaSecilia.Domain.Entities;
-using SantaSecilia.Infrastructure.Data;
+using SantaSecilia.Application.Services;
 using System.Collections.ObjectModel;
-using Microsoft.Maui.Controls;
 using System.Windows.Input;
 
 
 namespace SantaSecilia.ViewModels;
 
-[QueryProperty(nameof(Trabajador), "Trabajador")]
+[QueryProperty(nameof(TrabajadorId), "TrabajadorId")]
 public class EditarTrabajadorViewModel
 {
-    private readonly AppDbContext _context;
+    private readonly WorkerService _workerService;
+
     public ICommand GuardarCommand { get; }
 
-    TrabajadorItem trabajador;
-    public TrabajadorItem Trabajador
+    public required string Nombre { get; set; }
+    public required string Cedula { get; set; }
+    public bool Activo { get; set; }
+
+    int trabajadorId;
+    public int TrabajadorId
     {
-        get => trabajador;
+        get => trabajadorId;
         set
         {
-            trabajador = value;
-            CargarDatos();
+            trabajadorId = value;
+            _ = CargarTrabajador();
         }
     }
 
-    public string Nombre { get; set; }
-    public string Cedula { get; set; }
-    public bool Activo { get; set; }
-    public ObservableCollection<string> Estados { get; } =
-        new ObservableCollection<string> { "Activo", "Inactivo" };
+    public ObservableCollection<string> Estados { get; } = new ObservableCollection<string> { "Activo", "Inactivo" };
 
-    public EditarTrabajadorViewModel(AppDbContext context)
+    public EditarTrabajadorViewModel(WorkerService workerService)
     {
-        _context = context;
+        _workerService = workerService;
+
         GuardarCommand = new Command(async () => await Guardar());
     }
 
-
-    void CargarDatos()
+    async Task CargarTrabajador()
     {
-        if (Trabajador == null) return;
-
-        Nombre = Trabajador.Nombre;
-        Cedula = Trabajador.Cedula;
-        Activo = Trabajador.Activo;
-    }
-
-
-    async Task Guardar()
-    {
-        if (Trabajador == null) return;
-
-        var worker = await _context.Workers.FindAsync(Trabajador.Codigo);
+        var worker = await _workerService.ObtenerPorIdAsync(TrabajadorId);
 
         if (worker == null) return;
 
-        worker.FullName = Nombre;
-        worker.IdentificationNumber = Cedula;
-        worker.IsActive = Activo;
-        worker.UpdatedAt = DateTime.Now;
+        Nombre = worker.FullName;
+        Cedula = worker.IdentificationNumber;
+        Activo = worker.IsActive;
+    }
 
-        await _context.SaveChangesAsync();
+    async Task Guardar()
+    {
+        var worker = new Worker
+        {
+            Id = TrabajadorId,
+            FullName = Nombre,
+            IdentificationNumber = Cedula,
+            IsActive = Activo
+        };
+
+        await _workerService.ActualizarTrabajadorAsync(worker);
 
         await Shell.Current.GoToAsync("..");
     }
