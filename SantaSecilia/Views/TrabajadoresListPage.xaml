@@ -7,10 +7,7 @@
     xmlns:views="clr-namespace:SantaSecilia.Views"
     x:Class="SantaSecilia.Views.TrabajadoresListPage">
 
-    <ContentPage.BindingContext>
-        <vm:TrabajadoresListViewModel/>
-    </ContentPage.BindingContext>
-
+    
     <Grid RowDefinitions="Auto, *">
 
         <!-- Header fuera del padding -->
@@ -38,6 +35,7 @@
 					HorizontalOptions="Start"
 					WidthRequest="500">
                     <SearchBar Placeholder="Buscar trabajador..."
+                               Text="{Binding Busqueda}"
 							   TextColor="Black"
 							   BackgroundColor="Transparent"/>
             </Border>

@@ -7,10 +7,6 @@
     Title="Component Header x3"
     BackgroundColor="#FAF4C6">
 
-    <ContentPage.BindingContext>
-        <vm:TrabajadorFormViewModel/>
-    </ContentPage.BindingContext>
-    
     <Grid>
         <!-- Card principal -->
         <Border Stroke="Black"
@@ -69,11 +65,10 @@
                         <Label Text="Estado" 
 							   FontSize="12"
 							   TextColor="Black"/>
-						
+
                         <Border Stroke="#CCCCCC"
 								StrokeShape="RoundRectangle 10">
-							
-                            <Picker ItemsSource="{Binding Estados}"
+                            <Picker ItemsSource="{Binding Estado}"
 									TextColor="Black"
 									BackgroundColor="Transparent"/>
                         </Border>
@@ -85,7 +80,7 @@
 									TextColor="Black"
 									CornerRadius="15"
 									WidthRequest="120"
-									Clicked="OnCancelarClicked"/>
+									Command="{Binding GuardarCommand}"/>
 
                             <Button Text="Cancelar"
 									BackgroundColor="#F57E76"
