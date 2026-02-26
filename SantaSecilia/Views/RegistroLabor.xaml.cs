@@ -5,16 +5,20 @@ namespace SantaSecilia.Views
 {
     public partial class RegistroLabor : ContentPage
     {
-        public RegistroLabor()
+        private readonly RegistroLaborViewModel _viewModel;
+
+        public RegistroLabor(RegistroLaborViewModel viewModel)
         {
             InitializeComponent();
-            BindingContext = new RegistroLaborViewModel();
+            _viewModel = viewModel;
+            BindingContext = _viewModel;
             MyHeader.SetActivePage("RegistroLaboral");
         }
 
-        private async void OnCancelarClicked(object sender, EventArgs e)
+        protected override async void OnAppearing()
         {
-            await Shell.Current.GoToAsync("..");
+            base.OnAppearing();
+            await _viewModel.InitializeAsync();
         }
     }
 }

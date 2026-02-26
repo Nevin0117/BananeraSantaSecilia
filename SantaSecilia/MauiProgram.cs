@@ -63,6 +63,10 @@ public static class MauiProgram
         builder.Services.AddScoped<EditarActividadViewModel>();
         builder.Services.AddScoped<EditarActividadPage>();
 
+        // Registro Laboral
+        builder.Services.AddScoped<RegistroLaborViewModel>();
+        builder.Services.AddScoped<RegistroLabor>();
+
 
 #if DEBUG
         builder.Logging.AddDebug();
