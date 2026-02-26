@@ -1,11 +1,14 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using SantaSecilia.Application.Services;
 using System.Threading.Tasks;
 
 namespace SantaSecilia.ViewModels
 {
     public partial class LoginViewModel : ObservableObject
     {
+        private readonly AuthService _authService;
+
         [ObservableProperty]
         private string _username = "";
         [ObservableProperty]
@@ -13,17 +16,23 @@ namespace SantaSecilia.ViewModels
         [ObservableProperty]
         private bool _isBusy;
         [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(HasError))]
         private string _errorMessage = "";
 
-        [RelayCommand]
+        public bool HasError => !string.IsNullOrWhiteSpace(ErrorMessage);
+
+        public LoginViewModel(AuthService authService)
+        {
+            _authService = authService;
+        }
+
+        [RelayCommand(CanExecute = nameof(CanLogin))]
         private async Task LoginAsync()
         {
-            if (IsBusy) 
-                return;
-
             try
             {
                 IsBusy = true;
+                LoginCommand.NotifyCanExecuteChanged();
                 ErrorMessage = "";
 
                 if (string.IsNullOrWhiteSpace(Username))
@@ -34,33 +43,33 @@ namespace SantaSecilia.ViewModels
 
                 if (string.IsNullOrWhiteSpace(Password))
                 {
-                    ErrorMessage = "Por favor ingrese una contraseña";
+                    ErrorMessage = "Por favor ingrese una contraseÃ±a";
                     return;
                 }
 
-                // TODO: reemplazar con un API endpoint (/login)
-                await Task.Delay(1000); // Simulate network delay
+                var user = await _authService.ValidateCredentialsAsync(Username, Password);
 
-                if (ValidateCredentials(Username, Password))
+                if (user != null)
                 {
-                    await Shell.Current.GoToAsync("//MainPage");
+                    await _authService.SetCurrentUserAsync(user.Id);
+                    await Shell.Current.GoToAsync("//Home");
                 }
                 else
                 {
-                    ErrorMessage = "Credenciales inválidas";
+                    ErrorMessage = "Credenciales invÃ¡lidas";
                 }
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = $"Error al iniciar sesiÃ³n: {ex.Message}";
             }
             finally
             {
                 IsBusy = false;
+                LoginCommand.NotifyCanExecuteChanged();
             }
         }
 
-        private bool ValidateCredentials(string username, string password)
-        {
-            // NOTE: Este return solo realiza una validacion mockup. Se debe reemplazar directamente con el backend.
-            return (username == "admin" && password == "admin") ||
-                   (username == "user" && password == "user");
-        }
+        private bool CanLogin() => !IsBusy;
     }
 }
