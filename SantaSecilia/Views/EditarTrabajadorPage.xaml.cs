@@ -1,10 +1,14 @@
+using SantaSecilia.ViewModels;
+using SantaSecilia.Infrastructure.Data;
+
 namespace SantaSecilia.Views;
 
 public partial class EditarTrabajadorPage : ContentPage
 {
-    public EditarTrabajadorPage()
+    public EditarTrabajadorPage(EditarTrabajadorViewModel vm)
     {
         InitializeComponent();
+        BindingContext = vm;
     }
 
     private async void OnCancelarClicked(object sender, EventArgs e)

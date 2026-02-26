@@ -1,6 +1,13 @@
-using System.Collections.ObjectModel;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Maui.Controls;
+using SantaSecilia.Domain.Entities;
+using SantaSecilia.Infrastructure.Data;
 using SantaSecilia.Views;
+using SQLitePCL;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+
 using System.Windows.Input;
 
 namespace SantaSecilia.ViewModels
@@ -14,29 +21,84 @@ namespace SantaSecilia.ViewModels
         public bool Activo { get; set; }
     }
 
-    public class TrabajadoresListViewModel
+    public class TrabajadoresListViewModel : INotifyPropertyChanged
     {
-        public ObservableCollection<TrabajadorItem> Trabajadores { get; set; }
+        private readonly AppDbContext context;
+        public ObservableCollection<TrabajadorItem> Trabajadores { get; set; } = new();
         public ICommand RegistrarCommand { get; }
         public ICommand EditarCommand { get; }
 
+        public event PropertyChangedEventHandler? PropertyChanged;
+        
+        void OnPropertyChanged([CallerMemberName] string name = null!){
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
 
-        public TrabajadoresListViewModel()
+        public TrabajadoresListViewModel(AppDbContext context)
         {
-            Trabajadores = new ObservableCollection<TrabajadorItem>
-            {
-                new(){Codigo=1,Nombre="Carlos Mendoza",Cedula="4-834-2892",Activo=true},
-                new(){Codigo=2,Nombre="Lucas Modric",Cedula="5-327-2513",Activo=false},
-                new(){Codigo=3,Nombre="Federico Estevez",Cedula="4-221-5561",Activo=true},
-                new(){Codigo=4,Nombre="David Villa",Cedula="9-450-9012",Activo=true},
-                new(){Codigo=5,Nombre="Juan Guerra",Cedula="3-8592-6709",Activo=false},
-            };
+            this.context = context;
 
             RegistrarCommand = new Command(async () =>
                 await Shell.Current.GoToAsync(nameof(TrabajadorFormPage)));
 
             EditarCommand = new Command<TrabajadorItem>(async (trabajador) =>
-                await Shell.Current.GoToAsync(nameof(EditarTrabajadorPage)));
+            {
+                var parametros = new Dictionary<string, object>{
+                    { "Trabajador", trabajador }
+                };
+
+                await Shell.Current.GoToAsync(nameof(EditarTrabajadorPage), parametros);
+            });
+
+
+            _ = CargarTrabajadores();
+        }
+
+        public async void Recargar()
+        {
+            await CargarTrabajadores();
+        }
+
+        async Task CargarTrabajadores()
+        {
+            _workersOriginal = await context.Workers.ToListAsync();
+            Filtrar();
+            
+        }
+
+        List<Worker> _workersOriginal = new();
+
+        string _busqueda = "";
+        public string Busqueda
+        {
+            get => _busqueda;
+            set
+            {
+                _busqueda = value;
+                OnPropertyChanged();
+                Filtrar();
+            }
+        }
+
+        void Filtrar()
+        {
+            Trabajadores.Clear();
+
+            var filtrados = _workersOriginal
+                .Where(w => string.IsNullOrWhiteSpace(_busqueda)
+                || w.FullName.Contains(_busqueda, StringComparison.OrdinalIgnoreCase)
+                || w.IdentificationNumber.Contains(_busqueda));
+
+            foreach (var w in filtrados)
+            {
+                Trabajadores.Add(new TrabajadorItem
+                {
+                    Codigo = w.Id,
+                    Nombre = w.FullName,
+                    Cedula = w.IdentificationNumber,
+                    Activo = w.IsActive
+                });
+            }
         }
     }
 }

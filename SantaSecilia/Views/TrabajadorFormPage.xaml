@@ -6,10 +6,6 @@
     xmlns:vm="clr-namespace:SantaSecilia.ViewModels"
     x:Class="SantaSecilia.Views.TrabajadorFormPage">
 
-    <ContentPage.BindingContext>
-        <vm:TrabajadorFormViewModel/>
-    </ContentPage.BindingContext>
-
     <!-- CENTRAR TARJETA -->
     <Grid>
         <Border Stroke="Black"
@@ -77,7 +73,7 @@
 									TextColor="Black"
 									CornerRadius="15"                             
 									WidthRequest="120"
-									Clicked="OnCancelarClicked"/>
+									Command="{Binding GuardarCommand}"/>
 
                             <Button Text="Cancelar"
 									BackgroundColor="#F57E76"

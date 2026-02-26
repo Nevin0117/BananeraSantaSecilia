@@ -7,10 +7,6 @@
     Title="Component Header x3"
     BackgroundColor="#FAF4C6">
 
-    <ContentPage.BindingContext>
-        <vm:TrabajadorFormViewModel/>
-    </ContentPage.BindingContext>
-    
     <Grid>
         <!-- Card principal -->
         <Border Stroke="Black"
@@ -48,7 +44,7 @@
                         <Border Stroke="#CCCCCC"
 								StrokeShape="RoundRectangle 10">
 							
-                            <Entry Text="{Binding Nombre}"
+                            <Entry Text="{Binding Nombre, Mode=TwoWay}"
 								   TextColor="Black"
 								   BackgroundColor="Transparent"/>
                         </Border>
@@ -61,7 +57,7 @@
 								StrokeShape="RoundRectangle 10">
 							
                             <Entry
-                                Text="{Binding Cedula}"
+                                Text="{Binding Cedula, Mode=TwoWay}"
                                 TextColor="Black"
                                 BackgroundColor="Transparent"/>
                         </Border>
@@ -85,7 +81,7 @@
 									TextColor="Black"
 									CornerRadius="15"
 									WidthRequest="120"
-									Clicked="OnCancelarClicked"/>
+									Command="{Binding GuardarCommand}"/>
 
                             <Button Text="Cancelar"
 									BackgroundColor="#F57E76"
