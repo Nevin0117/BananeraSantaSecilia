@@ -1,151 +1,151 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:vm="clr-namespace:SantaSecilia.ViewModels"
+             xmlns:conv="clr-namespace:SantaSecilia.Converters"
              xmlns:views="clr-namespace:SantaSecilia.Views"
              x:Class="SantaSecilia.Views.ActividadesPage"
-             Title="Actividades"
-             BackgroundColor="#FAF4C6">
-   
+             BackgroundColor="#FDFBF7">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <conv:FirstLetterConverter x:Key="FirstLetterConv" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
     <Grid RowDefinitions="Auto, *">
+        <views:HeaderView Grid.Row="0" x:Name="MyHeader"/>
 
-        <!-- Header -->
-        <views:HeaderView Grid.Row="0"
-                          x:Name="MyHeader"/>
-
-        <!-- Contenido de la página con su padding normal -->
-        <Grid Grid.Row="1"
-              Padding="20"
-              RowDefinitions="Auto, Auto, Auto, *"
-              RowSpacing="15">
-
-            <!-- Título -->
-            <Label Grid.Row="0"
-               Text="Actividades y Tarifas"
-               TextColor="Black"
-               FontSize="28"
-               FontAttributes="Bold"/>
-
-            <!-- Subtítulo -->
-            <Label Grid.Row="1"
-               Text="Gestión de Actividades"
-               Margin="0,0,0,25"
-               TextColor="#555555"
-               FontSize="18"
-               FontAttributes="Italic"/>
-
-            <!-- Botón Registrar -->
-            <Button Grid.Row="2"
-                Text="+ Registrar Actividad"
-                FontAttributes="Italic"
-                HorizontalOptions="Start"
-                BackgroundColor="#B2FBA5"
-                TextColor="Black"
-                CornerRadius="12"
-                BorderColor="#949C94"
-                BorderWidth="1"
-                Padding="22,12"
-                Command="{Binding RegistrarCommand}"/>
-
-            <!-- Tabla -->
-            <Border Grid.Row="3"
-                    Stroke="Transparent"
-                    StrokeThickness="1"
-                    StrokeShape="RoundRectangle 14"
+        <Grid Grid.Row="1" Padding="40,30">
+            <Border MaximumWidthRequest="1100" 
                     HorizontalOptions="Center"
-                    MaximumWidthRequest="1000"
-                    MinimumWidthRequest="400">
+                    VerticalOptions="Start"
+                    BackgroundColor="White" 
+                    StrokeShape="RoundRectangle 12" 
+                    Stroke="#E2E8F0"
+                    Padding="0">
 
-                
-                <Grid RowDefinitions="Auto, Auto, *">
+                <Grid RowDefinitions="Auto, Auto, *, Auto">
 
-                    <!-- Encabezado de la tabla -->
-                    <Border Grid.Row="0"
-                            BackgroundColor="#80BFFF"
-                            Stroke="Transparent"
-                            StrokeShape="RoundRectangle 12"
-                            Padding="12">
-                        <Grid ColumnDefinitions="3*, 2*, 2*, 2*">
-                            <Label Text="Actividad"
-                                   FontAttributes="Bold"
-                                   FontSize="16"
-                                   TextColor="Black"
-                                   Grid.Column="0"/>
-                            <Label Text="Tarifa"
-                                   FontAttributes="Bold"
-                                   FontSize="16"
-                                   TextColor="Black"
-                                   HorizontalTextAlignment="Center"
-                                   Grid.Column="1"/>
-                            <Label Text="Estado"
-                                   FontAttributes="Bold"
-                                   FontSize="16"
-                                   TextColor="Black"
-                                   HorizontalTextAlignment="Center"
-                                   Grid.Column="2"/>
-                            <BoxView Grid.Column="3"
-                         Color="Transparent"/>
-                        </Grid>
-                    </Border>
+                    <Grid Grid.Row="0" ColumnDefinitions="*, Auto" Padding="30,25" BackgroundColor="White">
+                        <VerticalStackLayout Grid.Column="0" VerticalOptions="Center">
+                            <Label Text="Gestión de Actividades" FontSize="28" FontAttributes="Bold" TextColor="#1A202C"/>
+                            <Label Text="Administra el catálogo de labores, tarifas y estados operativos." FontSize="14" TextColor="#718096"/>
+                        </VerticalStackLayout>
 
-                    <!-- Línea divisora -->
-                    <BoxView Grid.Row="1"
-                             HeightRequest="1"
-                             Color="#E0E0E0"
-                             HorizontalOptions="Fill"/>
+                        <HorizontalStackLayout Grid.Column="1" Spacing="10" VerticalOptions="Center">
+                            <Border StrokeShape="RoundRectangle 8" Stroke="#CBD5E0" BackgroundColor="#F9FAFB" Padding="12,0" WidthRequest="250" HeightRequest="45">
+                                <Entry Placeholder="🔍 Buscar actividad..." 
+                                       FontSize="13" 
+                                       VerticalOptions="Center"
+                                       TextColor="Black"
+                                       Text="{Binding TextoBusqueda}"/>
+                            </Border>
+                            <Button Text="+ Nueva Actividad" 
+                                    BackgroundColor="#A8E6CF" TextColor="#1B4332" 
+                                    FontAttributes="Bold" CornerRadius="8" HeightRequest="45" Padding="20,0"
+                                    Command="{Binding RegistrarCommand}"/>
+                        </HorizontalStackLayout>
+                    </Grid>
 
-                    <!-- Filas de la tabla -->
-                    
-                    <CollectionView Grid.Row="2"
-                                ItemsSource="{Binding Actividades}">
+                    <Grid Grid.Row="1" ColumnDefinitions="3*, 2*, 2*, 1.5*" Padding="30,12" BackgroundColor="#E3F2FD">
+                        <Label Grid.Column="0" Text="NOMBRE DE ACTIVIDAD" FontSize="11" FontAttributes="Bold" TextColor="#2D3748"/>
+                        <Label Grid.Column="1" Text="TARIFA (POR HORA)" FontSize="11" FontAttributes="Bold" TextColor="#2D3748" HorizontalTextAlignment="Center"/>
+                        <Label Grid.Column="2" Text="ESTADO" FontSize="11" FontAttributes="Bold" TextColor="#2D3748" HorizontalTextAlignment="Center"/>
+                        <Label Grid.Column="3" Text="ACCIONES" FontSize="11" FontAttributes="Bold" TextColor="#2D3748" HorizontalTextAlignment="Center"/>
+                    </Grid>
+
+                    <CollectionView Grid.Row="2" 
+                                    ItemsSource="{Binding Actividades}" 
+                                    HeightRequest="400">
                         <CollectionView.ItemTemplate>
-
                             <DataTemplate>
-                                <Border Margin="0,4"
-                                    Padding="12"
-                                    BackgroundColor="White"
-                                    Stroke="#E0E0E0"
-                                    StrokeThickness="1"
-                                    StrokeShape="RoundRectangle 10">
+                                <Border StrokeThickness="0" BackgroundColor="Transparent">
 
-                                    <Grid ColumnDefinitions="3*, 2*, 2*, 2*">
-                                        <Label Text="{Binding Actividad}"
-                                           TextColor="Black"
-                                           FontSize="15"
-                                           VerticalOptions="Center"
-                                           Grid.Column="0"/>
-                                        <Label Text="{Binding Tarifa}"
-                                           TextColor="Black"
-                                           FontSize="15"
-                                           HorizontalTextAlignment="Center"
-                                           VerticalOptions="Center"
-                                           Grid.Column="1"/>
-                                        <Label Text="{Binding Estado}"
-                                           TextColor="Black"
-                                           FontSize="15"
-                                           HorizontalTextAlignment="Center"
-                                           VerticalOptions="Center"
-                                           Grid.Column="2"/>
-                                        <Button Grid.Column="3"
-                                            Text="Editar"
-                                            BackgroundColor="#80BFFF"
-                                            TextColor="Black"
-                                            CornerRadius="10"
-                                            FontSize="12"
-                                            Margin="30,0"
-                                            HorizontalOptions="End"
-                                            Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.EditarCommand}"
-                                            CommandParameter="{Binding .}"/>
-                                    </Grid>
+                                    <VisualStateManager.VisualStateGroups>
+                                        <VisualStateGroupList>
+                                            <VisualStateGroup x:Name="CommonStates">
+                                                <VisualState x:Name="Normal" />
+                                                <VisualState x:Name="PointerOver">
+                                                    <VisualState.Setters>
+                                                        <Setter Property="BackgroundColor" Value="#F1F5F9" />
+                                                    </VisualState.Setters>
+                                                </VisualState>
+                                            </VisualStateGroup>
+                                        </VisualStateGroupList>
+                                    </VisualStateManager.VisualStateGroups>
+
+                                    <VerticalStackLayout>
+                                        <Grid ColumnDefinitions="3*, 2*, 2*, 1.5*" Padding="30,18">
+                                            <HorizontalStackLayout Grid.Column="0" Spacing="15" VerticalOptions="Center">
+
+                                                <Border WidthRequest="42" HeightRequest="42" 
+                                                        BackgroundColor="#E0F2FE" 
+                                                        StrokeShape="RoundRectangle 10" 
+                                                        StrokeThickness="0"
+                                                        VerticalOptions="Center">
+                                                    <Label Text="{Binding Actividad, Converter={StaticResource FirstLetterConv}}" 
+                                                           TextColor="#0284C7" 
+                                                           FontAttributes="Bold" 
+                                                           FontSize="18"
+                                                           HorizontalOptions="Center" 
+                                                           VerticalOptions="Center"/>
+                                                </Border>
+
+                                                <VerticalStackLayout VerticalOptions="Center" Spacing="2">
+                                                    <Label Text="{Binding Actividad}" 
+                                                           FontSize="15" 
+                                                           FontAttributes="Bold" 
+                                                           TextColor="#2D3748"/>
+
+                                                    <Label Text="Labor operativa" 
+                                                           FontSize="12" 
+                                                           TextColor="#94A3B8"/>
+                                                </VerticalStackLayout>
+
+                                            </HorizontalStackLayout>
+
+                                            <Label Grid.Column="1" Text="{Binding Tarifa, StringFormat='B/.{0}'}" VerticalOptions="Center" HorizontalOptions="Center" TextColor="#4A5568" FontSize="15"/>
+
+                                            <Border Grid.Column="2" HorizontalOptions="Center" VerticalOptions="Center" Padding="12,4" StrokeShape="RoundRectangle 15" BackgroundColor="#E8F5E9" Stroke="Transparent">
+
+                                                <Label Text="{Binding Estado}" TextColor="#2E7D32" FontSize="11" FontAttributes="Bold">
+                                                    <Label.Triggers>
+                                                        <DataTrigger TargetType="Label" Binding="{Binding Estado}" Value="Inactivo">
+                                                            <Setter Property="TextColor" Value="#64748B" />
+                                                        </DataTrigger>
+                                                    </Label.Triggers>
+                                                </Label>
+
+                                                <Border.Triggers>
+                                                    <DataTrigger TargetType="Border" Binding="{Binding Estado}" Value="Inactivo">
+                                                        <Setter Property="BackgroundColor" Value="#E2E8F0" />
+                                                    </DataTrigger>
+                                                </Border.Triggers>
+                                            </Border>
+
+                                            <HorizontalStackLayout Grid.Column="3" HorizontalOptions="Center" Spacing="20">
+                                                <Button Text="✏️" BackgroundColor="Transparent" Padding="0" FontSize="18"
+                                                        Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.EditarCommand}"
+                                                        CommandParameter="{Binding .}"/>
+                                                <Button Text="🗑️" BackgroundColor="Transparent" Padding="0" FontSize="18"
+                                                        Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.EliminarCommand}"
+                                                        CommandParameter="{Binding .}"/>
+                                            </HorizontalStackLayout>
+                                        </Grid>
+
+                                        <BoxView HeightRequest="1" Color="#EDF2F7" Margin="30,0" HorizontalOptions="Fill"/>
+                                    </VerticalStackLayout>
                                 </Border>
                             </DataTemplate>
-                          
                         </CollectionView.ItemTemplate>
                     </CollectionView>
+
+                    <Grid Grid.Row="3" Padding="30,15" BackgroundColor="White">
+                        <Label Text="Fin de los registros" FontSize="12" TextColor="#CBD5E0" HorizontalOptions="Center"/>
+                    </Grid>
 
                 </Grid>
             </Border>
         </Grid>
     </Grid>
-
 </ContentPage>
