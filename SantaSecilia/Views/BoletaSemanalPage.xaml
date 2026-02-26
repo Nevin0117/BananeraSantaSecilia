@@ -5,10 +5,6 @@
              xmlns:views="clr-namespace:SantaSecilia.Views"
              x:Class="SantaSecilia.Views.BoletaSemanalPage"
              BackgroundColor="#FAF4C6">
-    
-    <ContentPage.BindingContext>
-            <vm:BoletaSemanalViewModel/>
-        </ContentPage.BindingContext>
 
     <ScrollView>
         <VerticalStackLayout Spacing="20">
@@ -39,7 +35,10 @@
                             <Border Stroke="#888"
 									StrokeShape="RoundRectangle 10"
 									Background="White">
-                                <Picker HeightRequest="40"/>
+                                <Picker HeightRequest="40"
+                                        TextColor="Black"
+                                        ItemsSource="{Binding Trabajadores}"
+                                        SelectedItem="{Binding TrabajadorSeleccionado}"/>
                             </Border>
                         </VerticalStackLayout>
 
@@ -52,7 +51,10 @@
                             <Border Stroke="#888"
 									StrokeShape="RoundRectangle 10"
 									Background="White">
-                                <Picker HeightRequest="40"/>
+                                <Picker HeightRequest="40"
+                                        TextColor="Black"
+                                        ItemsSource="{Binding Semanas}"
+                                        SelectedItem="{Binding SemanaSeleccionada}"/>
                             </Border>
                         </VerticalStackLayout>
                     </Grid>
@@ -80,13 +82,26 @@
                             <!-- Área Scroll -->
                             <ScrollView Grid.Row="1">
                                 <VerticalStackLayout Padding="5" Spacing="6">
-                                    <!-- Filas dummy (luego CollectionView) -->
+                                    <CollectionView ItemsSource="{Binding Filas}">
+                                        <CollectionView.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid ColumnDefinitions="1.2*,2*,1*,1*,1.2*">
+                                                    <Label Text="{Binding Fecha, StringFormat='{0:dd/MM}'}" TextColor="Black"/>
+                                                    <Label Grid.Column="1" Text="{Binding Actividad}" TextColor="Black"/>
+                                                    <Label Grid.Column="2" Text="{Binding Horas}" TextColor="Black"/>
+                                                    <Label Grid.Column="3" Text="{Binding Tarifa} " TextColor="Black"/>
+                                                    <Label Grid.Column="4" Text="{Binding Monto} " TextColor="Black"/>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </CollectionView.ItemTemplate>
+                                    </CollectionView>
+
                                     <Grid ColumnDefinitions="1.2*,2*,1*,1*,1.2*">
                                         <Label Text=""/>
-                                        <Label Grid.Column="1" Text=""/>
-                                        <Label Grid.Column="2" Text=""/>
-                                        <Label Grid.Column="3" Text=""/>
-                                        <Label Grid.Column="4" Text=""/>
+                                        <Label Grid.Column="1" Text="" TextColor="Black"/>
+                                        <Label Grid.Column="2" Text="" TextColor="Black"/>
+                                        <Label Grid.Column="3" Text="" TextColor="Black"/>
+                                        <Label Grid.Column="4" Text="" TextColor="Black"/>
                                     </Grid>
                                 </VerticalStackLayout>
                             </ScrollView>
@@ -101,9 +116,12 @@
 							StrokeShape="RoundRectangle 15"
 							Padding="15">
                         <VerticalStackLayout Spacing="6">
-                            <Label Text="Total Devengado:" TextColor="Black"/>
-                            <Label Text="Descuentos:" TextColor="Black"/>
-                            <Label Text="Total a pagar:" TextColor="Black"/>
+                            <Label Text="{Binding TotalDevengado, StringFormat='Total Devengado: B/. {0:F2}'}"
+                                   TextColor="Black"/>
+                            <Label Text="{Binding Descuentos, StringFormat='Descuentos: B/. {0:F2}'}"
+                                    TextColor="Black"/>
+                            <Label Text="{Binding TotalPagar, StringFormat='Total a pagar: B/. {0:F2}'}"
+                                   TextColor="Black"/>
                         </VerticalStackLayout>
                     </Border>
 

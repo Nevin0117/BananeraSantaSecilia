@@ -1,6 +1,8 @@
+using Microsoft.EntityFrameworkCore;
+using SantaSecilia.Domain.Entities;
+using SantaSecilia.Infrastructure.Data;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Reflection;
 using System.Runtime.CompilerServices;
 
 namespace SantaSecilia.ViewModels
@@ -17,15 +19,16 @@ namespace SantaSecilia.ViewModels
 
     public class BoletaSemanalViewModel : INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler? PropertyChanged;
+        private readonly AppDbContext contex;
 
+        public event PropertyChangedEventHandler? PropertyChanged;
         void OnPropertyChanged([CallerMemberName] string name = null!)
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 
         public ObservableCollection<string> Trabajadores { get; set; } = new();
         public ObservableCollection<string> Semanas { get; set; } = new();
 
-        string trabajadorSeleccionado;
+        string trabajadorSeleccionado = "";
         public string TrabajadorSeleccionado
         {
             get => trabajadorSeleccionado;
@@ -36,7 +39,7 @@ namespace SantaSecilia.ViewModels
             }
         }
 
-        string semanaSeleccionada;
+        string semanaSeleccionada = "";
         public string SemanaSeleccionada
         {
             get => semanaSeleccionada;
@@ -47,34 +50,72 @@ namespace SantaSecilia.ViewModels
             }
         }
 
-        // ==============================
-        // Tabla
-        // ==============================
-
         public ObservableCollection<BoletaFila> Filas { get; set; } = new();
-
-
-        // ==============================
-        // Totales
-        // ==============================
-
         public decimal TotalDevengado => Filas.Sum(f => f.Monto);
 
-        // TODO: obtener desde WeeklyPayStub.SsDeduction (tasa seguro social aplicada al devengado bruto)
-        public decimal Descuentos => 0;
-
-        // TODO: obtener desde WeeklyPayStub.SeDeduction (tasa seguro educativo aplicada al devengado bruto)
-
-        // TODO: obtener desde WeeklyPayStub.UnionDues (cuota fija semanal del sindicato)
+        public decimal SeguroSocial => TotalDevengado * 0.0975m;
+        public decimal SeguroEducativo => TotalDevengado * 0.0125m;
+        public decimal Sindicato => 2.50m;
+        public decimal Descuentos => SeguroSocial + SeguroEducativo + Sindicato;
 
         public decimal TotalPagar => TotalDevengado - Descuentos;
 
+        public BoletaSemanalViewModel(AppDbContext context)
+        {
+            contex = context;
 
-
-#pragma warning disable CS8618 // Un campo que no acepta valores NULL debe contener un valor distinto de NULL al salir del constructor. Considere la posibilidad de agregar el modificador "required" o declararlo como un valor que acepta valores NULL.
-        public BoletaSemanalViewModel() {
-            //Info para la BD
+            _ = CargarTrabajadores();
         }
-#pragma warning restore CS8618 // Un campo que no acepta valores NULL debe contener un valor distinto de NULL al salir del constructor. Considere la posibilidad de agregar el modificador "required" o declararlo como un valor que acepta valores NULL.
+
+        public async Task CargarDatos()
+        {
+            await CargarTrabajadores();
+            CargarSemanas();
+        }
+
+        async Task CargarTrabajadores()
+        {
+            var workers = await contex.Workers.ToListAsync();
+
+            Trabajadores.Clear();
+
+            foreach (var w in workers)
+                Trabajadores.Add(w.FullName);
+                Trabajadores.Add("Prueba 1");
+        }
+
+        void CargarSemanas()
+        {
+            Semanas.Clear();
+
+            var hoy = DateTime.Today;
+
+            for (int i = 0; i < 6; i++)
+            {
+                var inicio = hoy.AddDays(-7 * i);
+                var fin = inicio.AddDays(6);
+
+                Semanas.Add($"{inicio:dd/MM/yyyy} - {fin:dd/MM/yyyy}");
+            }
+        }
+
+        public void RefrescarTotales()
+        {
+            OnPropertyChanged(nameof(TotalDevengado));
+            OnPropertyChanged(nameof(TotalPagar));
+        }
+
+
+        public void GenerarDatosDemo()
+        {
+            Filas.Clear();
+
+            Filas.Add(new BoletaFila { Fecha = DateTime.Today, Actividad = "Fumigar", Horas = 8, Tarifa = 0.78m });
+            Filas.Add(new BoletaFila { Fecha = DateTime.Today, Actividad = "Celador", Horas = 6, Tarifa = 0.90m });
+            Filas.Add(new BoletaFila { Fecha = DateTime.Today, Actividad = "Soldador", Horas = 5, Tarifa = 1.10m });
+
+            RefrescarTotales();
+        }
+
     }
 }
