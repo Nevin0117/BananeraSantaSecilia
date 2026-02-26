@@ -41,17 +41,27 @@
 					<!-- FORMULARIO -->
 					<VerticalStackLayout Spacing="15">
 
+						<!-- Título Código -->
+						<Label Text="Código" 
+							   FontSize="12" 
+							   TextColor="Black" 
+							   Margin="0,30,0,0"/>
 
-						
-						<Border Stroke="#949C94" StrokeShape="RoundRectangle 10" Margin="0,30,0,0">
-							<Entry Placeholder="Código"
+						<!-- CAMPO CÓDIGO -->
+						<Border Stroke="#949C94" StrokeShape="RoundRectangle 10">
+							<Entry Placeholder="Código del lote"
 								   Text="{Binding Codigo}"
 								   TextColor="Black"
 								   BackgroundColor="Transparent"/>
 						</Border>
 
-						<Label Text="Estado" FontSize="12" TextColor="Black"/>
-
+						<!-- Título Estado-->
+						<Label Text="Estado" 
+							   FontSize="12" 
+							   TextColor="Black" 
+							   Margin="0,10,0,0"/>
+						
+						<!-- CAMPO ESTADO -->
 						<Border Stroke="#949C94" StrokeShape="RoundRectangle 10">
 							<Picker ItemsSource="{Binding Estados}"
 									SelectedItem="{Binding EstadoSeleccionado}"
@@ -78,7 +88,7 @@
 						</HorizontalStackLayout>
 					</VerticalStackLayout>
 
-					<!-- IMAGEN DERECHA -->
+					<!-- LOGO -->
 					<Image Grid.Column="1"
 						   Source="logo.png"
 						   Aspect="AspectFit"
