@@ -6,11 +6,7 @@
              x:Class="SantaSecilia.Views.ActividadesPage"
              Title="Actividades"
              BackgroundColor="#FAF4C6">
-
-    <ContentPage.BindingContext>
-        <vm:ActividadesViewModel/>
-    </ContentPage.BindingContext>
-
+   
     <Grid RowDefinitions="Auto, *">
 
         <!-- Header -->
@@ -53,55 +49,57 @@
 
             <!-- Tabla -->
             <Border Grid.Row="3"
-                Stroke="Transparent"
-                StrokeThickness="1"
-                StrokeShape="RoundRectangle 14"
-                VerticalOptions="Start"
-                HorizontalOptions="Center"
-                MaximumWidthRequest="1000"
-                MinimumWidthRequest="400">
+                    Stroke="Transparent"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 14"
+                    HorizontalOptions="Center"
+                    MaximumWidthRequest="1000"
+                    MinimumWidthRequest="400">
 
-                <Grid RowDefinitions="Auto, Auto, Auto">
+                
+                <Grid RowDefinitions="Auto, Auto, *">
 
                     <!-- Encabezado de la tabla -->
                     <Border Grid.Row="0"
-                        BackgroundColor="#80BFFF"
-                        Stroke="Transparent"
-                        StrokeShape="RoundRectangle 12"
-                        Padding="12">
+                            BackgroundColor="#80BFFF"
+                            Stroke="Transparent"
+                            StrokeShape="RoundRectangle 12"
+                            Padding="12">
                         <Grid ColumnDefinitions="3*, 2*, 2*, 2*">
                             <Label Text="Actividad"
-                               FontAttributes="Bold"
-                               FontSize="16"
-                               TextColor="Black"
-                               Grid.Column="0"/>
+                                   FontAttributes="Bold"
+                                   FontSize="16"
+                                   TextColor="Black"
+                                   Grid.Column="0"/>
                             <Label Text="Tarifa"
-                               FontAttributes="Bold"
-                               FontSize="16"
-                               TextColor="Black"
-                               HorizontalTextAlignment="Center"
-                               Grid.Column="1"/>
+                                   FontAttributes="Bold"
+                                   FontSize="16"
+                                   TextColor="Black"
+                                   HorizontalTextAlignment="Center"
+                                   Grid.Column="1"/>
                             <Label Text="Estado"
-                               FontAttributes="Bold"
-                               FontSize="16"
-                               TextColor="Black"
-                               HorizontalTextAlignment="Center"
-                               Grid.Column="2"/>
+                                   FontAttributes="Bold"
+                                   FontSize="16"
+                                   TextColor="Black"
+                                   HorizontalTextAlignment="Center"
+                                   Grid.Column="2"/>
                             <BoxView Grid.Column="3"
-                                 Color="Transparent"/>
+                         Color="Transparent"/>
                         </Grid>
                     </Border>
 
                     <!-- Línea divisora -->
                     <BoxView Grid.Row="1"
-                         HeightRequest="1"
-                         Color="#E0E0E0"
-                         HorizontalOptions="Fill"/>
+                             HeightRequest="1"
+                             Color="#E0E0E0"
+                             HorizontalOptions="Fill"/>
 
                     <!-- Filas de la tabla -->
+                    
                     <CollectionView Grid.Row="2"
                                 ItemsSource="{Binding Actividades}">
                         <CollectionView.ItemTemplate>
+
                             <DataTemplate>
                                 <Border Margin="0,4"
                                     Padding="12"
@@ -109,6 +107,7 @@
                                     Stroke="#E0E0E0"
                                     StrokeThickness="1"
                                     StrokeShape="RoundRectangle 10">
+
                                     <Grid ColumnDefinitions="3*, 2*, 2*, 2*">
                                         <Label Text="{Binding Actividad}"
                                            TextColor="Black"
@@ -140,6 +139,7 @@
                                     </Grid>
                                 </Border>
                             </DataTemplate>
+                          
                         </CollectionView.ItemTemplate>
                     </CollectionView>
 
