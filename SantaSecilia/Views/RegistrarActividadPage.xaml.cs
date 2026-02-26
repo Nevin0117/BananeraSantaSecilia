@@ -1,14 +1,22 @@
+using SantaSecilia.ViewModels;
+
 namespace SantaSecilia.Views;
 
 public partial class RegistrarActividadPage : ContentPage
 {
-	public RegistrarActividadPage()
-	{
-		InitializeComponent();
-	}
+    private readonly RegistrarActividadViewModel _viewModel;
 
-    private async void OnCancelarClicked(object sender, EventArgs e)
+    public RegistrarActividadPage(RegistrarActividadViewModel viewModel)
     {
-        await Shell.Current.GoToAsync("..");
+        InitializeComponent();
+        _viewModel = viewModel;
+        BindingContext = _viewModel;
     }
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        _viewModel.LimpiarCampos();
+    }
+
 }

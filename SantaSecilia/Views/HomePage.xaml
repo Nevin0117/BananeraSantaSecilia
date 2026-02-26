@@ -16,7 +16,6 @@
                     FontSize="12"
                     Padding="10,5"
                     HeightRequest="40"
-                    local:CursorBehavior.Cursor="Hand"
                     FontAttributes="Bold"
                     ImageSource="salida.png" />
         </HorizontalStackLayout>

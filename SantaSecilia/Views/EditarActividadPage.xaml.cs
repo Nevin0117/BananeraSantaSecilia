@@ -1,14 +1,12 @@
+using SantaSecilia.ViewModels;
+
 namespace SantaSecilia.Views;
 
 public partial class EditarActividadPage : ContentPage
 {
-	public EditarActividadPage()
-	{
-		InitializeComponent();
-	}
-
-    private async void OnCancelarClicked(object sender, EventArgs e)
+    public EditarActividadPage(EditarActividadViewModel viewModel)
     {
-        await Shell.Current.GoToAsync("..");
+        InitializeComponent();
+        BindingContext = viewModel;
     }
 }

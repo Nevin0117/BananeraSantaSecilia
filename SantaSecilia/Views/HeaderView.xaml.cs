@@ -1,3 +1,6 @@
+using Microsoft.Extensions.DependencyInjection;
+using SantaSecilia.Application.Services;
+
 namespace SantaSecilia.Views;
 
 public partial class HeaderView : ContentView
@@ -8,7 +11,7 @@ public partial class HeaderView : ContentView
 
 	}
 
-    // Resalta el link activo con subrayado y lo restaura en los dem�s
+    // Resalta el link activo con subrayado y lo restaura en los dem�s
     public void SetActivePage(string pageName)
     {
         // Reiniciar todos
@@ -45,7 +48,7 @@ public partial class HeaderView : ContentView
         }
     }
 
-    // Navegaci�n
+    // Navegaci�n
     private async void NavHome_Tapped(object sender, TappedEventArgs e)
     => await Shell.Current.GoToAsync("//Home");
 
@@ -68,5 +71,13 @@ public partial class HeaderView : ContentView
         => await Shell.Current.GoToAsync("//ReporteGlobal");
 
     private async void Logout_Clicked(object sender, EventArgs e)
-        => await Shell.Current.GoToAsync("//Login");
+    {
+        bool confirm = await Shell.Current.DisplayAlert("Cerrar Sesión", "¿Está seguro que desea salir?", "Sí", "No");
+        if (confirm)
+        {
+            var authService = Handler.MauiContext.Services.GetRequiredService<AuthService>();
+            await authService.LogoutAsync();
+            await Shell.Current.GoToAsync("//Login");
+        }
+    }
 }
