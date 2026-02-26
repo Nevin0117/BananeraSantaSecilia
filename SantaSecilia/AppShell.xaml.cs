@@ -1,13 +1,16 @@
-﻿using SantaSecilia.Views;
+﻿using SantaSecilia.Application.Services;
+using SantaSecilia.Views;
 
 namespace SantaSecilia
 {
     public partial class AppShell : Shell
     {
-        public AppShell()
+        private readonly AuthService _authService;
+
+        public AppShell(AuthService authService)
         {
             InitializeComponent();
-
+            _authService = authService;
 
             Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
 
@@ -29,6 +32,16 @@ namespace SantaSecilia
 
             Routing.RegisterRoute(nameof(ReporteGlobalPage), typeof(ReporteGlobalPage));
 
+        }
+
+        protected override async void OnAppearing()
+        {
+            base.OnAppearing();
+
+            if (await _authService.HasActiveSessionAsync())
+            {
+                await Shell.Current.GoToAsync("//Home");
+            }
         }
     }
 }

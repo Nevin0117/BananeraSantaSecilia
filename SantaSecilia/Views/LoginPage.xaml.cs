@@ -12,7 +12,4 @@ public partial class LoginPage : ContentPage
         BindingContext = viewModel;
         _viewModel = viewModel;
     }
-
-    private async void OnLoginClicked(object sender, EventArgs e)
-        => await Shell.Current.GoToAsync("//Home");
 }

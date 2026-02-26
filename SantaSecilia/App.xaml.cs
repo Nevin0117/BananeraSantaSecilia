@@ -4,11 +4,10 @@ namespace SantaSecilia
 {
     public partial class App : Microsoft.Maui.Controls.Application
     {
-        [Obsolete]
-        public App()
+        public App(IServiceProvider serviceProvider)
         {
             InitializeComponent();
-            MainPage = new AppShell();
+            MainPage = serviceProvider.GetRequiredService<AppShell>();
         }
 
     }

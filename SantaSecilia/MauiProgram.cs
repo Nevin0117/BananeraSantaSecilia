@@ -49,7 +49,9 @@ public static class MauiProgram
         builder.Services.AddScoped<LoginViewModel>();
         builder.Services.AddScoped<LoginPage>();
 
-        
+        builder.Services.AddScoped<HomeViewModel>();
+        builder.Services.AddScoped<HomePage>();
+        builder.Services.AddScoped<AppShell>();
 
 #if DEBUG
         builder.Logging.AddDebug();

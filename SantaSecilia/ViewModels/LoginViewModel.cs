@@ -16,22 +16,23 @@ namespace SantaSecilia.ViewModels
         [ObservableProperty]
         private bool _isBusy;
         [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(HasError))]
         private string _errorMessage = "";
+
+        public bool HasError => !string.IsNullOrWhiteSpace(ErrorMessage);
 
         public LoginViewModel(AuthService authService)
         {
             _authService = authService;
         }
 
-        [RelayCommand]
+        [RelayCommand(CanExecute = nameof(CanLogin))]
         private async Task LoginAsync()
         {
-            if (IsBusy) 
-                return;
-
             try
             {
                 IsBusy = true;
+                LoginCommand.NotifyCanExecuteChanged();
                 ErrorMessage = "";
 
                 if (string.IsNullOrWhiteSpace(Username))
@@ -51,17 +52,24 @@ namespace SantaSecilia.ViewModels
                 if (user != null)
                 {
                     await _authService.SetCurrentUserAsync(user.Id);
-                    await Shell.Current.GoToAsync("//MainPage");
+                    await Shell.Current.GoToAsync("//Home");
                 }
                 else
                 {
                     ErrorMessage = "Credenciales inválidas";
                 }
             }
+            catch (Exception ex)
+            {
+                ErrorMessage = $"Error al iniciar sesión: {ex.Message}";
+            }
             finally
             {
                 IsBusy = false;
+                LoginCommand.NotifyCanExecuteChanged();
             }
         }
+
+        private bool CanLogin() => !IsBusy;
     }
 }

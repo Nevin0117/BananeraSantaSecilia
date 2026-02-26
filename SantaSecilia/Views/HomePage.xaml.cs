@@ -1,16 +1,27 @@
 ﻿using Microsoft.Maui.Controls;
+using SantaSecilia.Application.Services;
 
 namespace SantaSecilia.Views
 {
     public partial class HomePage : ContentPage
     {
-        public HomePage()
+        private readonly AuthService _authService;
+
+        public HomePage(AuthService authService)
         {
             InitializeComponent();
+            _authService = authService;
         }
 
-        private async void OnBackClicked(object sender, EventArgs e)
-            => await Shell.Current.GoToAsync("//Login");
+        private async void OnLogoutClicked(object sender, EventArgs e)
+        {
+            bool confirm = await DisplayAlertAsync("Cerrar Sesión", "¿Está seguro que desea salir?", "Sí", "No");
+            if (confirm)
+            {
+                await _authService.LogoutAsync();
+                await Shell.Current.GoToAsync("//Login");
+            }
+        }
 
         async void IraRegistroLab(object sender, EventArgs e)
             => await Shell.Current.GoToAsync("//RegistroLaboral");
