@@ -57,4 +57,22 @@ public class ActivityRepository
         return await context.Set<Activity>()
             .AnyAsync(a => a.Name == name && (ignoreId == null || a.Id != ignoreId));
     }
+
+    public async Task<bool> TieneRegistrosRelacionadosAsync(int id)
+    {
+        await using var context = await _contextFactory.CreateDbContextAsync();
+        return await context.Set<DailyRecordLine>()
+            .AnyAsync(d => d.ActivityId == id);
+    }
+
+    public async Task DeleteAsync(int id)
+    {
+        await using var context = await _contextFactory.CreateDbContextAsync();
+        var actividad = await context.Set<Activity>().FindAsync(id);
+        if (actividad != null)
+        {
+            context.Remove(actividad);
+            await context.SaveChangesAsync();
+        }
+    }
 }

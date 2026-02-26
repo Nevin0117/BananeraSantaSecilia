@@ -53,6 +53,28 @@ public class ActivityService
         }
     }
 
+    public async Task<(bool success, string message)> EliminarActividadAsync(int id)
+    {
+        try
+        {
+            // Verificar si la actividad tiene registros relacionados
+            var tieneRegistros = await _repository.TieneRegistrosRelacionadosAsync(id);
+
+            if (tieneRegistros)
+            {
+                return (false, "No se puede eliminar esta actividad porque tiene registros laborales asociados. Puede desactivarla desde Editar si lo desea.");
+            }
+
+            // Si no tiene registros, eliminar físicamente
+            await _repository.DeleteAsync(id);
+            return (true, "Actividad eliminada correctamente");
+        }
+        catch (Exception ex)
+        {
+            return (false, $"Error al eliminar: {ex.Message}");
+        }
+    }
+
     public async Task<bool> ExisteActividadConNombreAsync(string nombre, int? ignorarId = null)
     {
         return await _repository.ExistsByNameAsync(nombre, ignorarId);

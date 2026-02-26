@@ -1,108 +1,120 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
-    BackgroundColor="#FAF4C6"
+    BackgroundColor="#FDFBF7"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:vm="clr-namespace:SantaSecilia.ViewModels"
     x:Class="SantaSecilia.Views.RegistrarActividadPage">
 
-    <!-- CENTRAR TARJETA -->
-    <Grid>
-        <Border Stroke="#7A9E7E"
-				StrokeThickness="2"
-				BackgroundColor="White"
-				StrokeShape="RoundRectangle 18"
-				Padding="0"
-				HorizontalOptions="Center"
-				VerticalOptions="Center"
-				WidthRequest="520">
+    <ScrollView>
+        <VerticalStackLayout Padding="40" Spacing="30" MaximumWidthRequest="1200" HorizontalOptions="Center">
 
-            <VerticalStackLayout Spacing="0">
+            <VerticalStackLayout Spacing="8">
+                <Label Text="Registrar Actividad" TextColor="#0EA5E9" FontSize="36" FontAttributes="Bold"/>
+                <Label Text="Complete los detalles de la nueva actividad." TextColor="#64748B" FontSize="16"/>
+            </VerticalStackLayout>
 
-                <!-- HEADER -->
-                <Border BackgroundColor="#80BFFF"
-						StrokeShape="RoundRectangle 18,18,0,0"
-						Padding="12">
+            <Border BackgroundColor="White"
+                    Stroke="#E2E8F0"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 16"
+                    Padding="50">
 
-                    <Label TextColor="Black"
-						   Text="Registrar Actividad"
-						   FontSize="20"
-						   FontAttributes="Bold"
-						   HorizontalOptions="Center"/>
-                </Border>
+                <Grid ColumnDefinitions="2*, 1*" ColumnSpacing="50">
 
-                <!-- CONTENIDO -->
-                <Grid Padding="20"
-                      ColumnDefinitions="*,220"
-                      RowDefinitions="Auto">
+                    <VerticalStackLayout Grid.Column="0" Spacing="30">
 
-                    <!-- FORMULARIO -->
-                    <VerticalStackLayout Spacing="12">
+                        <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
+                            <Label Text="Información General" FontSize="20" FontAttributes="Bold" TextColor="#1E293B" VerticalOptions="Center"/>
+                        </HorizontalStackLayout>
 
-                        <Label Text="Actividad" 
-							   FontSize="12" 
-							   TextColor="Black"/>
+                        <VerticalStackLayout Spacing="10">
+                            <Label Text="Nombre de la Actividad" FontSize="14" FontAttributes="Bold" TextColor="#64748B"/>
 
-                        <Border Stroke="#CCCCCC" StrokeShape="RoundRectangle 10">
-                            <Entry
-                                Placeholder="Nombre de la Actividad"
-                                Text="{Binding Actividad}"
-                                TextColor="Black"
-                                BackgroundColor="Transparent"/>
-                        </Border>
+                            <Border Stroke="#CBD5E0" StrokeShape="RoundRectangle 8" BackgroundColor="White" Padding="15,0" HeightRequest="55">
+                                <Entry Placeholder="Ej: Deshoje, Fertilización, Cosecha"
+                                       Text="{Binding Actividad}"
+                                       TextColor="#1A202C"
+                                       FontSize="16"
+                                       BackgroundColor="Transparent"/>
+                            </Border>
+                        </VerticalStackLayout>
 
-                        <Label Text="Tarifa" 
-							   FontSize="12" 
-							   TextColor="Black"/>
+                        <Grid ColumnDefinitions="1.5*, 1*" ColumnSpacing="15">
 
-                        <Border Stroke="#CCCCCC" StrokeShape="RoundRectangle 10">
-                            <Entry
-                                TextColor="Black"
-                                Text="{Binding Tarifa, StringFormat='{0}'}"
-                                Keyboard="Default"
-                                BackgroundColor="Transparent"/>
-                        </Border>
+                            <VerticalStackLayout Grid.Column="0" Spacing="10">
+                                <Label Text="Tarifa por Hora (PAB)" FontSize="14" FontAttributes="Bold" TextColor="#64748B"/>
 
-                        <Label Text="Estado" 
-							   FontSize="12" 
-							   TextColor="Black"/>
+                                <Border Stroke="#CBD5E0" StrokeShape="RoundRectangle 8" BackgroundColor="White" Padding="15,0" HeightRequest="55">
+                                    <Grid ColumnDefinitions="Auto, *, Auto">
+                                        <Label Grid.Column="0" Text="B/." VerticalOptions="Center" TextColor="#94A3B8" FontAttributes="Bold" Margin="0,0,8,0" FontSize="16"/>
 
-                        <Border Stroke="#CCCCCC" 
-								StrokeShape="RoundRectangle 10">
-                            <Picker       
-                                TextColor="Black"
-                                ItemsSource="{Binding EstadoOpciones}"
-                                SelectedItem="{Binding EstadoSeleccionado}"
-                                BackgroundColor="Transparent"/>
-                        </Border>
+                                        <Entry Grid.Column="1" 
+                                               Placeholder="0.00"
+                                               Text="{Binding Tarifa, StringFormat='{0}'}"
+                                               Keyboard="Numeric"
+                                               TextColor="#1A202C"
+                                               FontSize="16"
+                                               BackgroundColor="Transparent"/>
 
-                        <!-- BOTONES -->
-                        <HorizontalStackLayout Spacing="10" Margin="0,10,0,0">
+                                        <Label Grid.Column="2" Text="PAB" VerticalOptions="Center" TextColor="#94A3B8" FontSize="14" FontAttributes="Bold"/>
+                                    </Grid>
+                                </Border>
+                            </VerticalStackLayout>
 
-                            <Button Text="Registrar"
-									BackgroundColor="#B2FBA5"
-									TextColor="Black"
-									CornerRadius="15"
-									WidthRequest="120"
-									Command="{Binding GuardarCommand}"/>
+                            <VerticalStackLayout Grid.Column="1" Spacing="10">
+                                <Label Text="Estado" FontSize="14" FontAttributes="Bold" TextColor="#64748B"/>
+
+                                <Border Stroke="#CBD5E0" StrokeShape="RoundRectangle 8" BackgroundColor="White" Padding="15,0" HeightRequest="55">
+                                    <Picker ItemsSource="{Binding EstadoOpciones}"
+                                            SelectedItem="{Binding EstadoSeleccionado}"
+                                            TextColor="#1A202C"
+                                            FontSize="16"
+                                            BackgroundColor="Transparent"
+                                            VerticalOptions="Center"/>
+                                </Border>
+                            </VerticalStackLayout>
+                        </Grid>
+
+                        <BoxView HeightRequest="1" Color="Transparent" Margin="0,20"/>
+
+                        <HorizontalStackLayout Spacing="20" HorizontalOptions="Center">
 
                             <Button Text="Cancelar"
-									BackgroundColor="#F57E76"
-									TextColor="Black"
-									CornerRadius="15"
-									WidthRequest="120"
-									Command="{Binding CancelarCommand}"/>
+                                    BackgroundColor="White"
+                                    TextColor="#475569"
+                                    BorderColor="#CBD5E0"
+                                    BorderWidth="1"
+                                    CornerRadius="8"
+                                    HeightRequest="55"
+                                    Padding="30,0"
+                                    FontSize="16"
+                                    FontAttributes="Bold"
+                                    Command="{Binding CancelarCommand}"/>
+
+                            <Button Text="Guardar Actividad"
+                                    BackgroundColor="#A8E6CF"
+                                    TextColor="#1B4332"
+                                    CornerRadius="8"
+                                    HeightRequest="55"
+                                    Padding="30,0"
+                                    FontSize="16"
+                                    FontAttributes="Bold"
+                                    Command="{Binding GuardarCommand}"/>
                         </HorizontalStackLayout>
+
                     </VerticalStackLayout>
 
-                    <!-- IMAGEN DERECHA -->
-                    <Image Grid.Column="1"
-						   Source="logo.png"
-						   Aspect="AspectFit"
-						   HorizontalOptions="Center"
-						   VerticalOptions="Center"/>
+                    <Grid Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center">
+                        <Image Source="logo.png"
+                               Aspect="AspectFit"
+                               MaximumHeightRequest="800"
+                               Opacity="0.8"/>
+                    </Grid>
+
                 </Grid>
-            </VerticalStackLayout>
-        </Border>
-    </Grid>
+            </Border>
+
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>
