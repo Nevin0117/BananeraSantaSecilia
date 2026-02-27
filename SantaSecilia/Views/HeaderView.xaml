@@ -88,12 +88,11 @@
                 </Border>
             </HorizontalStackLayout>
 
-            <ImageButton Grid.Column="4"
-                         Source="salida.png"
-                         HeightRequest="24"
-                         WidthRequest="24"
+            <Button Grid.Column="4"
+                         ImageSource="salida.png"
+                         HeightRequest="50"
                          VerticalOptions="Center"
-                         Margin="15,0,0,0"
+                         Margin="2,0,0,0"
                          BackgroundColor="Transparent"
                          Clicked="Logout_Clicked"/>
 

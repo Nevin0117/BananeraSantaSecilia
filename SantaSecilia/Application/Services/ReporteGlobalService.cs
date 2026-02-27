@@ -38,6 +38,12 @@ public class ReporteGlobalService
             .Where(drl => drl.DailyRecord.WorkDate >= lunes && drl.DailyRecord.WorkDate <= viernes)
             .ToListAsync();
 
+        // Contar trabajadores únicos que trabajaron en la semana
+        var totalJornaleros = registrosSemana
+            .Select(drl => drl.DailyRecord.WorkerId)
+            .Distinct()
+            .Count();
+
         // Agrupar por actividad y sumar horas
         var actividadesAgrupadas = registrosSemana
             .GroupBy(drl => new

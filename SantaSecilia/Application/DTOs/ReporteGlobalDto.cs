@@ -15,4 +15,10 @@ public class ReporteGlobalDto
     public string SemanaTexto => $"{FechaInicio:dd/MM/yy} - {FechaFin:dd/MM/yy}";
     public List<ActividadReporteDto> Actividades { get; set; } = new();
     public decimal TotalPagado { get; set; }
+
+
+    // Propiedades para interfaz
+    public int TotalActividades => Actividades.Count;
+    public decimal TotalHoras => Actividades.Sum(a => a.HorasTotales);
+    public int TotalJornaleros { get; set; }
 }

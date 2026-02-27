@@ -11,6 +11,10 @@ public class ActividadReporteItem
     public string Horas { get; set; } = "";
     public string Tarifa { get; set; } = "";
     public string Total { get; set; } = "";
+
+    public int TotalActividades { get; set; }
+    public int TotalJornaleros { get; set; }
+    public string TotalHoras { get; set; } = "—";
 }
 
 public class ReporteGlobalViewModel : INotifyPropertyChanged
@@ -18,6 +22,9 @@ public class ReporteGlobalViewModel : INotifyPropertyChanged
     private readonly ReporteGlobalService _reporteService;
     private DateTime _fechaSeleccionada = DateTime.Today;
     private string _totalPagado = "—";
+    private string _totalHoras = "—";
+    private int _totalActividades = 0;
+    private int _totalJornaleros = 0;
     private bool _hayDatos = false;
 
     public ObservableCollection<ActividadReporteItem> Actividades { get; set; }
@@ -45,6 +52,45 @@ public class ReporteGlobalViewModel : INotifyPropertyChanged
             {
                 _totalPagado = value;
                 OnPropertyChanged(nameof(TotalPagado));
+            }
+        }
+    }
+
+    public string TotalHoras
+    {
+        get => _totalHoras;
+        set
+        {
+            if (_totalHoras != value)
+            {
+                _totalHoras = value;
+                OnPropertyChanged(nameof(TotalHoras));
+            }
+        }
+    }
+
+    public int TotalActividades
+    {
+        get => _totalActividades;
+        set
+        {
+            if (_totalActividades != value)
+            {
+                _totalActividades = value;
+                OnPropertyChanged(nameof(TotalActividades));
+            }
+        }
+    }
+
+    public int TotalJornaleros
+    {
+        get => _totalJornaleros;
+        set
+        {
+            if (_totalJornaleros != value)
+            {
+                _totalJornaleros = value;
+                OnPropertyChanged(nameof(TotalJornaleros));
             }
         }
     }
@@ -94,12 +140,22 @@ public class ReporteGlobalViewModel : INotifyPropertyChanged
                 ? $"B/. {reporte.TotalPagado:N2}"
                 : "—";
 
+            TotalHoras = reporte.Actividades.Any()
+                ? $"{reporte.TotalHoras:F2} hrs"
+                : "—";
+
+            TotalActividades = reporte.TotalActividades;
+            TotalJornaleros = reporte.TotalJornaleros;
+
             HayDatos = reporte.Actividades.Any();
         }
         catch (Exception ex)
         {
             System.Diagnostics.Debug.WriteLine($"Error generando reporte: {ex.Message}");
             HayDatos = false;
+            TotalActividades = 0;
+            TotalJornaleros = 0;
+            TotalHoras = "—";
         }
     }
 
