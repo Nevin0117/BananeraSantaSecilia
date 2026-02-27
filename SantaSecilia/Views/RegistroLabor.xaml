@@ -77,7 +77,7 @@
 
                             <!-- Sugerencias de Trabajadores -->
                             <CollectionView ItemsSource="{Binding TrabajadoresSugeridos}"
-                                            IsVisible="{Binding TrabajadoresSugeridos.Count}"
+                                            IsVisible="{Binding TrabajadoresSugeridos.Count, Converter={StaticResource IntToBoolConverter}}"
                                             HeightRequest="150"
                                             BackgroundColor="#F9FAFB">
                                 <CollectionView.ItemTemplate>
