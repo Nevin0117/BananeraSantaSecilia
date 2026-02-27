@@ -23,6 +23,17 @@ public class LotRepository
             .ToListAsync();
     }
 
+    // Obtener solo los lotes activos ordenados por código
+    public async Task<List<Lot>> GetActiveAsync()
+    {
+        await using var context = await _contextFactory.CreateDbContextAsync();
+
+        return await context.Set<Lot>()
+            .Where(l => l.IsActive)
+            .OrderBy(l => l.Code)
+            .ToListAsync();
+    }
+
     // Agregar lote a la BD
     public async Task AddAsync(Lot lot)
     {
