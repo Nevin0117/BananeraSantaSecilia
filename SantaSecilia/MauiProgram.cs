@@ -56,7 +56,7 @@ public static class MauiProgram
         builder.Services.AddScoped<EditarTrabajadorViewModel>();
         builder.Services.AddScoped<EditarTrabajadorPage>();
 
-        // Actividades
+        // Login
         builder.Services.AddScoped<UserRepository>();
         builder.Services.AddScoped<AuthService>();
         builder.Services.AddScoped<LoginViewModel>();
@@ -66,7 +66,7 @@ public static class MauiProgram
         builder.Services.AddScoped<HomePage>();
         builder.Services.AddScoped<AppShell>();
 
-        // actividades
+        // Actividades
         builder.Services.AddScoped<ActivityRepository>();
         builder.Services.AddScoped<ActivityService>();
         builder.Services.AddScoped<ActividadesViewModel>();
@@ -80,6 +80,11 @@ public static class MauiProgram
         builder.Services.AddScoped<RegistroLaborViewModel>();
         builder.Services.AddScoped<RegistroLabor>();
 
+
+        //Reporte Global
+        builder.Services.AddScoped<ReporteGlobalService>();
+        builder.Services.AddScoped<ReporteGlobalViewModel>();
+        builder.Services.AddScoped<ReporteGlobalPage>();
 
 #if DEBUG
         builder.Logging.AddDebug();

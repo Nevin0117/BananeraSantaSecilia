@@ -42,30 +42,37 @@
                         <HorizontalStackLayout Spacing="5">
                             <Image Source="calendario.png"
 								   HeightRequest="20"/>
-                            <Label Text="Semana"
+                            <Label Text="Seleccione una fecha"
 								   FontSize="15"
 								   FontAttributes="Bold"
 								   TextColor="Black"
 								   VerticalOptions="Center"/>
                         </HorizontalStackLayout>
-						
+
                         <Border Stroke="#949C94"
 								StrokeThickness="1"
 								BackgroundColor="White"
 								StrokeShape="RoundRectangle 20"
 								Padding="10,0">
-                            <Picker x:Name="SemanaPicker"
-									WidthRequest="180"
-									TextColor="Black"
-									BackgroundColor="Transparent"
-									SelectedIndexChanged="SemanaPicker_SelectedIndexChanged">
-                                <Picker.Items>
-                                    <x:String>04/01/26 - 08/01/26</x:String>
-                                    <x:String>11/01/26 - 15/01/26</x:String>
-                                    <x:String>18/01/26 - 22/01/26</x:String>
-                                </Picker.Items>
-                            </Picker>
+                            <DatePicker Date="{Binding FechaSeleccionada}"
+									    WidthRequest="180"
+									    TextColor="Black"
+									    BackgroundColor="Transparent"
+									    Format="dd/MM/yyyy"/>
                         </Border>
+
+                        <!-- Muestra la semana calculada -->
+                        <Label FontSize="12"
+                               TextColor="#555555"
+                               Margin="0,5,0,0">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="Semana laboral: "/>
+                                    <Span Text="{Binding FechaSeleccionada, StringFormat='{0:dd/MM/yy}'}" 
+                                          FontAttributes="Bold"/>
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
                     </VerticalStackLayout>
 
                     <!-- Tabla -->
@@ -87,21 +94,21 @@
 										   FontSize="16"
 										   TextColor="Black"
 										   Grid.Column="0"/>
-									
+
                                     <Label Text="Horas Totales"
 										   FontAttributes="Bold"
 										   FontSize="16"
 										   TextColor="Black"
 										   HorizontalTextAlignment="Center"
 										   Grid.Column="1"/>
-									
+
                                     <Label Text="Tarifa"
 										   FontAttributes="Bold"
 										   FontSize="16"
 										   TextColor="Black"
 										   HorizontalTextAlignment="Center"
 										   Grid.Column="2"/>
-									
+
                                     <Label Text="Total por Actividad"
 										   FontAttributes="Bold"
 										   FontSize="16"
@@ -119,14 +126,12 @@
 
                             <!-- Mensaje vacío -->
                             <Border Grid.Row="2"
-									x:Name="MensajeVacioContainer"
 									BackgroundColor="White"
 									StrokeShape="RoundRectangle 12"
 									Padding="12"
-									IsVisible="True">
-								
-                                <Label Grid.Row="2"
-									   Text="Seleccione una semana para generar el reporte"
+									IsVisible="{Binding MostrarMensajeVacio}">
+
+                                <Label Text="Seleccione una fecha para generar el reporte de su semana laboral"
 									   TextColor="Black"
 									   FontSize="18"
 									   FontAttributes="Italic"
@@ -136,8 +141,8 @@
 
                             <!-- Filas de la tabla -->
                             <CollectionView Grid.Row="2"
-											x:Name="ReporteCollection"
-											IsVisible="False">
+											ItemsSource="{Binding Actividades}"
+											IsVisible="{Binding HayDatos}">
                                 <CollectionView.ItemTemplate>
                                     <DataTemplate>
                                         <Border Margin="0,4"
@@ -146,28 +151,28 @@
 												Stroke="#E0E0E0"
 												StrokeThickness="1"
 												StrokeShape="RoundRectangle 10">
-											
+
                                             <Grid ColumnDefinitions="3*, 2*, 2*, 2*">
                                                 <Label Text="{Binding Actividad}"
 													   TextColor="Black"
 													   FontSize="15"
 													   VerticalOptions="Center"
 													   Grid.Column="0"/>
-												
+
                                                 <Label Text="{Binding Horas}"
 													   TextColor="Black"
 													   FontSize="15"
 													   HorizontalTextAlignment="Center"
 													   VerticalOptions="Center"
 													   Grid.Column="1"/>
-												
+
                                                 <Label Text="{Binding Tarifa}"
 													   TextColor="Black"
 													   FontSize="15"
 													   HorizontalTextAlignment="Center"
 													   VerticalOptions="Center"
 													   Grid.Column="2"/>
-												
+
                                                 <Label Text="{Binding Total}"
 													   TextColor="Black"
 													   FontAttributes="Bold"
@@ -201,9 +206,8 @@
 										   TextColor="Black"
 										   VerticalOptions="Center"
 										   Grid.Column="0"/>
-									
-                                    <Label x:Name="TotalPagadoLabel"
-										   Text="—"
+
+                                    <Label Text="{Binding TotalPagado}"
 										   FontAttributes="Bold"
 										   TextColor="Black"
 										   HorizontalTextAlignment="Center"
@@ -229,5 +233,5 @@
                 </Grid>
             </Grid>
         </VerticalStackLayout>
-   </ScrollView>
+    </ScrollView>
 </ContentPage>
