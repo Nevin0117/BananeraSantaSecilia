@@ -56,7 +56,7 @@
 
                     <CollectionView Grid.Row="2" 
                                     ItemsSource="{Binding Actividades}" 
-                                    HeightRequest="400">
+                                    >
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
                                 <Border StrokeThickness="0" BackgroundColor="Transparent">
@@ -141,7 +141,7 @@
                     </CollectionView>
 
                     <Grid Grid.Row="3" Padding="30,15" BackgroundColor="White">
-                        <Label Text="Fin de los registros" FontSize="12" TextColor="#CBD5E0" HorizontalOptions="Center"/>
+                        <Label Text="Fin de los registros" FontSize="12" TextColor="#454545" HorizontalOptions="Center"/>
                     </Grid>
 
                 </Grid>
