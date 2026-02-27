@@ -10,18 +10,18 @@ namespace SantaSecilia.ViewModels;
 public partial class RegistroLaborViewModel : ObservableObject
 {
     private readonly DailyRecordService _recordService;
-    private readonly WorkerRepository _workerRepository;
+    private readonly WorkerService _workerService;
     private readonly LotRepository _lotRepository;
     private readonly ActivityRepository _activityRepository;
 
     public RegistroLaborViewModel(
         DailyRecordService recordService,
-        WorkerRepository workerRepository,
+        WorkerService workerService,
         LotRepository lotRepository,
         ActivityRepository activityRepository)
     {
         _recordService = recordService;
-        _workerRepository = workerRepository;
+        _workerService = workerService;
         _lotRepository = lotRepository;
         _activityRepository = activityRepository;
     }
@@ -88,7 +88,7 @@ public partial class RegistroLaborViewModel : ObservableObject
 
     private async Task SearchWorkersAsync(string query)
     {
-        var results = await _workerRepository.SearchAsync(query);
+        var results = await _workerService.BuscarTrabajadoresAsync(query);
         TrabajadoresSugeridos = new ObservableCollection<Worker>(results);
     }
 

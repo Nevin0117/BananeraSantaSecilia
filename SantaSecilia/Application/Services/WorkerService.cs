@@ -30,5 +30,10 @@ namespace SantaSecilia.Application.Services
         {
             return _workerRepository.UpdateAsync(worker);
         }
+
+        public Task<List<Worker>> BuscarTrabajadoresAsync(string query)
+        {
+            return _workerRepository.SearchAsync(query);
+        }
     }
 }
