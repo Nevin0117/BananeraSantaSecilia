@@ -1,9 +1,6 @@
-using Microsoft.EntityFrameworkCore;
 using SantaSecilia.Application.Services;
 using SantaSecilia.Domain.Entities;
-using SantaSecilia.Infrastructure.Data;
 using SantaSecilia.Views;
-using SQLitePCL;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -50,19 +47,7 @@ namespace SantaSecilia.ViewModels
         public async Task CargarTrabajadoresAsync()
         {
             var workers = await _workerService.ObtenerTrabajadoresAsync();
-
-            Trabajadores.Clear();
-
-            foreach (var w in workers)
-            {
-                Trabajadores.Add(new TrabajadorItem
-                {
-                    Codigo = w.Id,
-                    Nombre = w.FullName,
-                    Cedula = w.IdentificationNumber,
-                    Activo = w.IsActive
-                });
-            }
+            _workersOriginal = workers;
             Filtrar();
         }
 

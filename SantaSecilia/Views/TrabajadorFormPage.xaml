@@ -42,7 +42,6 @@
                         <Label Text="Nombre Completo" FontSize="12" TextColor="Black"/>
                         <Border Stroke="#CCCCCC" StrokeShape="RoundRectangle 10">
                             <Entry Placeholder="Jornalero"
-								   Text="{Binding Nombre}"
 								   TextColor="Black"
 								   BackgroundColor="Transparent"/>
                         </Border>
@@ -52,7 +51,6 @@
                         <Border Stroke="#CCCCCC" StrokeShape="RoundRectangle 10">
                             <Entry
                                 Placeholder="x-xxx-xxxx"
-                                Text="{Binding Cedula}"
                                 TextColor="Black"
                                 BackgroundColor="Transparent"/>
                         </Border>
