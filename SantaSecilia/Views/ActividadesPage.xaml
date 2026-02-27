@@ -26,7 +26,7 @@
 
                 <Grid RowDefinitions="Auto, Auto, *, Auto">
 
-                    <Grid Grid.Row="0" ColumnDefinitions="*, Auto" Padding="30,25" BackgroundColor="White">
+                    <Grid Grid.Row="0" ColumnDefinitions="*, Auto" Padding="30,12" BackgroundColor="White">
                         <VerticalStackLayout Grid.Column="0" VerticalOptions="Center">
                             <Label Text="Gestión de Actividades" FontSize="28" FontAttributes="Bold" TextColor="#1A202C"/>
                             <Label Text="Administra el catálogo de labores, tarifas y estados operativos." FontSize="14" TextColor="#718096"/>
@@ -47,11 +47,11 @@
                         </HorizontalStackLayout>
                     </Grid>
 
-                    <Grid Grid.Row="1" ColumnDefinitions="3*, 2*, 2*, 1.5*" Padding="30,12" BackgroundColor="#E3F2FD">
-                        <Label Grid.Column="0" Text="NOMBRE DE ACTIVIDAD" FontSize="11" FontAttributes="Bold" TextColor="#2D3748"/>
-                        <Label Grid.Column="1" Text="TARIFA (POR HORA)" FontSize="11" FontAttributes="Bold" TextColor="#2D3748" HorizontalTextAlignment="Center"/>
-                        <Label Grid.Column="2" Text="ESTADO" FontSize="11" FontAttributes="Bold" TextColor="#2D3748" HorizontalTextAlignment="Center"/>
-                        <Label Grid.Column="3" Text="ACCIONES" FontSize="11" FontAttributes="Bold" TextColor="#2D3748" HorizontalTextAlignment="Center"/>
+                    <Grid Grid.Row="1" ColumnDefinitions="3*, 2*, 2*, 1.5*" Padding="30,10" BackgroundColor="#E3F2FD">
+                        <Label Grid.Column="0" Text="NOMBRE DE ACTIVIDAD" FontSize="14" FontAttributes="Bold" TextColor="#2D3748"/>
+                        <Label Grid.Column="1" Text="TARIFA (POR HORA)" FontSize="14" FontAttributes="Bold" TextColor="#2D3748" HorizontalTextAlignment="Center"/>
+                        <Label Grid.Column="2" Text="ESTADO" FontSize="14" FontAttributes="Bold" TextColor="#2D3748" HorizontalTextAlignment="Center"/>
+                        <Label Grid.Column="3" Text="ACCIONES" FontSize="14" FontAttributes="Bold" TextColor="#2D3748" HorizontalTextAlignment="Center"/>
                     </Grid>
 
                     <CollectionView Grid.Row="2" 
