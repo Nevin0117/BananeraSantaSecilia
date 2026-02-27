@@ -1,5 +1,4 @@
 using SantaSecilia.ViewModels;
-using SantaSecilia.Infrastructure.Data;
 
 namespace SantaSecilia.Views;
 

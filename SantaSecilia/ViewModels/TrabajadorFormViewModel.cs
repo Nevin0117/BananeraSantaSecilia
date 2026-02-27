@@ -1,6 +1,5 @@
 using SantaSecilia.Application.Services;
 using SantaSecilia.Domain.Entities;
-using SantaSecilia.Infrastructure.Data;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
@@ -11,8 +10,7 @@ namespace SantaSecilia.ViewModels
         private readonly WorkerService _workerService;
         public string Nombre { get; set; } = "";
         public string Cedula { get; set; } = "";
-        public ObservableCollection<string> Estados { get; } =
-            new ObservableCollection<string> { "Activo", "Inactivo" };
+        public ObservableCollection<string> Estados { get; } = new ObservableCollection<string> { "Activo", "Inactivo" };
 
         public ICommand GuardarCommand { get; }
 
@@ -21,6 +19,11 @@ namespace SantaSecilia.ViewModels
         {
             _workerService = workerService;
             GuardarCommand = new Command(async () => await Guardar());
+        }
+
+        void Limpiar(){
+            Nombre = "";
+            Cedula = "";
         }
 
         [Obsolete]
@@ -47,6 +50,8 @@ namespace SantaSecilia.ViewModels
             };
 
             await _workerService.AgregarTrabajadorAsync(worker);
+
+            Limpiar();
 
             await Shell.Current.GoToAsync("..");
         }
