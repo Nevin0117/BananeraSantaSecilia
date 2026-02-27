@@ -10,11 +10,11 @@ namespace SantaSecilia.Application.Services
         // Modelo para cada registro de actividad diaria
         public class RegistroActividad
         {
-            public string Fecha { get; set; }
-            public string Actividad { get; set; }
-            public string Horas { get; set; }
-            public string Tarifa { get; set; }
-            public string Monto { get; set; }
+            public required string Fecha { get; set; }
+            public required string Actividad { get; set; }
+            public required string Horas { get; set; }
+            public required string Tarifa { get; set; }
+            public required string Monto { get; set; }
         }
 
         public static byte[] GenerarPDF(
