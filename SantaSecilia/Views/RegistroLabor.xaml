@@ -74,6 +74,25 @@
                                        Text="{Binding TrabajadorBusqueda}"
                                        Margin="10,5"/>
                             </Border>
+
+                            <!-- Sugerencias de Trabajadores -->
+                            <CollectionView ItemsSource="{Binding TrabajadoresSugeridos}"
+                                            IsVisible="{Binding TrabajadoresSugeridos.Count}"
+                                            HeightRequest="150"
+                                            BackgroundColor="#F9FAFB">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate x:DataType="entities:Worker">
+                                        <Grid Padding="10">
+                                            <Label Text="{Binding FullName}" TextColor="Black" />
+                                            <Grid.GestureRecognizers>
+                                                <TapGestureRecognizer
+                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:RegistroLaborViewModel}}, Path=SelectWorkerCommand}"
+                                                    CommandParameter="{Binding .}"/>
+                                            </Grid.GestureRecognizers>
+                                        </Grid>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
                         </VerticalStackLayout>
 
                         <!-- Actividad -->
@@ -108,7 +127,7 @@
                     </Grid>
 
                     <!-- LOTE -->
-                    <VerticalStackLayout Spacing="12">
+                    <VerticalStackLayout Spacing="8">
                         <HorizontalStackLayout Spacing="8">
                             <Image Source="lote_icon.png"
                                    HeightRequest="16"
@@ -121,59 +140,17 @@
                                    VerticalOptions="Center"/>
                         </HorizontalStackLayout>
 
-                        <Border StrokeShape="RoundRectangle 12"
-                                BackgroundColor="#E0F2FE"
-                                Padding="20">
-                            <HorizontalStackLayout Spacing="15" HorizontalOptions="Center">
-
-                                <Border StrokeShape="RoundRectangle 8"
-                                        BackgroundColor="#BFDBFE"
-                                        Padding="30,25">
-									
-                                    <Label Text="Lote - 1"
-                                           TextColor="#1E3A8A"
-                                           FontSize="14"
-                                           FontAttributes="Bold"/>
-                                </Border>
-
-                                <Border StrokeShape="RoundRectangle 8"
-                                        BackgroundColor="#BFDBFE"
-                                        Padding="30,25">
-									
-                                    <Label Text="Lote - 2"
-                                           TextColor="#1E3A8A"
-                                           FontSize="14"
-                                           FontAttributes="Bold"/>
-                                </Border>
-
-                                <Border StrokeShape="RoundRectangle 8"
-                                        BackgroundColor="#60A5FA"
-                                        Padding="30,25">
-                                    <Label Text="Lote - 3"
-                                           TextColor="White"
-                                           FontSize="14"
-                                           FontAttributes="Bold"/>
-                                </Border>
-
-                                <Border StrokeShape="RoundRectangle 8"
-                                        BackgroundColor="#BFDBFE"
-                                        Padding="30,25">
-                                    <Label Text="Lote - 4"
-                                           TextColor="#1E3A8A"
-                                           FontSize="14"
-                                           FontAttributes="Bold"/>
-                                </Border>
-
-                                <Border StrokeShape="RoundRectangle 8"
-                                        BackgroundColor="#BFDBFE"
-                                        Padding="30,25">
-                                    <Label Text="Lote - 5"
-                                           TextColor="#1E3A8A"
-                                           FontSize="14"
-                                           FontAttributes="Bold"/>
-                                </Border>
-
-                            </HorizontalStackLayout>
+                        <Border StrokeShape="RoundRectangle 8"
+                                Stroke="#D1D5DB"
+                                StrokeThickness="1"
+                                BackgroundColor="White">
+                            <Picker Title="Seleccionar Lote"
+                                    ItemsSource="{Binding Lotes}"
+                                    ItemDisplayBinding="{Binding Code}"
+                                    SelectedItem="{Binding SelectedLot}"
+                                    TextColor="Black"
+                                    TitleColor="#9CA3AF"
+                                    Margin="10,5"/>
                         </Border>
                     </VerticalStackLayout>
 

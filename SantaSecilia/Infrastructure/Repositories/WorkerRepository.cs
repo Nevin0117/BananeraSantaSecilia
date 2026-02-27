@@ -44,5 +44,15 @@ namespace SantaSecilia.Infrastructure.Repositories
             context.Update(worker);
             await context.SaveChangesAsync();
         }
+
+        public async Task<List<Worker>> SearchAsync(string query)
+        {
+            await using var context = await _contextFactory.CreateDbContextAsync();
+            return await context.Set<Worker>()
+                .Where(w => w.IsActive &&
+                           (w.FullName.Contains(query) || w.IdentificationNumber.Contains(query)))
+                .OrderBy(w => w.FullName)
+                .ToListAsync();
+        }
     }
 }
