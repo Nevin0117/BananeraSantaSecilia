@@ -47,6 +47,8 @@ public static class MauiProgram
         //Trabajadores
         builder.Services.AddScoped<WorkerRepository>();
         builder.Services.AddScoped<WorkerService>();
+        builder.Services.AddScoped<DailyRecordRepository>();
+        builder.Services.AddScoped<DailyRecordService>();
         builder.Services.AddScoped<TrabajadoresListViewModel>();
         builder.Services.AddScoped<TrabajadoresListPage>();
         builder.Services.AddScoped<TrabajadorFormViewModel>();
