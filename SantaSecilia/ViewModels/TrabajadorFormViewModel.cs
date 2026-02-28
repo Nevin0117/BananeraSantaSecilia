@@ -38,36 +38,6 @@ namespace SantaSecilia.ViewModels
             }
         }
 
-        void Limpiar(){
-            Nombre = "";
-            Cedula = "";
-        }
-
-        string name = "";
-        public string nombre
-        {
-            get => nombre;
-            set
-            {
-                nombre = value;
-                OnPropertyChanged(nameof(Nombre));
-            }
-        }
-
-        string cedul = "";
-        public string cedula
-        {
-            get => cedula;
-            set
-            {
-                cedula = value;
-                OnPropertyChanged(nameof(Cedula));
-            }
-        }
-
-
-
-
         [Obsolete]
         async Task Guardar()
         {
@@ -92,8 +62,6 @@ namespace SantaSecilia.ViewModels
             };
 
             await _workerService.AgregarTrabajadorAsync(worker);
-
-            Limpiar();
 
             await Shell.Current.GoToAsync("..");
         }
