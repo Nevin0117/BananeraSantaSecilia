@@ -108,8 +108,6 @@
                         </Grid>
                     </Border>
 
-					
-					
                     <!-- Totales -->
                     <Border Stroke="#7A8FA6"
 							Background="White"
@@ -125,11 +123,10 @@
                         </VerticalStackLayout>
                     </Border>
 
-                  <HorizontalStackLayout HorizontalOptions="Center"
+                    <HorizontalStackLayout HorizontalOptions="Center"
 										 Spacing="25"
 										 Margin="0,15,0,0">
-
-
+                        
                         <!-- Imprimir -->
                         <Border BackgroundColor="#B2FBA5"
 								StrokeShape="RoundRectangle 12"

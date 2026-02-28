@@ -81,7 +81,6 @@ namespace SantaSecilia.ViewModels
 
             foreach (var w in workers)
                 Trabajadores.Add(w.FullName);
-                Trabajadores.Add("Prueba 1");
         }
 
         void CargarSemanas()
@@ -103,18 +102,6 @@ namespace SantaSecilia.ViewModels
         {
             OnPropertyChanged(nameof(TotalDevengado));
             OnPropertyChanged(nameof(TotalPagar));
-        }
-
-
-        public void GenerarDatosDemo()
-        {
-            Filas.Clear();
-
-            Filas.Add(new BoletaFila { Fecha = DateTime.Today, Actividad = "Fumigar", Horas = 8, Tarifa = 0.78m });
-            Filas.Add(new BoletaFila { Fecha = DateTime.Today, Actividad = "Celador", Horas = 6, Tarifa = 0.90m });
-            Filas.Add(new BoletaFila { Fecha = DateTime.Today, Actividad = "Soldador", Horas = 5, Tarifa = 1.10m });
-
-            RefrescarTotales();
         }
 
     }

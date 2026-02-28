@@ -20,7 +20,6 @@ public partial class BoletaSemanalPage : ContentPage
         if (BindingContext is BoletaSemanalViewModel vm)
         {
             await vm.CargarDatos();
-            vm.GenerarDatosDemo();
         }
     }
 
