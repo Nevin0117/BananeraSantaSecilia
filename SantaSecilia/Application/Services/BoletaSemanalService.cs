@@ -61,7 +61,7 @@ namespace SantaSecilia.Application.Services
 
             dto.SeguroSocial = dto.TotalDevengado * 0.0975m;
             dto.SeguroEducativo = dto.TotalDevengado * 0.0125m;
-            dto.Sindicato = dto.TotalDevengado * 0.02m;
+            dto.Sindicato = 1.00m;
 
             dto.Descuentos = dto.SeguroSocial + dto.SeguroEducativo + dto.Sindicato;
             dto.TotalPagar = dto.TotalDevengado - dto.Descuentos;
