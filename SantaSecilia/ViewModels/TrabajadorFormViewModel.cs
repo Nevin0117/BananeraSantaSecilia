@@ -1,18 +1,22 @@
 using SantaSecilia.Application.Services;
 using SantaSecilia.Domain.Entities;
-using SantaSecilia.Infrastructure.Data;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Windows.Input;
 
 namespace SantaSecilia.ViewModels
 {
-    public class TrabajadorFormViewModel
+    public class TrabajadorFormViewModel: INotifyPropertyChanged
     {
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+        void OnPropertyChanged(string name)
+            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+
         private readonly WorkerService _workerService;
         public string Nombre { get; set; } = "";
         public string Cedula { get; set; } = "";
-        public ObservableCollection<string> Estados { get; } =
-            new ObservableCollection<string> { "Activo", "Inactivo" };
+        public ObservableCollection<string> Estados { get; } = new ObservableCollection<string> { "Activo", "Inactivo" };
 
         public ICommand GuardarCommand { get; }
 
@@ -21,6 +25,17 @@ namespace SantaSecilia.ViewModels
         {
             _workerService = workerService;
             GuardarCommand = new Command(async () => await Guardar());
+        }
+
+        string estadoSeleccionado = "Activo";
+        public string EstadoSeleccionado
+        {
+            get => estadoSeleccionado;
+            set
+            {
+                estadoSeleccionado = value;
+                OnPropertyChanged(nameof(EstadoSeleccionado));
+            }
         }
 
         [Obsolete]
@@ -43,7 +58,7 @@ namespace SantaSecilia.ViewModels
                 FullName = Nombre,
                 IdentificationNumber = Cedula,
                 CreatedAt = DateTime.UtcNow,
-                IsActive = true
+                IsActive = EstadoSeleccionado == "Activo"
             };
 
             await _workerService.AgregarTrabajadorAsync(worker);

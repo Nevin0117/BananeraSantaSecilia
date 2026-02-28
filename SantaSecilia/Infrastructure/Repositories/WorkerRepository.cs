@@ -17,7 +17,7 @@ namespace SantaSecilia.Infrastructure.Repositories
             await using var context = await _contextFactory.CreateDbContextAsync();
 
             return await context.Set<Worker>()
-                .OrderBy(w => w.FullName)
+                .OrderBy(w => w.CreatedAt)
                 .ToListAsync();
         }
 
@@ -51,7 +51,7 @@ namespace SantaSecilia.Infrastructure.Repositories
             return await context.Set<Worker>()
                 .Where(w => w.IsActive &&
                            (w.FullName.Contains(query) || w.IdentificationNumber.Contains(query)))
-                .OrderBy(w => w.FullName)
+                .OrderBy(w => w.CreatedAt)
                 .ToListAsync();
         }
     }

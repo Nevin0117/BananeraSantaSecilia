@@ -10,10 +10,10 @@ namespace SantaSecilia.Application.Services
         // Datos de prueba para el reporte
         public class ActividadReporte
         {
-            public string Actividad { get; set; }
-            public string Horas { get; set; }
-            public string Tarifa { get; set; }
-            public string Total { get; set; }
+            public required string Actividad { get; set; }
+            public required string Horas { get; set; }
+            public required string Tarifa { get; set; }
+            public required string Total { get; set; }
         }
 
         public static byte[] GenerarPDF(string semana, List<ActividadReporte> actividades, string totalPagado, byte[] logoBytes)
