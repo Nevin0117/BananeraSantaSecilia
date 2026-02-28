@@ -62,6 +62,8 @@ public static class MauiProgram
         builder.Services.AddScoped<LoginViewModel>();
         builder.Services.AddScoped<LoginPage>();
 
+        //Home
+        builder.Services.AddTransient<HomeService>();
         builder.Services.AddScoped<HomeViewModel>();
         builder.Services.AddScoped<HomePage>();
         builder.Services.AddScoped<AppShell>();
