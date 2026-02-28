@@ -59,9 +59,9 @@ namespace SantaSecilia.Application.Services
 
             dto.TotalDevengado = filas.Sum(f => f.Monto);
 
-            dto.SeguroSocial = dto.TotalDevengado * 0.0975m;
-            dto.SeguroEducativo = dto.TotalDevengado * 0.0125m;
-            dto.Sindicato = dto.TotalDevengado * 0.02m;
+            dto.SeguroSocial = Math.Round(dto.TotalDevengado * 0.0975m, 2);
+            dto.SeguroEducativo = Math.Round(dto.TotalDevengado * 0.0125m, 2);
+            dto.Sindicato = 1.00m;
 
             dto.Descuentos = dto.SeguroSocial + dto.SeguroEducativo + dto.Sindicato;
             dto.TotalPagar = dto.TotalDevengado - dto.Descuentos;
