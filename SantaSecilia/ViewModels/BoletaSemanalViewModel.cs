@@ -131,7 +131,7 @@ namespace SantaSecilia.ViewModels
             OnPropertyChanged(nameof(Filas));
 
             TotalDevengado = Filas.Sum(f => f.Monto);
-            Descuentos = dto.Descuentos;
+            Descuentos = dto.SeguroSocial + dto.SeguroEducativo + dto.Sindicato;
             TotalPagar = TotalDevengado - Descuentos;
 
             OnPropertyChanged(nameof(TotalDevengado));

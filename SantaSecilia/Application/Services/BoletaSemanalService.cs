@@ -51,14 +51,22 @@ namespace SantaSecilia.Application.Services
                     Fecha = dr.WorkDate,
                     Actividad = act.Name,
                     Horas = line.Hours,
-                    Tarifa = (decimal) line.RateSnapshot
+                    Tarifa = (decimal) line.RateSnapshot * 100
                 }
             ).ToListAsync();
 
             dto.Actividades = filas;
 
-            return dto;
+            dto.TotalDevengado = filas.Sum(f => f.Monto);
 
+            dto.SeguroSocial = dto.TotalDevengado * 0.0975m;
+            dto.SeguroEducativo = dto.TotalDevengado * 0.0125m;
+            dto.Sindicato = dto.TotalDevengado * 0.02m;
+
+            dto.Descuentos = dto.SeguroSocial + dto.SeguroEducativo + dto.Sindicato;
+            dto.TotalPagar = dto.TotalDevengado - dto.Descuentos;
+
+            return dto;
         }
     }
 }
