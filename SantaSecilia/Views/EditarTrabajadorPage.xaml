@@ -4,7 +4,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:vm="clr-namespace:SantaSecilia.ViewModels"
     x:Class="SantaSecilia.Views.EditarTrabajadorPage"
-    Title="Component Header x3"
     BackgroundColor="#FAF4C6">
 
     <Grid>
@@ -34,41 +33,30 @@
                 <!-- CONTENIDO -->
                 <Grid Padding="20"
                       ColumnDefinitions="*,220">
-
+                    
                     <!-- FORM -->
                     <VerticalStackLayout Spacing="12">
-                        <Label Text="Nombre Completo" 
-							   FontSize="12" 
-							   TextColor="Black"/>
-						
+                        <Label Text="Nombre Completo" FontSize="12" TextColor="Black"/>
                         <Border Stroke="#CCCCCC"
 								StrokeShape="RoundRectangle 10">
-							
                             <Entry Text="{Binding Nombre}"
 								   TextColor="Black"
 								   BackgroundColor="Transparent"/>
                         </Border>
 
-                        <Label Text="Cédula"
-							   FontSize="12" 
-							   TextColor="Black"/>
-						
+                        <Label Text="Cédula" FontSize="12" TextColor="Black"/>
                         <Border Stroke="#CCCCCC" 
 								StrokeShape="RoundRectangle 10">
-							
                             <Entry
                                 Text="{Binding Cedula}"
                                 TextColor="Black"
                                 BackgroundColor="Transparent"/>
                         </Border>
 
-                        <Label Text="Estado" 
-							   FontSize="12"
-							   TextColor="Black"/>
-
-                        <Border Stroke="#CCCCCC"
-								StrokeShape="RoundRectangle 10">
-                            <Picker ItemsSource="{Binding Estado}"
+                        <Label Text="Estado" FontSize="12" TextColor="Black"/>
+                        <Border Stroke="#CCCCCC" StrokeShape="RoundRectangle 10">
+                            <Picker ItemsSource="{Binding Estados}"
+                                    SelectedItem="{Binding EstadoSeleccionado}"
 									TextColor="Black"
 									BackgroundColor="Transparent"/>
                         </Border>
