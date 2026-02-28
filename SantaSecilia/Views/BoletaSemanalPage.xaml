@@ -50,12 +50,25 @@
 
                             <Border Stroke="#888"
 									StrokeShape="RoundRectangle 10"
-									Background="White">
-                                <Picker HeightRequest="40"
-                                        TextColor="Black"
-                                        ItemsSource="{Binding Semanas}"
-                                        SelectedItem="{Binding SemanaSeleccionada}"/>
+									Background="White"
+                                    Padding="10,0">
+                                
+                                <DatePicker
+                                    Date="{Binding FechaSeleccionada}"
+                                    Format="dd MMMM yyyy"
+                                    TextColor="Black"
+                                    BackgroundColor="Transparent"/>
                             </Border>
+                            
+                            <Label FontSize="12" TextColor="#555">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="Semana: "/>
+                                        <Span Text="{Binding RangoSemana}" FontAttributes="Bold"/>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                            
                         </VerticalStackLayout>
                     </Grid>
 

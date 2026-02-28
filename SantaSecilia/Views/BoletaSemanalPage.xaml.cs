@@ -1,15 +1,17 @@
 using SantaSecilia.Application.Services;
-using SantaSecilia.Infrastructure.Data;
 using SantaSecilia.ViewModels;
 
 namespace SantaSecilia.Views;
 
 public partial class BoletaSemanalPage : ContentPage
 {
-    public BoletaSemanalPage(AppDbContext context)
+    private readonly BoletaSemanalViewModel _viewModel;
+
+    public BoletaSemanalPage(BoletaSemanalViewModel viewModel)
     {
         InitializeComponent();
-        BindingContext = new BoletaSemanalViewModel(context);
+        _viewModel = viewModel;
+        BindingContext = _viewModel;
         MyHeader.SetActivePage("BoletaSemanal");
     }
 
@@ -33,7 +35,7 @@ public partial class BoletaSemanalPage : ContentPage
                 return;
 
             var nombreTrabajador = vm.TrabajadorSeleccionado ?? "Trabajador";
-            var semana = vm.SemanaSeleccionada ?? "Semana";
+            var semana = vm.RangoSemana ?? "Semana";
 
             var registros = vm.Filas.Select(f => new BoletaSemanalPDFGenerator.RegistroActividad
             {
