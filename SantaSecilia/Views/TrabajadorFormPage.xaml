@@ -61,7 +61,7 @@
 
                         <Border Stroke="#CCCCCC" StrokeShape="RoundRectangle 10">
                             <Picker ItemsSource="{Binding Estados}"
-                                    SelectedItem="{Binding Estados}"
+                                    SelectedItem="{Binding EstadoSeleccionado}"
                                     TextColor="Black"
                                     BackgroundColor="Transparent"/>
                         </Border>
