@@ -16,7 +16,7 @@
                     VerticalOptions="Start"
                     BackgroundColor="White" 
                     StrokeShape="RoundRectangle 12" 
-                    Stroke="#E2E8F0"
+                    Stroke="#A8E6CF" 
                     Padding="0">
 
                 <Grid RowDefinitions="Auto, Auto, *, Auto">
@@ -73,7 +73,13 @@
 
                                         <HorizontalStackLayout Grid.Column="0" Spacing="15" VerticalOptions="Center">
                                             <Border WidthRequest="36" HeightRequest="36" BackgroundColor="#F1F5F9" StrokeShape="RoundRectangle 8" StrokeThickness="0">
-                                                <Label Text="📍" HorizontalOptions="Center" VerticalOptions="Center" FontSize="16"/>
+                                                <Image Source="location_icon.png"
+                                                       HeightRequest="28"
+                                                       WidthRequest="28"
+                                                       HorizontalOptions="Center"
+                                                       VerticalOptions="Center"
+                                                       Aspect="AspectFit"
+                                                       />
                                             </Border>
                                             <Label Text="{Binding Code}" TextColor="#1E293B" FontAttributes="Bold" FontSize="15" VerticalOptions="Center"/>
                                         </HorizontalStackLayout>
@@ -103,7 +109,7 @@
 
                                         <HorizontalStackLayout Grid.Column="2" HorizontalOptions="Center" Spacing="20" VerticalOptions="Center">
 
-                                            <Button Text="✏️" 
+                                            <Button ImageSource="edit_icon.png"
                                                     BackgroundColor="Transparent" 
                                                     Padding="0" 
                                                     FontSize="18"
@@ -111,7 +117,7 @@
                                                     Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.EditarCommand}"
                                                     CommandParameter="{Binding .}"/>
 
-                                            <Button Text="🗑️" 
+                                            <Button ImageSource="delete_icon.png"
                                                     BackgroundColor="Transparent" 
                                                     Padding="0" 
                                                     FontSize="18"

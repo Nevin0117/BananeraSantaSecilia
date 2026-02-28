@@ -1,5 +1,6 @@
 using SantaSecilia.Application.Services;
 using SantaSecilia.ViewModels;
+using System.ComponentModel;
 
 namespace SantaSecilia.Views;
 
@@ -13,6 +14,30 @@ public partial class ReporteGlobalPage : ContentPage
         _viewModel = viewModel;
         BindingContext = _viewModel;
         MyHeader.SetActivePage("ReporteGlobal");
+
+        
+        _viewModel.PropertyChanged += ViewModel_PropertyChanged;
+    }
+
+    private void ViewModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        // Si la propiedad que cambió fue la fecha seleccionada...
+        if (e.PropertyName == nameof(_viewModel.FechaSeleccionada))
+        {
+            
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                // Ocultamos el placeholder falso
+                PlaceholderLabel.IsVisible = false;
+
+                // Texto de la fecha del DatePicker nativo
+                DateSelector.TextColor = Color.FromArgb("#1E293B");
+                DateSelector.Opacity = 1;
+
+                //Texto de semana calculada visible
+                SemanaCalculadaLabel.IsVisible = true;
+            });
+        }
     }
 
     private async void Imprimir_Clicked(object sender, EventArgs e)

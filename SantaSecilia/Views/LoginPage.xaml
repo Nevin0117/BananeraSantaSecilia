@@ -8,7 +8,7 @@
     <Grid>
 
         <Border BackgroundColor="White"
-                Stroke="#E2E8F0"
+                Stroke="#A8E6CF" 
                 StrokeThickness="1"
                 StrokeShape="RoundRectangle 24"
                 Padding="50"
@@ -24,7 +24,9 @@
 
                 <VerticalStackLayout Spacing="2" HorizontalOptions="Center">
 
-                    <Image Source="logo.png" 
+                        <BoxView WidthRequest="80" HeightRequest="4" Color="#A8E6CF"  CornerRadius="2" HorizontalOptions="Center" Margin="0,0,0,10"/>
+
+                        <Image Source="logo.png" 
                            Aspect="AspectFit"
                            HeightRequest="150"  WidthRequest="150"   HorizontalOptions="Center"
                            Margin="0,0,0,0"/>

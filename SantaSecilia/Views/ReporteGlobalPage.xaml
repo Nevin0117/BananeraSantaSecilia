@@ -25,7 +25,7 @@
                 </VerticalStackLayout>
 
                 <Border BackgroundColor="White" 
-                        Stroke="#E2E8F0" 
+                        Stroke="#A8E6CF" 
                         StrokeThickness="1" 
                         StrokeShape="RoundRectangle 12" 
                         Padding="25"
@@ -38,17 +38,24 @@
                             <Label Text="PERÍODO DEL REPORTE" FontSize="11" FontAttributes="Bold" TextColor="#94A3B8"/>
 
                             <Border Stroke="#CBD5E0" StrokeShape="RoundRectangle 8" BackgroundColor="#F8FAFC" Padding="15,5" HeightRequest="45">
-                                <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
-                                    <DatePicker Date="{Binding FechaSeleccionada}"
+                                <Grid>
+                                    <Label x:Name="PlaceholderLabel"
+                                           Text="Seleccione una fecha"
+                                           TextColor="#94A3B8"
+                                           FontSize="14"
+                                           VerticalOptions="Center"
+                                           InputTransparent="True"
+                                           IsVisible="True"/>
+                                    <DatePicker x:Name="DateSelector"
+                                                Date="{Binding FechaSeleccionada}"
                                                 WidthRequest="220"
-                                                TextColor="#1E293B"
-                                                FontAttributes="Bold"
+                                                TextColor="Transparent" FontAttributes="Bold"
                                                 BackgroundColor="Transparent"
                                                 Format="dd, MMMM, yyyy"/>
-                                </HorizontalStackLayout>
+                                </Grid>
                             </Border>
 
-                            <Label FontSize="12" TextColor="#64748B">
+                            <Label x:Name="SemanaCalculadaLabel" FontSize="12" TextColor="#64748B" IsVisible="False">
                                 <Label.FormattedText>
                                     <FormattedString>
                                         <Span Text="Semana calculada: "/>
@@ -104,7 +111,7 @@
                 </Border>
 
                 <Border BackgroundColor="White" 
-                        Stroke="#E2E8F0" 
+                        Stroke="#A8E6CF" 
                         StrokeThickness="1" 
                         StrokeShape="RoundRectangle 16" 
                         Padding="0">
@@ -118,7 +125,9 @@
                             </HorizontalStackLayout>
 
                             <Button Grid.Column="1" 
-                                    Text="🖨️ Exportar / Imprimir" 
+                                    Text="Exportar / Imprimir" 
+                                    ImageSource="print_icon.png"
+                                    ContentLayout="Left, 8"
                                     BackgroundColor="White" 
                                     TextColor="#475569" 
                                     BorderColor="#CBD5E0" 
@@ -143,7 +152,12 @@
                         <BoxView Grid.Row="3" HeightRequest="1" Color="#E2E8F0" HorizontalOptions="Fill" VerticalOptions="Start"/>
 
                         <VerticalStackLayout Grid.Row="3" IsVisible="{Binding MostrarMensajeVacio}" Padding="50" Spacing="15" HorizontalOptions="Center" VerticalOptions="Center">
-                            <Label Text="📊" FontSize="40" HorizontalOptions="Center" Opacity="0.5"/>
+                            <Image Source="reporte_icon.png" 
+                                   HeightRequest="84" 
+                                   WidthRequest="84" 
+                                   HorizontalOptions="Center" 
+                                   Opacity="0.5" 
+                                   Aspect="AspectFit"/>
                             <Label Text="Sin datos para mostrar" TextColor="#1E293B" FontSize="18" FontAttributes="Bold" HorizontalOptions="Center"/>
                             <Label Text="Seleccione una fecha válida para generar el reporte de la semana laboral." TextColor="#64748B" FontSize="14" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
                         </VerticalStackLayout>
