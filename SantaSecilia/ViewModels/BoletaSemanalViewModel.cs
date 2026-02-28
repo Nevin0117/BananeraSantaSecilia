@@ -103,6 +103,7 @@ namespace SantaSecilia.ViewModels
 
         public async Task CargarDatos(){
             await CargarTrabajadores();
+            await GenerarBoleta();
         }
 
         public async Task GenerarBoleta()
@@ -127,10 +128,11 @@ namespace SantaSecilia.ViewModels
                     Tarifa = act.Tarifa
                 });
             }
+            OnPropertyChanged(nameof(Filas));
 
-            TotalDevengado = dto.TotalDevengado;
+            TotalDevengado = Filas.Sum(f => f.Monto);
             Descuentos = dto.Descuentos;
-            TotalPagar = dto.TotalPagar;
+            TotalPagar = TotalDevengado - Descuentos;
 
             OnPropertyChanged(nameof(TotalDevengado));
             OnPropertyChanged(nameof(Descuentos));

@@ -31,6 +31,32 @@ namespace SantaSecilia.Application.Services
                 FechaInicio = inicio,
                 FechaFin = fin
             };
+
+            var worker = await _context.Workers
+                .FirstOrDefaultAsync(w => w.FullName == trabajador);
+
+            if (worker == null)
+                return dto;
+
+            var filas = await (
+                from dr in _context.DailyRecords
+                join line in _context.DailyRecordLines on dr.Id equals line.DailyRecordId
+                join act in _context.Activities on line.ActivityId equals act.Id
+                where dr.WorkerId == worker.Id
+                   && dr.WorkDate >= inicio
+                   && dr.WorkDate <= fin
+
+                select new BoletaActividadDto
+                {
+                    Fecha = dr.WorkDate,
+                    Actividad = act.Name,
+                    Horas = line.Hours,
+                    Tarifa = (decimal) line.RateSnapshot
+                }
+            ).ToListAsync();
+
+            dto.Actividades = filas;
+
             return dto;
 
         }

@@ -10,14 +10,11 @@ public class BoletaActividadDto{
 
 public class BoletaSemanalDto{
     public string Trabajador { get; set; } = "";
-
     public DateTime FechaInicio { get; set; }
     public DateTime FechaFin { get; set; }
-
     public string SemanaTexto => $"{FechaInicio:dd/MM/yy} - {FechaFin:dd/MM/yy}";
-
+   
     public List<BoletaActividadDto> Actividades { get; set; } = new();
-
     public decimal TotalDevengado { get; set; }
     public decimal SeguroSocial { get; set; }
     public decimal SeguroEducativo { get; set; }
