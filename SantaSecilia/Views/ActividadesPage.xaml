@@ -21,7 +21,7 @@
                     VerticalOptions="Start"
                     BackgroundColor="White" 
                     StrokeShape="RoundRectangle 12" 
-                    Stroke="#E2E8F0"
+                    Stroke="#A8E6CF" 
                     Padding="0">
 
                 <Grid RowDefinitions="Auto, Auto, *, Auto">
@@ -33,12 +33,24 @@
                         </VerticalStackLayout>
 
                         <HorizontalStackLayout Grid.Column="1" Spacing="10" VerticalOptions="Center">
-                            <Border StrokeShape="RoundRectangle 8" Stroke="#CBD5E0" BackgroundColor="#F9FAFB" Padding="12,0" WidthRequest="250" HeightRequest="45">
-                                <Entry Placeholder="🔍 Buscar actividad..." 
-                                       FontSize="13" 
-                                       VerticalOptions="Center"
-                                       TextColor="Black"
-                                       Text="{Binding TextoBusqueda}"/>
+                            <Border StrokeShape="RoundRectangle 8" Stroke="#CBD5E0" BackgroundColor="#F9FAFB" Padding="15,0" WidthRequest="250" HeightRequest="45">
+
+                                <Grid ColumnDefinitions="Auto, *" ColumnSpacing="10" VerticalOptions="Center">
+
+                                    <Image Grid.Column="0" 
+                                           Source="search_icon.png" 
+                                           HeightRequest="20" 
+                                           WidthRequest="20" 
+                                           VerticalOptions="Center"/>
+
+                                    <Entry Grid.Column="1" 
+                                           Placeholder="Buscar actividad..." 
+                                           FontSize="13" 
+                                           VerticalOptions="Center"
+                                           TextColor="Black"
+                                           Text="{Binding TextoBusqueda}"
+                                           BackgroundColor="Transparent"/>
+                                </Grid>
                             </Border>
                             <Button Text="+ Nueva Actividad" 
                                     BackgroundColor="#A8E6CF" TextColor="#1B4332" 
@@ -124,10 +136,10 @@
                                             </Border>
 
                                             <HorizontalStackLayout Grid.Column="3" HorizontalOptions="Center" Spacing="20">
-                                                <Button Text="✏️" BackgroundColor="Transparent" Padding="0" FontSize="18"
+                                                <Button ImageSource="edit_icon.png" BackgroundColor="Transparent" Padding="0" FontSize="18"
                                                         Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.EditarCommand}"
                                                         CommandParameter="{Binding .}"/>
-                                                <Button Text="🗑️" BackgroundColor="Transparent" Padding="0" FontSize="18"
+                                                <Button ImageSource="delete_icon.png" BackgroundColor="Transparent" Padding="0" FontSize="18"
                                                         Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.EliminarCommand}"
                                                         CommandParameter="{Binding .}"/>
                                             </HorizontalStackLayout>

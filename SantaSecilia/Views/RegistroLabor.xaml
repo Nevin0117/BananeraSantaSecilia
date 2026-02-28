@@ -17,7 +17,7 @@
             <Grid Padding="20,40">
 
                 <Border BackgroundColor="White"
-                        Stroke="#E2E8F0"
+                        Stroke="#A8E6CF" 
                         StrokeThickness="1"
                         StrokeShape="RoundRectangle 16"
                         Padding="40,30"
@@ -29,7 +29,7 @@
 
                         <VerticalStackLayout Spacing="8" HorizontalOptions="Center">
 
-                            <BoxView WidthRequest="80" HeightRequest="4" Color="#0EA5E9" CornerRadius="2" HorizontalOptions="Center" Margin="0,0,0,10"/>
+                            <BoxView WidthRequest="80" HeightRequest="4" Color="#A8E6CF"  CornerRadius="2" HorizontalOptions="Center" Margin="0,0,0,10"/>
 
                             <Label Text="Registro Laboral Diario"
                                    TextColor="#1E293B"
