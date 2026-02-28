@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using SantaSecilia.Domain.Entities;
-using SantaSecilia.Infrastructure.Data;
+using SantaSecilia.Application.Services;
+using SantaSecilia.Application.DTOs;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -16,17 +16,15 @@ namespace SantaSecilia.ViewModels
         public decimal Monto => Horas * Tarifa;
     }
 
-
     public class BoletaSemanalViewModel : INotifyPropertyChanged
     {
-        private readonly AppDbContext contex;
+        private readonly BoletaSemanalService _boletaService;
 
         public event PropertyChangedEventHandler? PropertyChanged;
         void OnPropertyChanged([CallerMemberName] string name = null!)
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 
         public ObservableCollection<string> Trabajadores { get; set; } = new();
-        public ObservableCollection<string> Semanas { get; set; } = new();
 
         string trabajadorSeleccionado = "";
         public string TrabajadorSeleccionado
@@ -36,86 +34,116 @@ namespace SantaSecilia.ViewModels
             {
                 trabajadorSeleccionado = value;
                 OnPropertyChanged();
+                _ = GenerarBoleta();
             }
         }
 
-        string semanaSeleccionada = "";
-        public string SemanaSeleccionada
+        DateTime fechaSeleccionada = DateTime.Today;
+        public DateTime FechaSeleccionada
         {
-            get => semanaSeleccionada;
+            get => fechaSeleccionada;
             set
             {
-                semanaSeleccionada = value;
+                fechaSeleccionada = value;
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(RangoSemana));
+                _ = GenerarBoleta();
+            }
+        }
+
+        public string RangoSemana
+        {
+            get
+            {
+                var inicio = FechaSeleccionada.AddDays(-(int)FechaSeleccionada.DayOfWeek);
+                var fin = inicio.AddDays(6);
+
+                return $"{inicio:dd/MM/yyyy} - {fin:dd/MM/yyyy}";
             }
         }
 
         public ObservableCollection<BoletaFila> Filas { get; set; } = new();
-        public decimal TotalDevengado => Filas.Sum(f => f.Monto);
 
-        public decimal SeguroSocial => TotalDevengado * 0.0975m;
-        public decimal SeguroEducativo => TotalDevengado * 0.0125m;
-        public decimal Sindicato => 2.50m;
-        public decimal Descuentos => SeguroSocial + SeguroEducativo + Sindicato;
 
-        public decimal TotalPagar => TotalDevengado - Descuentos;
+        decimal totalDevengado;
+        public decimal TotalDevengado{
+            get => totalDevengado;
+            set
+            {
+                totalDevengado = value;
+                OnPropertyChanged();
+            }
+        }
 
-        public BoletaSemanalViewModel(AppDbContext context)
+        decimal descuentos;
+        public decimal Descuentos{
+            get => descuentos;
+            set
+            {
+                descuentos = value;
+                OnPropertyChanged();
+            }
+        }
+
+        decimal totalPagar;
+        public decimal TotalPagar{
+            get => totalPagar;
+            set
+            {
+                totalPagar = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public BoletaSemanalViewModel(BoletaSemanalService boletaService)
         {
-            contex = context;
-
+            _boletaService = boletaService;
             _ = CargarTrabajadores();
         }
 
-        public async Task CargarDatos()
-        {
+        public async Task CargarDatos(){
             await CargarTrabajadores();
-            CargarSemanas();
         }
 
-        async Task CargarTrabajadores()
+        public async Task GenerarBoleta()
         {
-            var workers = await contex.Workers.ToListAsync();
+            if (string.IsNullOrEmpty(TrabajadorSeleccionado))
+                return;
+
+            var dto = await _boletaService.GenerarBoletaAsync(
+                TrabajadorSeleccionado,
+                FechaSeleccionada
+            );
+
+            Filas.Clear();
+
+            foreach (var act in dto.Actividades)
+            {
+                Filas.Add(new BoletaFila
+                {
+                    Fecha = act.Fecha,
+                    Actividad = act.Actividad,
+                    Horas = act.Horas,
+                    Tarifa = act.Tarifa
+                });
+            }
+
+            TotalDevengado = dto.TotalDevengado;
+            Descuentos = dto.Descuentos;
+            TotalPagar = dto.TotalPagar;
+
+            OnPropertyChanged(nameof(TotalDevengado));
+            OnPropertyChanged(nameof(Descuentos));
+            OnPropertyChanged(nameof(TotalPagar));
+        }
+
+        async Task CargarTrabajadores(){
+            var workers = await _boletaService.ObtenerTrabajadoresAsync();
 
             Trabajadores.Clear();
 
             foreach (var w in workers)
-                Trabajadores.Add(w.FullName);
-                Trabajadores.Add("Prueba 1");
+                Trabajadores.Add(w);
         }
-
-        void CargarSemanas()
-        {
-            Semanas.Clear();
-
-            var hoy = DateTime.Today;
-
-            for (int i = 0; i < 6; i++)
-            {
-                var inicio = hoy.AddDays(-7 * i);
-                var fin = inicio.AddDays(6);
-
-                Semanas.Add($"{inicio:dd/MM/yyyy} - {fin:dd/MM/yyyy}");
-            }
-        }
-
-        public void RefrescarTotales()
-        {
-            OnPropertyChanged(nameof(TotalDevengado));
-            OnPropertyChanged(nameof(TotalPagar));
-        }
-
-
-        public void GenerarDatosDemo()
-        {
-            Filas.Clear();
-
-            Filas.Add(new BoletaFila { Fecha = DateTime.Today, Actividad = "Fumigar", Horas = 8, Tarifa = 0.78m });
-            Filas.Add(new BoletaFila { Fecha = DateTime.Today, Actividad = "Celador", Horas = 6, Tarifa = 0.90m });
-            Filas.Add(new BoletaFila { Fecha = DateTime.Today, Actividad = "Soldador", Horas = 5, Tarifa = 1.10m });
-
-            RefrescarTotales();
-        }
-
     }
 }

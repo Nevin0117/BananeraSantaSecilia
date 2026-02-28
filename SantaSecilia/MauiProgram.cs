@@ -10,7 +10,6 @@ using SantaSecilia.Views;
 namespace SantaSecilia;
 public static class MauiProgram
 {
-
     public static MauiApp CreateMauiApp()
     {
         // Asegura que SQLite esté inicializado en todas las plataformas (incluido mobile)
@@ -82,6 +81,10 @@ public static class MauiProgram
         builder.Services.AddScoped<RegistroLaborViewModel>();
         builder.Services.AddScoped<RegistroLabor>();
 
+        //Boleta Semanal
+        builder.Services.AddTransient<BoletaSemanalService>();
+        builder.Services.AddTransient<BoletaSemanalViewModel>();
+        builder.Services.AddTransient<BoletaSemanalPage>();
 
         //Reporte Global
         builder.Services.AddScoped<ReporteGlobalService>();

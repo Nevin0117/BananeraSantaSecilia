@@ -50,12 +50,25 @@
 
                             <Border Stroke="#888"
 									StrokeShape="RoundRectangle 10"
-									Background="White">
-                                <Picker HeightRequest="40"
-                                        TextColor="Black"
-                                        ItemsSource="{Binding Semanas}"
-                                        SelectedItem="{Binding SemanaSeleccionada}"/>
+									Background="White"
+                                    Padding="10,0">
+                                
+                                <DatePicker
+                                    Date="{Binding FechaSeleccionada}"
+                                    Format="dd MMMM yyyy"
+                                    TextColor="Black"
+                                    BackgroundColor="Transparent"/>
                             </Border>
+                            
+                            <Label FontSize="12" TextColor="#555">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="Semana: "/>
+                                        <Span Text="{Binding RangoSemana}" FontAttributes="Bold"/>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                            
                         </VerticalStackLayout>
                     </Grid>
 
@@ -108,8 +121,6 @@
                         </Grid>
                     </Border>
 
-					
-					
                     <!-- Totales -->
                     <Border Stroke="#7A8FA6"
 							Background="White"
@@ -125,11 +136,10 @@
                         </VerticalStackLayout>
                     </Border>
 
-                  <HorizontalStackLayout HorizontalOptions="Center"
+                    <HorizontalStackLayout HorizontalOptions="Center"
 										 Spacing="25"
 										 Margin="0,15,0,0">
-
-
+                        
                         <!-- Imprimir -->
                         <Border BackgroundColor="#B2FBA5"
 								StrokeShape="RoundRectangle 12"
