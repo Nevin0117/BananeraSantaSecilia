@@ -57,7 +57,7 @@ public class ReporteGlobalService
                 NombreActividad = grupo.Key.ActividadNombre,
                 HorasTotales = grupo.Sum(drl => drl.Hours),
                 TarifaPorHora = grupo.Key.TarifaPorHora,
-                TotalPorActividad = grupo.Sum(drl => drl.Hours) * grupo.Key.TarifaPorHora
+                TotalPorActividad = grupo.Sum(drl => drl.Hours) * grupo.Key.TarifaPorHora * 100
             })
             .OrderBy(a => a.NombreActividad)
             .ToList();
@@ -69,7 +69,8 @@ public class ReporteGlobalService
             FechaInicio = lunes,
             FechaFin = viernes,
             Actividades = actividadesAgrupadas,
-            TotalPagado = totalPagado
+            TotalPagado = totalPagado,
+            TotalJornaleros = totalJornaleros
         };
     }
 }
