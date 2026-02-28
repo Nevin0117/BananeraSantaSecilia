@@ -3,67 +3,109 @@ using SantaSecilia.Domain.Entities;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Input;
+using System.Text.RegularExpressions;
 
 namespace SantaSecilia.ViewModels
 {
-    public class TrabajadorFormViewModel: INotifyPropertyChanged
+    public class TrabajadorFormViewModel : INotifyPropertyChanged
     {
-
         public event PropertyChangedEventHandler? PropertyChanged;
-        void OnPropertyChanged(string name)
-            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        void OnPropertyChanged(string name) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 
         private readonly WorkerService _workerService;
-        public string Nombre { get; set; } = "";
-        public string Cedula { get; set; } = "";
-        public ObservableCollection<string> Estados { get; } = new ObservableCollection<string> { "Activo", "Inactivo" };
 
+        // Campos privados para manejar el estado y la limpieza
+        private string _nombre = "";
+        private string _cedula = "";
+        private string _estadoSeleccionado = "Activo";
+
+        public string Nombre
+        {
+            get => _nombre;
+            set { _nombre = value; OnPropertyChanged(nameof(Nombre)); }
+        }
+
+        public string Cedula
+        {
+            get => _cedula;
+            set
+            {
+                // Filtro: Solo permite Letras, Números y Guiones. Remueve todo lo demás.
+                _cedula = Regex.Replace(value ?? "", @"[^a-zA-Z0-9-]", "").ToUpper();
+                OnPropertyChanged(nameof(Cedula));
+            }
+        }
+
+        public string EstadoSeleccionado
+        {
+            get => _estadoSeleccionado;
+            set { _estadoSeleccionado = value; OnPropertyChanged(nameof(EstadoSeleccionado)); }
+        }
+
+        public ObservableCollection<string> Estados { get; } = new ObservableCollection<string> { "Activo", "Inactivo" };
         public ICommand GuardarCommand { get; }
 
-        [Obsolete]
         public TrabajadorFormViewModel(WorkerService workerService)
         {
             _workerService = workerService;
             GuardarCommand = new Command(async () => await Guardar());
         }
 
-        string estadoSeleccionado = "Activo";
-        public string EstadoSeleccionado
-        {
-            get => estadoSeleccionado;
-            set
-            {
-                estadoSeleccionado = value;
-                OnPropertyChanged(nameof(EstadoSeleccionado));
-            }
-        }
-
-        [Obsolete]
         async Task Guardar()
         {
+            // Validaciones de campos vacíos
             if (string.IsNullOrWhiteSpace(Nombre))
             {
-                await Shell.Current.DisplayAlert("Error", "El nombre es obligatorio", "OK");
+                await Shell.Current.DisplayAlertAsync("Campo Requerido", "El nombre es obligatorio", "OK");
                 return;
             }
 
             if (string.IsNullOrWhiteSpace(Cedula))
             {
-                await Shell.Current.DisplayAlert("Error", "La cédula es obligatoria", "OK");
+                await Shell.Current.DisplayAlertAsync("Campo Requerido", "La cédula es obligatoria", "OK");
                 return;
             }
 
-            var worker = new Worker
+            // Validación de Cédula Duplicada (Para evitar el crash)
+            bool existe = await _workerService.ExisteTrabajadorConCedulaAsync(Cedula);
+            if (existe)
             {
-                FullName = Nombre,
-                IdentificationNumber = Cedula,
-                CreatedAt = DateTime.UtcNow,
-                IsActive = EstadoSeleccionado == "Activo"
-            };
+                await Shell.Current.DisplayAlertAsync("Cédula Duplicada",
+                    $"Ya existe un trabajador registrado con la cédula: {Cedula}", "OK");
+                return;
+            }
 
-            await _workerService.AgregarTrabajadorAsync(worker);
+            try
+            {
+                var worker = new Worker
+                {
+                    FullName = Nombre.Trim(),
+                    IdentificationNumber = Cedula.Trim(),
+                    CreatedAt = DateTime.UtcNow,
+                    IsActive = EstadoSeleccionado == "Activo"
+                };
 
-            await Shell.Current.GoToAsync("..");
+                await _workerService.AgregarTrabajadorAsync(worker);
+
+                await Shell.Current.DisplayAlertAsync("Éxito", "Trabajador guardado correctamente", "OK");
+
+                // Limpiar formulario para el próximo uso
+                LimpiarFormulario();
+
+                // Regresar a la lista
+                await Shell.Current.GoToAsync("..");
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlertAsync("Error", $"No se pudo guardar: {ex.Message}", "OK");
+            }
+        }
+
+        public void LimpiarFormulario()
+        {
+            Nombre = string.Empty;
+            Cedula = string.Empty;
+            EstadoSeleccionado = "Activo";
         }
     }
 }

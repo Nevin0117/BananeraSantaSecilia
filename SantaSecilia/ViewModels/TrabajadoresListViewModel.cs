@@ -20,9 +20,12 @@ namespace SantaSecilia.ViewModels
     public class TrabajadoresListViewModel : INotifyPropertyChanged
     {
         private readonly WorkerService _workerService;
+        public bool IsSearching => !string.IsNullOrWhiteSpace(Busqueda);
         public ObservableCollection<TrabajadorItem> Trabajadores { get; set; } = new();
         public ICommand RegistrarCommand { get; }
         public ICommand EditarCommand { get; }
+        public ICommand LimpiarBusquedaCommand { get; }
+        public ICommand EliminarCommand { get; }
 
         public event PropertyChangedEventHandler? PropertyChanged;
         
@@ -34,6 +37,10 @@ namespace SantaSecilia.ViewModels
         {
             _workerService = workerService;
 
+            LimpiarBusquedaCommand = new Command(() => {
+                Busqueda = string.Empty;
+            });
+
             RegistrarCommand = new Command(async () =>
                 await Shell.Current.GoToAsync(nameof(TrabajadorFormPage)));
 
@@ -42,6 +49,9 @@ namespace SantaSecilia.ViewModels
                 await Shell.Current.GoToAsync(
                     $"{nameof(EditarTrabajadorPage)}?TrabajadorId={trabajador.Codigo}");
             });
+
+            EliminarCommand = new Command<TrabajadorItem>(async (t) =>
+                await EliminarTrabajadorAsync(t));
         }
 
         public async Task CargarTrabajadoresAsync()
@@ -64,9 +74,13 @@ namespace SantaSecilia.ViewModels
             get => _busqueda;
             set
             {
-                _busqueda = value;
-                OnPropertyChanged();
-                Filtrar();
+                if (_busqueda != value)
+                {
+                    _busqueda = value;
+                    OnPropertyChanged();
+                    OnPropertyChanged(nameof(IsSearching));
+                    Filtrar();
+                }
             }
         }
 
@@ -88,6 +102,30 @@ namespace SantaSecilia.ViewModels
                     Cedula = w.IdentificationNumber,
                     Activo = w.IsActive
                 });
+            }
+        }
+
+        private async Task EliminarTrabajadorAsync(TrabajadorItem trabajador)
+        {
+            bool confirmar = await Shell.Current.DisplayAlertAsync(
+                "Confirmar eliminación",
+                $"¿Está seguro de eliminar permanentemente a '{trabajador.Nombre}'? Esta acción no se puede deshacer.",
+                "Eliminar",
+                "Cancelar");
+
+            if (!confirmar) return;
+
+            var (success, message) = await _workerService.EliminarTrabajadorAsync(trabajador.Codigo);
+
+            if (success)
+            {
+                await Shell.Current.DisplayAlertAsync("Éxito", message, "OK");
+                await CargarTrabajadoresAsync(); // Recargamos la lista
+            }
+            else
+            {
+                // Mostramos el mensaje de "Información" si tiene registros asociados
+                await Shell.Current.DisplayAlertAsync("Aviso", message, "OK");
             }
         }
     }

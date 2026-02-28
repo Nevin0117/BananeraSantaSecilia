@@ -16,9 +16,9 @@
         <views:HeaderView Grid.Row="0" x:Name="MyHeader"/>
 
         <Grid Grid.Row="1" Padding="40,30">
-            <Border MaximumWidthRequest="1100" 
+            <Border MaximumWidthRequest="1100"
                     HorizontalOptions="Center"
-                    VerticalOptions="Start"
+                    VerticalOptions="Fill"
                     BackgroundColor="White" 
                     StrokeShape="RoundRectangle 12" 
                     Stroke="#A8E6CF" 
@@ -35,21 +35,30 @@
                         <HorizontalStackLayout Grid.Column="1" Spacing="10" VerticalOptions="Center">
                             <Border StrokeShape="RoundRectangle 8" Stroke="#CBD5E0" BackgroundColor="#F9FAFB" Padding="15,0" WidthRequest="250" HeightRequest="45">
 
-                                <Grid ColumnDefinitions="Auto, *" ColumnSpacing="10" VerticalOptions="Center">
-
+                                <Grid ColumnDefinitions="Auto, *, Auto">
                                     <Image Grid.Column="0" 
                                            Source="search_icon.png" 
-                                           HeightRequest="20" 
-                                           WidthRequest="20" 
+                                           HeightRequest="18" 
+                                           WidthRequest="18" 
                                            VerticalOptions="Center"/>
 
                                     <Entry Grid.Column="1" 
                                            Placeholder="Buscar actividad..." 
+                                           Text="{Binding TextoBusqueda}"
                                            FontSize="13" 
                                            VerticalOptions="Center"
-                                           TextColor="Black"
-                                           Text="{Binding TextoBusqueda}"
+                                           TextColor="#1E293B"
                                            BackgroundColor="Transparent"/>
+
+                                    <ImageButton Grid.Column="2"
+                                                 Source="x_icon.png" 
+                                                 Command="{Binding LimpiarBusquedaCommand}"
+                                                 IsVisible="{Binding IsSearching}"
+                                                 HeightRequest="12"
+                                                 WidthRequest="12"
+                                                 VerticalOptions="Center"
+                                                 BackgroundColor="Transparent"
+                                                 Padding="5"/>
                                 </Grid>
                             </Border>
                             <Button Text="+ Nueva Actividad" 
@@ -59,7 +68,7 @@
                         </HorizontalStackLayout>
                     </Grid>
 
-                    <Grid Grid.Row="1" ColumnDefinitions="3*, 2*, 2*, 1.5*" Padding="30,10" BackgroundColor="#E3F2FD">
+                    <Grid Grid.Row="1" ColumnDefinitions="3*, 2*, 2*, 1.5*" Padding="30,10" BackgroundColor="#E3F2FD" MinimumWidthRequest="1100">
                         <Label Grid.Column="0" Text="NOMBRE DE ACTIVIDAD" FontSize="14" FontAttributes="Bold" TextColor="#2D3748"/>
                         <Label Grid.Column="1" Text="TARIFA (POR HORA)" FontSize="14" FontAttributes="Bold" TextColor="#2D3748" HorizontalTextAlignment="Center"/>
                         <Label Grid.Column="2" Text="ESTADO" FontSize="14" FontAttributes="Bold" TextColor="#2D3748" HorizontalTextAlignment="Center"/>
@@ -67,8 +76,34 @@
                     </Grid>
 
                     <CollectionView Grid.Row="2" 
-                                    ItemsSource="{Binding Actividades}" 
-                                    >
+                                    ItemsSource="{Binding Actividades}"
+                                    MinimumHeightRequest="450" 
+                                    VerticalOptions="Fill">
+                        <CollectionView.EmptyView>
+                            <ContentView VerticalOptions="Fill" HorizontalOptions="Fill">
+                                <VerticalStackLayout HorizontalOptions="Center" 
+                                                     VerticalOptions="Center" 
+                                                     Spacing="15"
+                                                     Padding="0,50">
+                                    <Image Source="search_icon.png" 
+                                           HeightRequest="80" 
+                                           WidthRequest="80"
+                                           Opacity="0.2"/>
+
+                                    <Label Text="No se encontraron actividades"
+                                           TextColor="#94A3B8"
+                                           FontSize="18"
+                                           FontAttributes="Bold"
+                                           HorizontalTextAlignment="Center" />
+
+                                    <Label Text="Intenta con otro término de búsqueda"
+                                           TextColor="#CBD5E1"
+                                           FontSize="14"
+                                           HorizontalTextAlignment="Center" />
+                                </VerticalStackLayout>
+                            </ContentView>
+                        </CollectionView.EmptyView>
+
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
                                 <Border StrokeThickness="0" BackgroundColor="Transparent">

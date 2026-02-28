@@ -54,5 +54,32 @@ namespace SantaSecilia.Infrastructure.Repositories
                 .OrderBy(w => w.Id)
                 .ToListAsync();
         }
+
+        public async Task<bool> ExistsByIdentificationAsync(string idNumber, int? ignoreId = null)
+        {
+            await using var context = await _contextFactory.CreateDbContextAsync();
+            return await context.Set<Worker>()
+                .AnyAsync(w => w.IdentificationNumber == idNumber && w.Id != (ignoreId ?? -1));
+        }
+
+        public async Task<bool> TieneRegistrosRelacionadosAsync(int workerId)
+        {
+            await using var context = await _contextFactory.CreateDbContextAsync();
+
+            return await context.Set<DailyRecord>()
+                .AnyAsync(lr => lr.WorkerId == workerId);
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            await using var context = await _contextFactory.CreateDbContextAsync();
+
+            var worker = await context.Set<Worker>().FindAsync(id);
+            if (worker != null)
+            {
+                context.Remove(worker);
+                await context.SaveChangesAsync();
+            }
+        }
     }
 }
