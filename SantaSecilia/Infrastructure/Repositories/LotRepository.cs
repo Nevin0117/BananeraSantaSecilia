@@ -76,6 +76,15 @@ public class LotRepository
             .AnyAsync(l => l.Code == code);
     }
 
+    public async Task<bool> TieneRegistrosRelacionadosAsync(int id)
+    {
+        await using var context = await _contextFactory.CreateDbContextAsync();
+
+        // Verificamos en la tabla DailyRecordLine si algún registro usa este LotId
+        return await context.Set<DailyRecordLine>()
+            .AnyAsync(d => d.LotId == id);
+    }
+
     // Eliminar un lote por su identificador
     public async Task DeleteAsync(int id)
     {

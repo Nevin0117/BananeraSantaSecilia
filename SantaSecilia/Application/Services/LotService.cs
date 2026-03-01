@@ -41,6 +41,28 @@ namespace SantaSecilia.Application.Services
 
             await _repository.AddAsync(lote);
         }
-   
+
+        public async Task<(bool success, string message)> EliminarLoteAsync(int id)
+        {
+            try
+            {
+                // 1. Validar integridad
+                var tieneRegistros = await _repository.TieneRegistrosRelacionadosAsync(id);
+
+                if (tieneRegistros)
+                {
+                    return (false, "No se puede eliminar este lote porque tiene registros laborales asociados. Puede desactivarlo desde Editar si lo desea.");
+                }
+
+                // 2. Si está limpio, eliminar
+                await _repository.DeleteAsync(id);
+                return (true, "Lote eliminado correctamente.");
+            }
+            catch (Exception ex)
+            {
+                return (false, $"Error inesperado al eliminar: {ex.Message}");
+            }
+        }
+
     }
 }

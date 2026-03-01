@@ -1,14 +1,14 @@
-﻿using System.Collections.ObjectModel;
-using System.Windows.Input;
+﻿using SantaSecilia.Application.Services;
 using SantaSecilia.Domain.Entities;
-using SantaSecilia.Infrastructure.Repositories;
 using SantaSecilia.Views;
+using System.Collections.ObjectModel;
+using System.Windows.Input;
 
 namespace SantaSecilia.ViewModels;
 
 public class LotesViewModel
 {
-    private readonly LotRepository _repository;
+    private readonly LotService _lotService; // Ahora usamos el servicio
 
     public ObservableCollection<Lot> Lotes { get; set; } = new();
 
@@ -16,59 +16,69 @@ public class LotesViewModel
     public ICommand EditarCommand { get; }
     public ICommand EliminarCommand { get; }
 
-    // Inicializa el ViewModel y configura los comandos para registrar, editar y eliminar lotes
-    public LotesViewModel(LotRepository repository)
+    public LotesViewModel(LotService lotService)
     {
-        _repository = repository;
+        _lotService = lotService;
 
-        // REGISTRAR LOTE
         RegistrarCommand = new Command(async () =>
             await Shell.Current.GoToAsync(nameof(RegistrarLotesPage)));
 
-        // EDITAR LOTE
         EditarCommand = new Command<Lot>(async (lot) =>
         {
-            if (lot == null)
-                return;
-
+            if (lot == null) return;
             await Shell.Current.GoToAsync($"{nameof(EditarLotesPage)}?id={lot.Id}");
         });
 
-        // ELIMINAR LOTE
-        EliminarCommand = new Command<Lot>(async (lot) => 
-            await EliminarAsync(lot));
-
+        EliminarCommand = new Command<Lot>(async (lot) =>
+        {
+            await EliminarAsync(lot);
+        });
     }
-    // Cargar todos los lotes desde la BD y actualizar la colección observable
+
+    // CORRECCIÓN 1: Usar _lotService en lugar de _repository
     public async Task LoadAsync()
     {
-        var lots = await _repository.GetAllAsync();
+        // Llamamos al método del servicio que obtiene los lotes
+        var lots = await _lotService.ObtenerLotesAsync();
 
         Lotes.Clear();
-
         foreach (var lot in lots)
             Lotes.Add(lot);
     }
 
-    // Solicitar confirmación y eliminar lote seleccionado
+    // CORRECCIÓN 2: Usar la lógica de éxito/error del servicio
     private async Task EliminarAsync(Lot lote)
     {
-        if (lote == null)
-            return;
+        if (lote == null) return;
 
-        bool confirm = await Shell.Current.DisplayAlertAsync(
-            "Confirmar",
-            $"¿Desea eliminar el lote {lote.Code}?",
-            "Sí",
-            "No");
+        try
+        {
+            bool confirm = await Shell.Current.DisplayAlertAsync(
+                "Confirmar",
+                $"¿Desea eliminar permanentemente el lote {lote.Code}?",
+                "Eliminar",
+                "Cancelar");
 
-        if (!confirm)
-            return;
+            if (!confirm) return;
 
-        await _repository.DeleteAsync(lote.Id);
+            // LLAMADA AL SERVICIO (Igual que en Actividades)
+            var (success, message) = await _lotService.EliminarLoteAsync(lote.Id);
 
-        await LoadAsync();
+            if (success)
+            {
+                await Shell.Current.DisplayAlertAsync("Éxito", message, "OK");
+                await LoadAsync();
+            }
+            else
+            {
+                // Aquí mostrará el mensaje de "No se puede eliminar porque tiene registros asociados"
+                await Shell.Current.DisplayAlertAsync("Información", message, "OK");
+            }
+        }
+        catch (Exception ex)
+        {
+            await Shell.Current.DisplayAlertAsync("Error", $"Error inesperado: {ex.Message}", "OK");
+            System.Diagnostics.Debug.WriteLine($"Error al eliminar lote: {ex.Message}");
+        }
     }
-
-
 }
