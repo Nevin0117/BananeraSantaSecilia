@@ -22,6 +22,7 @@ public class ActividadesViewModel : INotifyPropertyChanged
     private readonly ActivityService _activityService;
     private List<ActividadItem> _todasLasActividades = new(); // Lista completa sin filtrar
     private string _textoBusqueda = "";
+    public bool IsSearching => !string.IsNullOrWhiteSpace(TextoBusqueda);
 
     public ObservableCollection<ActividadItem> Actividades { get; set; }
 
@@ -34,6 +35,9 @@ public class ActividadesViewModel : INotifyPropertyChanged
             {
                 _textoBusqueda = value;
                 OnPropertyChanged(nameof(TextoBusqueda));
+
+                OnPropertyChanged(nameof(IsSearching));
+
                 FiltrarActividades();
             }
         }
@@ -42,6 +46,7 @@ public class ActividadesViewModel : INotifyPropertyChanged
     public ICommand RegistrarCommand { get; }
     public ICommand EditarCommand { get; }
     public ICommand EliminarCommand { get; }
+    public ICommand LimpiarBusquedaCommand { get; }
 
     public ActividadesViewModel(ActivityService activityService)
     {
@@ -59,6 +64,11 @@ public class ActividadesViewModel : INotifyPropertyChanged
         EliminarCommand = new Command<ActividadItem>(async (actividad) =>
         {
             await EliminarActividadAsync(actividad);
+        });
+
+        LimpiarBusquedaCommand = new Command(() =>
+        {
+            TextoBusqueda = string.Empty;
         });
 
         _ = CargarActividadesAsync();

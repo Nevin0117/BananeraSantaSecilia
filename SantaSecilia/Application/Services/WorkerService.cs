@@ -35,5 +35,31 @@ namespace SantaSecilia.Application.Services
         {
             return _workerRepository.SearchAsync(query);
         }
+
+        public async Task<(bool success, string message)> EliminarTrabajadorAsync(int id)
+        {
+            try
+            {
+                // Validación de integridad relacional
+                var tieneRegistros = await _workerRepository.TieneRegistrosRelacionadosAsync(id);
+
+                if (tieneRegistros)
+                {
+                    return (false, "Este trabajador no puede ser eliminado porque tiene registros históricos de labores. Se recomienda desactivarlo desde 'Editar' en su lugar.");
+                }
+
+                await _workerRepository.DeleteAsync(id);
+                return (true, "Trabajador eliminado exitosamente.");
+            }
+            catch (Exception ex)
+            {
+                return (false, $"Error técnico al intentar eliminar: {ex.Message}");
+            }
+        }
+
+        public async Task<bool> ExisteTrabajadorConCedulaAsync(string cedula, int? ignorarId = null)
+        {
+            return await _workerRepository.ExistsByIdentificationAsync(cedula, ignorarId);
+        }
     }
 }
