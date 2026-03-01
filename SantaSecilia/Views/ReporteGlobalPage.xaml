@@ -40,7 +40,7 @@
                             <Border Stroke="#CBD5E0" StrokeShape="RoundRectangle 8" BackgroundColor="#F8FAFC" Padding="15,5" HeightRequest="45">
                                 <Grid>
                                     <Label x:Name="PlaceholderLabel"
-                                           Text="Seleccione una fecha"
+                                           Text="Seleccione una fecha..."
                                            TextColor="#94A3B8"
                                            FontSize="14"
                                            VerticalOptions="Center"
@@ -58,8 +58,8 @@
                             <Label x:Name="SemanaCalculadaLabel" FontSize="12" TextColor="#64748B" IsVisible="False">
                                 <Label.FormattedText>
                                     <FormattedString>
-                                        <Span Text="Semana calculada: "/>
-                                        <Span Text="{Binding FechaSeleccionada, StringFormat='{0:dd/MM/yy}'}" FontAttributes="Bold" TextColor="#0EA5E9"/>
+                                        <Span Text="Semana: "/>
+                                        <Span Text="{Binding RangoSemana}" FontAttributes="Bold" TextColor="Black"/>
                                     </FormattedString>
                                 </Label.FormattedText>
                             </Label>
@@ -142,7 +142,7 @@
 
                         <BoxView Grid.Row="1" HeightRequest="1" Color="#E2E8F0" HorizontalOptions="Fill"/>
 
-                        <Grid Grid.Row="2" ColumnDefinitions="3.5*, 2*, 2*, 2.5*" Padding="30,15" BackgroundColor="#F8FAFC">
+                        <Grid Grid.Row="2" ColumnDefinitions="3.5*, 2*, 2*, 2.5*" Padding="30,15" BackgroundColor="#E3F2FD">
                             <Label Grid.Column="0" Text="ACTIVIDAD" FontSize="11" FontAttributes="Bold" TextColor="#64748B"/>
                             <Label Grid.Column="1" Text="TOTAL HORAS" FontSize="11" FontAttributes="Bold" TextColor="#64748B" HorizontalTextAlignment="Center"/>
                             <Label Grid.Column="2" Text="TARIFA PROMEDIO" FontSize="11" FontAttributes="Bold" TextColor="#64748B" HorizontalTextAlignment="Center"/>

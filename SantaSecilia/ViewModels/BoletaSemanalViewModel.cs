@@ -4,6 +4,7 @@ using SantaSecilia.Application.DTOs;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows.Input;
 
 namespace SantaSecilia.ViewModels
 {
@@ -19,10 +20,38 @@ namespace SantaSecilia.ViewModels
     public class BoletaSemanalViewModel : INotifyPropertyChanged
     {
         private readonly BoletaSemanalService _boletaService;
+        private bool _hayDatos = false;
 
         public event PropertyChangedEventHandler? PropertyChanged;
         void OnPropertyChanged([CallerMemberName] string name = null!)
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+
+        public ObservableCollection<string> TrabajadoresSugeridos { get; set; } = new();
+
+        private string _trabajadorBusqueda = "";
+        public string TrabajadorBusqueda
+        {
+            get => _trabajadorBusqueda;
+            set
+            {
+                _trabajadorBusqueda = value;
+                OnPropertyChanged();
+                // Disparamos la búsqueda cuando el usuario escribe
+                _ = FiltrarTrabajadoresAsync(value);
+            }
+        }
+
+        private bool _mostrarSugerencias;
+        public bool MostrarSugerencias
+        {
+            get => _mostrarSugerencias;
+            set { _mostrarSugerencias = value; OnPropertyChanged(); }
+        }
+
+        // El comando que se ejecuta al tocar un nombre en la lista
+        public ICommand SelectWorkerCommand { get; }
+
+        // --------------------------------------------
 
         public ObservableCollection<string> Trabajadores { get; set; } = new();
 
@@ -38,27 +67,47 @@ namespace SantaSecilia.ViewModels
             }
         }
 
-        DateTime fechaSeleccionada = DateTime.Today;
-        public DateTime FechaSeleccionada
+        // 1. Iniciamos en null (o una fecha nula) para que se vea el placeholder
+        private DateTime? fechaSeleccionada = null;
+
+        public DateTime? FechaSeleccionada
         {
             get => fechaSeleccionada;
             set
             {
-                fechaSeleccionada = value;
-                OnPropertyChanged();
-                OnPropertyChanged(nameof(RangoSemana));
-                _ = GenerarBoleta();
+                if (fechaSeleccionada != value)
+                {
+                    fechaSeleccionada = value;
+                    OnPropertyChanged(nameof(FechaSeleccionada)); // Esto disparará el evento en el code-behind
+                    OnPropertyChanged(nameof(RangoSemana));
+
+                    if (value.HasValue)
+                    {
+                        _ = GenerarBoleta();
+                    }
+                }
             }
         }
+
+// 3. Esta propiedad la usaremos en el XAML para IsVisible y para el Color
+public bool FechaFueSeleccionada => FechaSeleccionada.HasValue;
 
         public string RangoSemana
         {
             get
             {
-                var inicio = FechaSeleccionada.AddDays(-(int)FechaSeleccionada.DayOfWeek);
-                var fin = inicio.AddDays(6);
+                // Si no hay fecha, devolvemos un texto vacío o guiones
+                if (!FechaSeleccionada.HasValue)
+                    return "---";
 
-                return $"{inicio:dd/MM/yyyy} - {fin:dd/MM/yyyy}";
+                // Usamos .Value para acceder al DateTime real dentro del nullable
+                DateTime fecha = FechaSeleccionada.Value;
+
+                int diff = (7 + (fecha.DayOfWeek - DayOfWeek.Monday)) % 7;
+                DateTime inicio = fecha.AddDays(-1 * diff).Date;
+                DateTime fin = inicio.AddDays(6).Date;
+
+                return $"{inicio:dd MMM} - {fin:dd MMM, yyyy}";
             }
         }
 
@@ -95,49 +144,170 @@ namespace SantaSecilia.ViewModels
             }
         }
 
+        // Propiedades para datos de trabajador
+        private string _codigoTrabajador = "---";
+        public string CodigoTrabajador
+        {
+            get => _codigoTrabajador;
+            set { _codigoTrabajador = value; OnPropertyChanged(); }
+        }
+
+        private string _cedulaTrabajador = "---";
+        public string CedulaTrabajador
+        {
+            get => _cedulaTrabajador;
+            set { _cedulaTrabajador = value; OnPropertyChanged(); }
+        }
+
         public BoletaSemanalViewModel(BoletaSemanalService boletaService)
         {
             _boletaService = boletaService;
+            SelectWorkerCommand = new Command<string>(OnSelectWorker);
             _ = CargarTrabajadores();
         }
 
-        public async Task CargarDatos(){
+        private async Task FiltrarTrabajadoresAsync(string query)
+        {
+            if (string.IsNullOrWhiteSpace(query))
+            {
+                TrabajadoresSugeridos.Clear();
+                MostrarSugerencias = false;
+                // Opcional: Limpiar la boleta si borran el buscador
+                // TrabajadorSeleccionado = ""; 
+                return;
+            }
+
+            if (query.Length < 2)
+            {
+                TrabajadoresSugeridos.Clear();
+                MostrarSugerencias = false;
+                return;
+            }
+
+            var filtrados = Trabajadores
+                .Where(w => w.Contains(query, StringComparison.OrdinalIgnoreCase))
+                .Take(10) // Limitamos a 10 para no saturar la vista
+                .ToList();
+
+            TrabajadoresSugeridos.Clear();
+            foreach (var w in filtrados)
+                TrabajadoresSugeridos.Add(w);
+
+            MostrarSugerencias = TrabajadoresSugeridos.Any();
+        }
+
+        private void OnSelectWorker(string nombre)
+        {
+            TrabajadorSeleccionado = nombre; // Esto dispara GenerarBoleta()
+            _trabajadorBusqueda = nombre;    // Actualiza el texto del Entry sin disparar filtro
+            OnPropertyChanged(nameof(TrabajadorBusqueda));
+
+            TrabajadoresSugeridos.Clear();
+            MostrarSugerencias = false;
+        }
+
+        
+
+        public bool HayDatos
+        {
+            get => _hayDatos;
+            set
+            {
+                if (_hayDatos != value)
+                {
+                    _hayDatos = value;
+                    OnPropertyChanged(nameof(HayDatos));
+                    OnPropertyChanged(nameof(MostrarMensajeVacio));
+                }
+            }
+        }
+
+        public bool MostrarMensajeVacio => !HayDatos;
+
+        public async Task CargarDatos()
+        {
+            // 1. Primero cargamos la lista de nombres para el buscador
             await CargarTrabajadores();
-            await GenerarBoleta();
+
+            // 2. Solo intentamos generar la boleta si ya hay una fecha y un trabajador seleccionados
+            // (Al abrir la pantalla por primera vez, estos suelen ser null o vacíos, 
+            // por lo que no queremos que falle intentando buscar datos inexistentes)
+            if (FechaSeleccionada.HasValue && !string.IsNullOrEmpty(TrabajadorSeleccionado))
+            {
+                await GenerarBoleta();
+            }
         }
 
         public async Task GenerarBoleta()
         {
+            if (!FechaSeleccionada.HasValue) return;
+
+            DateTime fechaReal = FechaSeleccionada.Value;
+
+            // Si no hay trabajador, no hay datos que mostrar
             if (string.IsNullOrEmpty(TrabajadorSeleccionado))
-                return;
-
-            var dto = await _boletaService.GenerarBoletaAsync(
-                TrabajadorSeleccionado,
-                FechaSeleccionada
-            );
-
-            Filas.Clear();
-
-            foreach (var act in dto.Actividades)
             {
-                Filas.Add(new BoletaFila
-                {
-                    Fecha = act.Fecha,
-                    Actividad = act.Actividad,
-                    Horas = act.Horas,
-                    Tarifa = act.Tarifa
-                });
+                HayDatos = false;
+                return;
             }
-            OnPropertyChanged(nameof(Filas));
 
-            TotalDevengado = Filas.Sum(f => f.Monto);
-            Descuentos = dto.SeguroSocial + dto.SeguroEducativo + dto.Sindicato;
-            TotalPagar = TotalDevengado - Descuentos;
+            try
+            {
+                var dto = await _boletaService.GenerarBoletaAsync(
+                    TrabajadorSeleccionado,
+                    FechaSeleccionada.Value
+                );
 
-            OnPropertyChanged(nameof(TotalDevengado));
-            OnPropertyChanged(nameof(Descuentos));
-            OnPropertyChanged(nameof(TotalPagar));
+                Filas.Clear();
+
+                if (dto.Actividades != null && dto.Actividades.Any())
+                {
+                    foreach (var act in dto.Actividades)
+                    {
+                        Filas.Add(new BoletaFila
+                        {
+                            Fecha = act.Fecha,
+                            Actividad = act.Actividad,
+                            Horas = act.Horas,
+                            Tarifa = act.Tarifa
+                        });
+                    }
+
+                    TotalDevengado = Filas.Sum(f => f.Monto);
+                    Descuentos = dto.SeguroSocial + dto.SeguroEducativo + dto.Sindicato;
+                    TotalPagar = TotalDevengado - Descuentos;
+
+                    
+                    HayDatos = true;
+                }
+                else
+                {
+                    HayDatos = false;
+                    TotalDevengado = 0;
+                    Descuentos = 0;
+                    TotalPagar = 0;
+                }
+
+                if (dto != null)
+                {
+                    // AQUÍ ASIGNAMOS LOS VALORES AL CUADRO LATERAL
+                    // Asumiendo que tu DTO tiene estas propiedades (ajusta los nombres si varían)
+                    CodigoTrabajador = dto.CodigoTrabajador ?? "N/A";
+                    CedulaTrabajador = dto.CedulaTrabajador ?? "N/A";
+
+                    HayDatos = dto.Actividades.Any();
+                }
+            }
+            catch (Exception ex)
+            {
+                CodigoTrabajador = "---";
+                CedulaTrabajador = "---";
+                System.Diagnostics.Debug.WriteLine($"Error: {ex.Message}");
+                HayDatos = false;
+            }
         }
+
+
 
         async Task CargarTrabajadores(){
             var workers = await _boletaService.ObtenerTrabajadoresAsync();

@@ -56,6 +56,17 @@ public class ReporteGlobalViewModel : INotifyPropertyChanged
         }
     }
 
+    public string RangoSemana
+    {
+        get
+        {
+            var inicio = FechaSeleccionada.AddDays(-(int)FechaSeleccionada.DayOfWeek);
+            var fin = inicio.AddDays(6);
+
+            return $"{inicio:dd/MM/yyyy} - {fin:dd/MM/yyyy}";
+        }
+    }
+
     public string TotalHoras
     {
         get => _totalHoras;

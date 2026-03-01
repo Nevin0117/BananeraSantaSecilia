@@ -25,15 +25,19 @@ namespace SantaSecilia.Application.Services
             var inicio = fecha.AddDays(-(int)fecha.DayOfWeek);
             var fin = inicio.AddDays(6);
 
+            var worker = await _context.Workers
+                            .FirstOrDefaultAsync(w => w.FullName == trabajador);
+
             var dto = new BoletaSemanalDto
             {
                 Trabajador = trabajador,
                 FechaInicio = inicio,
-                FechaFin = fin
+                FechaFin = fin,
+                // ASIGNACIÓN DE DATOS PARA EL CUADRO LATERAL
+                CodigoTrabajador = worker?.Id.ToString() ?? "---",
+                CedulaTrabajador = worker?.IdentificationNumber ?? "---"
             };
-
-            var worker = await _context.Workers
-                .FirstOrDefaultAsync(w => w.FullName == trabajador);
+            
 
             if (worker == null)
                 return dto;

@@ -19,6 +19,8 @@ public partial class ReporteGlobalPage : ContentPage
         _viewModel.PropertyChanged += ViewModel_PropertyChanged;
     }
 
+
+
     private void ViewModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
         // Si la propiedad que cambió fue la fecha seleccionada...
@@ -50,6 +52,8 @@ public partial class ReporteGlobalPage : ContentPage
                 await DisplayAlertAsync("Error", "Debe seleccionar una fecha para generar el reporte", "OK");
                 return;
             }
+
+            var semana = _viewModel.RangoSemana ?? "Semana";
 
             // Convertir los datos del ViewModel al formato del generador de PDF
             var actividades = _viewModel.Actividades
