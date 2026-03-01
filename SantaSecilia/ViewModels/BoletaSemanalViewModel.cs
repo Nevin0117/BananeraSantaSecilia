@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
+using System.IO;
 
 namespace SantaSecilia.ViewModels
 {
@@ -21,6 +22,7 @@ namespace SantaSecilia.ViewModels
     {
         private readonly BoletaSemanalService _boletaService;
         private bool _hayDatos = false;
+        
 
         public event PropertyChangedEventHandler? PropertyChanged;
         void OnPropertyChanged([CallerMemberName] string name = null!)
@@ -52,6 +54,7 @@ namespace SantaSecilia.ViewModels
         public ICommand SelectWorkerCommand { get; }
 
         // --------------------------------------------
+        public ICommand ImprimirCommand { get; }
 
         public ObservableCollection<string> Trabajadores { get; set; } = new();
 
@@ -66,6 +69,8 @@ namespace SantaSecilia.ViewModels
                 _ = GenerarBoleta();
             }
         }
+
+
 
         // 1. Iniciamos en null (o una fecha nula) para que se vea el placeholder
         private DateTime? fechaSeleccionada = null;
@@ -89,8 +94,8 @@ namespace SantaSecilia.ViewModels
             }
         }
 
-// 3. Esta propiedad la usaremos en el XAML para IsVisible y para el Color
-public bool FechaFueSeleccionada => FechaSeleccionada.HasValue;
+    // 3. Esta propiedad la usaremos en el XAML para IsVisible y para el Color
+    public bool FechaFueSeleccionada => FechaSeleccionada.HasValue;
 
         public string RangoSemana
         {
@@ -103,11 +108,18 @@ public bool FechaFueSeleccionada => FechaSeleccionada.HasValue;
                 // Usamos .Value para acceder al DateTime real dentro del nullable
                 DateTime fecha = FechaSeleccionada.Value;
 
-                int diff = (7 + (fecha.DayOfWeek - DayOfWeek.Monday)) % 7;
+                // Ajuste para que la semana empiece en DOMINGO
+                // Calculamos cuántos días han pasado desde el último domingo
+                int diff = (int)fecha.DayOfWeek;
+
+                // Restamos esa diferencia para llegar al domingo anterior
                 DateTime inicio = fecha.AddDays(-1 * diff).Date;
+
+                // Sumamos 6 días para llegar al sábado
                 DateTime fin = inicio.AddDays(6).Date;
 
-                return $"{inicio:dd MMM} - {fin:dd MMM, yyyy}";
+                // Retornamos el rango formateado (Ejemplo: 01 Mar - 07 Mar, 2026)
+                return $"{inicio:dd MMM} - {fin:dd MMM, yyyy}".ToUpper(); // En mayúsculas para seguir el estilo
             }
         }
 
@@ -163,7 +175,65 @@ public bool FechaFueSeleccionada => FechaSeleccionada.HasValue;
         {
             _boletaService = boletaService;
             SelectWorkerCommand = new Command<string>(OnSelectWorker);
+            ImprimirCommand = new Command(async () => await ImprimirBoletaAsync());
             _ = CargarTrabajadores();
+        }
+
+        private async Task ImprimirBoletaAsync()
+        {
+            if (!HayDatos || string.IsNullOrEmpty(TrabajadorSeleccionado)) return;
+
+            try
+            {
+                // 1. Preparar los registros para el generador
+                var registrosPDF = Filas.Select(f => new BoletaSemanalPDFGenerator.RegistroActividad
+                {
+                    Fecha = f.Fecha.ToString("dd/MM/yy"),
+                    Actividad = f.Actividad,
+                    Horas = f.Horas.ToString(),
+                    Tarifa = f.Tarifa.ToString("F2"),
+                    Monto = $"B/. {f.Monto:F2}"
+                }).ToList();
+
+                // 2. Cargar el logo desde los recursos del App
+                byte[] logoBytes;
+                using (var stream = await FileSystem.OpenAppPackageFileAsync("logo.png"))
+                using (var ms = new MemoryStream())
+                {
+                    await stream.CopyToAsync(ms);
+                    logoBytes = ms.ToArray();
+                }
+
+                // 3. Generar el PDF usando las propiedades del VM
+                var pdfBytes = BoletaSemanalPDFGenerator.GenerarPDF(
+                    CodigoTrabajador,
+                    CedulaTrabajador,
+                    TrabajadorSeleccionado,
+                    RangoSemana,
+                    registrosPDF,
+                    $"B/. {TotalDevengado:F2}",
+                    $"B/. {Descuentos:F2}",
+                    $"B/. {TotalPagar:F2}",
+                    logoBytes
+                );
+
+                // 4. Guardar y abrir (Usamos nombres de archivo limpios)
+                string nombreArchivo = $"Boleta_{TrabajadorSeleccionado.Replace(" ", "_")}_{DateTime.Now:ddMMyy}.pdf";
+                string rutaLocal = Path.Combine(FileSystem.CacheDirectory, nombreArchivo);
+
+                await File.WriteAllBytesAsync(rutaLocal, pdfBytes);
+
+                // 5. Abrir el archivo
+                await Launcher.Default.OpenAsync(new OpenFileRequest
+                {
+                    File = new ReadOnlyFile(rutaLocal)
+                });
+            }
+            catch (Exception ex)
+            {
+                // Como no tenemos DisplayAlert aquí, podemos usar Shell.Current
+                await Shell.Current.DisplayAlertAsync("Error", $"No se pudo generar el PDF: {ex.Message}", "OK");
+            }
         }
 
         private async Task FiltrarTrabajadoresAsync(string query)

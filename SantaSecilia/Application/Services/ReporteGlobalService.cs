@@ -13,21 +13,21 @@ public class ReporteGlobalService
         _contextFactory = contextFactory;
     }
 
-    public (DateTime lunes, DateTime viernes) ObtenerSemanaLaboral(DateTime fecha)
+    public (DateTime domingo, DateTime sabado) ObtenerSemanaLaboral(DateTime fecha)
     {
-        // Calcular el lunes de la semana
-        int diff = (7 + (fecha.DayOfWeek - DayOfWeek.Monday)) % 7;
-        DateTime lunes = fecha.AddDays(-diff).Date;
+        // Calculamos el domingo de la semana (DayOfWeek.Sunday es 0 en .NET)
+        int diff = (int)fecha.DayOfWeek;
+        DateTime domingo = fecha.AddDays(-diff).Date;
 
-        // El viernes es 4 días después del lunes
-        DateTime viernes = lunes.AddDays(4).Date;
+        // El sábado es 6 días después del domingo
+        DateTime sabado = domingo.AddDays(6).Date;
 
-        return (lunes, viernes);
+        return (domingo, sabado);
     }
 
     public async Task<ReporteGlobalDto> GenerarReporteAsync(DateTime fechaReferencia)
     {
-        var (lunes, viernes) = ObtenerSemanaLaboral(fechaReferencia);
+        var (inicio, fin) = ObtenerSemanaLaboral(fechaReferencia);
 
         await using var context = await _contextFactory.CreateDbContextAsync();
 
@@ -35,7 +35,8 @@ public class ReporteGlobalService
         var registrosSemana = await context.Set<Domain.Entities.DailyRecordLine>()
             .Include(drl => drl.Activity)
             .Include(drl => drl.DailyRecord)
-            .Where(drl => drl.DailyRecord.WorkDate >= lunes && drl.DailyRecord.WorkDate <= viernes)
+            // Usamos el nuevo rango completo
+            .Where(drl => drl.DailyRecord.WorkDate >= inicio && drl.DailyRecord.WorkDate <= fin)
             .ToListAsync();
 
         // Contar trabajadores únicos que trabajaron en la semana
@@ -66,8 +67,8 @@ public class ReporteGlobalService
 
         return new ReporteGlobalDto
         {
-            FechaInicio = lunes,
-            FechaFin = viernes,
+            FechaInicio = inicio,
+            FechaFin = fin,
             Actividades = actividadesAgrupadas,
             TotalPagado = totalPagado,
             TotalJornaleros = totalJornaleros

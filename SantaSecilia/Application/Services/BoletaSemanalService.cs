@@ -22,7 +22,7 @@ namespace SantaSecilia.Application.Services
 
         public async Task<BoletaSemanalDto> GenerarBoletaAsync(string trabajador, DateTime fecha)
         {
-            var inicio = fecha.AddDays(-(int)fecha.DayOfWeek);
+            var inicio = fecha.AddDays(-(int)fecha.DayOfWeek).Date;
             var fin = inicio.AddDays(6);
 
             var worker = await _context.Workers

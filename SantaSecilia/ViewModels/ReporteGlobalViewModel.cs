@@ -20,7 +20,7 @@ public class ActividadReporteItem
 public class ReporteGlobalViewModel : INotifyPropertyChanged
 {
     private readonly ReporteGlobalService _reporteService;
-    private DateTime _fechaSeleccionada = DateTime.Today;
+    private DateTime _fechaSeleccionada = DateTime.Now;
     private string _totalPagado = "—";
     private string _totalHoras = "—";
     private int _totalActividades = 0;
@@ -29,19 +29,22 @@ public class ReporteGlobalViewModel : INotifyPropertyChanged
 
     public ObservableCollection<ActividadReporteItem> Actividades { get; set; }
 
-    public DateTime FechaSeleccionada
+   public DateTime FechaSeleccionada
+{
+    get => _fechaSeleccionada;
+    set
     {
-        get => _fechaSeleccionada;
-        set
+        if (_fechaSeleccionada != value)
         {
-            if (_fechaSeleccionada != value)
-            {
-                _fechaSeleccionada = value;
-                OnPropertyChanged(nameof(FechaSeleccionada));
-                _ = GenerarReporteAsync();
-            }
+            _fechaSeleccionada = value;
+            OnPropertyChanged(nameof(FechaSeleccionada)); // Avisa que cambió la fecha
+            OnPropertyChanged(nameof(RangoSemana)); // <--- ¡ESTA ES LA CLAVE! 
+            
+            // Aquí puedes llamar a tu método para recargar los datos
+            _ = GenerarReporteAsync(); 
         }
     }
+}
 
     public string TotalPagado
     {
@@ -60,10 +63,11 @@ public class ReporteGlobalViewModel : INotifyPropertyChanged
     {
         get
         {
-            var inicio = FechaSeleccionada.AddDays(-(int)FechaSeleccionada.DayOfWeek);
-            var fin = inicio.AddDays(6);
+            // En .NET, DayOfWeek.Sunday es 0, así que restamos ese valor
+            var inicio = FechaSeleccionada.AddDays(-(int)FechaSeleccionada.DayOfWeek).Date;
+            var fin = inicio.AddDays(6).Date;
 
-            return $"{inicio:dd/MM/yyyy} - {fin:dd/MM/yyyy}";
+            return $"{inicio:dd MMM} - {fin:dd MMM, yyyy}".ToUpper();
         }
     }
 
