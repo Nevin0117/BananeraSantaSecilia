@@ -21,7 +21,7 @@
 
                 <VerticalStackLayout Spacing="8" HorizontalOptions="Center" Margin="0,10,0,10">
                     <Label Text="Reporte Global Semanal" TextColor="#1E293B" FontSize="32" FontAttributes="Bold" HorizontalOptions="Center"/>
-                    <Label Text="Visión general de rendimiento, horas y pagos consolidado." TextColor="#64748B" FontSize="15" HorizontalOptions="Center"/>
+                    <Label Text="Visión general de rendimiento, horas y pagos consolidados." TextColor="#64748B" FontSize="15" HorizontalOptions="Center"/>
                 </VerticalStackLayout>
 
                 <Border BackgroundColor="White" 

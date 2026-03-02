@@ -12,4 +12,8 @@ public class Worker
     public DateTime? DeactivatedAt { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
+
+    // --- NUEVA PROPIEDAD PARA UI ---
+    // Esta propiedad no se guarda en la base de datos (es calculada)
+    public string DisplayInfo => $"{FullName} — {IdentificationNumber}";
 }
