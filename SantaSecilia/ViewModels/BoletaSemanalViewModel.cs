@@ -175,7 +175,14 @@ namespace SantaSecilia.ViewModels
         {
             _boletaService = boletaService;
             SelectWorkerCommand = new Command<string>(OnSelectWorker);
+            ImprimirCommand = new Command(async () => await ImprimirAsync());
             _ = CargarTrabajadores();
+        }
+
+        private async Task ImprimirAsync()
+        {
+            
+            await Task.CompletedTask;
         }
 
         public async Task<(byte[] PdfBytes, string FileName)> PrepararBoletaPDFAsync()
@@ -315,7 +322,7 @@ namespace SantaSecilia.ViewModels
 
                 Filas.Clear();
 
-                if (dto.Actividades != null && dto.Actividades.Any())
+                if (dto.Actividades != null && dto.Actividades.Count > 0)
                 {
                     foreach (var act in dto.Actividades)
                     {
@@ -350,7 +357,7 @@ namespace SantaSecilia.ViewModels
                     CodigoTrabajador = dto.CodigoTrabajador ?? "N/A";
                     CedulaTrabajador = dto.CedulaTrabajador ?? "N/A";
 
-                    HayDatos = dto.Actividades.Any();
+                    HayDatos = dto.Actividades?.Count > 0;
                 }
             }
             catch (Exception ex)

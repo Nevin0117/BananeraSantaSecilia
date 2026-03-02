@@ -13,7 +13,7 @@ public partial class HeaderView : ContentView
         this.Loaded += HeaderView_Loaded;
     }
 
-    private async void HeaderView_Loaded(object sender, EventArgs e)
+    private async void HeaderView_Loaded(object? sender, EventArgs e)
     {
         await CargarPerfilAsync();
     }

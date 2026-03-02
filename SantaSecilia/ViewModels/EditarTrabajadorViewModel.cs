@@ -24,13 +24,13 @@ public class EditarTrabajadorViewModel : INotifyPropertyChanged
     public ObservableCollection<string> Estados { get; } = new () { "Activo", "Inactivo" };
 
 
-    string nombre;
+    string nombre = "";
     public string Nombre{
         get => nombre;
         set { nombre = value; OnPropertyChanged(); }
     }
 
-    string cedula;
+    string cedula = "";
     public string Cedula{
         get => cedula;
         set { cedula = value; OnPropertyChanged(); }
@@ -42,7 +42,7 @@ public class EditarTrabajadorViewModel : INotifyPropertyChanged
         set { activo = value; OnPropertyChanged(); }
     }
 
-    string estadoSeleccionado;
+    string estadoSeleccionado = "";
     public string EstadoSeleccionado
     {
         get => estadoSeleccionado;
