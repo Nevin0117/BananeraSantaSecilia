@@ -48,10 +48,15 @@ namespace SantaSecilia.Infrastructure.Repositories
         public async Task<List<Worker>> SearchAsync(string query)
         {
             await using var context = await _contextFactory.CreateDbContextAsync();
+
+            // Convertimos la búsqueda a minúsculas una sola vez
+            var lowerQuery = query.ToLower();
+
             return await context.Set<Worker>()
                 .Where(w => w.IsActive &&
-                           (w.FullName.Contains(query) || w.IdentificationNumber.Contains(query)))
-                .OrderBy(w => w.Id)
+                            (w.FullName.ToLower().Contains(lowerQuery) ||
+                             w.IdentificationNumber.Contains(lowerQuery))) // La cédula usualmente no tiene letras, pero por si acaso
+                .OrderBy(w => w.FullName) // Sugerencia: Ordenar por nombre es más natural para el usuario que por ID
                 .ToListAsync();
         }
 

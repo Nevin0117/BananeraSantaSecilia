@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SantaSecilia.Application.DTOs;
 using SantaSecilia.Infrastructure.Data;
+using SantaSecilia.Domain.Entities; // <-- NUEVO: Necesario para que reconozca a 'Worker'
 
 namespace SantaSecilia.Application.Services
 {
@@ -13,10 +14,12 @@ namespace SantaSecilia.Application.Services
             _context = context;
         }
 
-        public async Task<List<string>> ObtenerTrabajadoresAsync()
+        // --- CAMBIO AQUÍ: Ahora devuelve Task<List<Worker>> ---
+        public async Task<List<Worker>> ObtenerTrabajadoresAsync()
         {
+            // Quitamos el .Select() para que devuelva el objeto completo
             return await _context.Workers
-                .Select(w => w.FullName)
+                .OrderBy(w => w.FullName) // Sugerencia pro: los ordenamos alfabéticamente
                 .ToListAsync();
         }
 
@@ -37,7 +40,7 @@ namespace SantaSecilia.Application.Services
                 CodigoTrabajador = worker?.Id.ToString() ?? "---",
                 CedulaTrabajador = worker?.IdentificationNumber ?? "---"
             };
-            
+
 
             if (worker == null)
                 return dto;
@@ -55,7 +58,7 @@ namespace SantaSecilia.Application.Services
                     Fecha = dr.WorkDate,
                     Actividad = act.Name,
                     Horas = line.Hours,
-                    Tarifa = (decimal) line.RateSnapshot * 100
+                    Tarifa = (decimal)line.RateSnapshot * 100
                 }
             ).ToListAsync();
 

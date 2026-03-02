@@ -96,7 +96,7 @@ public partial class RegistroLaborViewModel : ObservableObject
     private void SelectWorker(Worker worker)
     {
         SelectedWorker = worker;
-        TrabajadorBusqueda = worker.FullName;
+        TrabajadorBusqueda = worker.DisplayInfo;
         TrabajadoresSugeridos.Clear();
     }
 
