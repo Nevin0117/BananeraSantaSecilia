@@ -58,7 +58,7 @@ namespace SantaSecilia.Application.Services
                     Fecha = dr.WorkDate,
                     Actividad = act.Name,
                     Horas = line.Hours,
-                    Tarifa = (decimal)line.RateSnapshot * 100
+                    Tarifa = (decimal)line.RateSnapshot
                 }
             ).ToListAsync();
 

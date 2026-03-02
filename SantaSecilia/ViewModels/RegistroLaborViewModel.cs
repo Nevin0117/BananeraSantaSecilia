@@ -59,7 +59,7 @@ public partial class RegistroLaborViewModel : ObservableObject
     [ObservableProperty]
     private bool _isSuccess;
 
-    public string MontoAutogenerado => (HorasTrabajadas * 100 * (SelectedActivity?.HourlyRate ?? 0)).ToString("C2");
+    public string MontoAutogenerado => (HorasTrabajadas * (SelectedActivity?.HourlyRate ?? 0)).ToString("C2");
 
     public async Task InitializeAsync()
     {
