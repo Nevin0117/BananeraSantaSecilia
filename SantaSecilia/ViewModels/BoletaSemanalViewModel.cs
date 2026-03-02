@@ -145,7 +145,6 @@ namespace SantaSecilia.ViewModels
         public BoletaSemanalViewModel(BoletaSemanalService boletaService)
         {
             _boletaService = boletaService;
-            SelectWorkerCommand = new Command<string>(OnSelectWorker);
             ImprimirCommand = new Command(async () => await ImprimirAsync());
             _ = CargarTrabajadores();
         }
