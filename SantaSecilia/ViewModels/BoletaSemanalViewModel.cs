@@ -221,9 +221,10 @@ namespace SantaSecilia.ViewModels
         {
             if (worker == null) return;
 
+            CodigoTrabajador = worker.Id.ToString();
             TrabajadorSeleccionado = worker.FullName;
             CedulaTrabajador = worker.IdentificationNumber;
-            CodigoTrabajador = worker.Id.ToString();
+            
 
             _trabajadorBusqueda = worker.DisplayInfo;
             OnPropertyChanged(nameof(TrabajadorBusqueda));

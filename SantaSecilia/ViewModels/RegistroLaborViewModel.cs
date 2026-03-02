@@ -63,6 +63,8 @@ public partial class RegistroLaborViewModel : ObservableObject
 
     public async Task InitializeAsync()
     {
+        ResetForm();
+
         IsBusy = true;
         try
         {
@@ -133,15 +135,18 @@ public partial class RegistroLaborViewModel : ObservableObject
 
             if (result.Success)
             {
-                IsSuccess = true;
-                ErrorMessage = result.Message;
+                // 1. PRIMERO limpiamos el formulario (esto también limpia mensajes viejos)
                 ResetForm();
 
+                // 2. LUEGO encendemos el mensaje de éxito actual
+                IsSuccess = true;
+                ErrorMessage = result.Message;
                 IsBusy = false;
-                // Esperamos 3 segundos en segundo plano
+
+                // 3. Esperamos 3 segundos en segundo plano para que el usuario lo lea
                 await Task.Delay(3000);
 
-                // Limpiamos los estados para que el mensaje desaparezca de la UI
+                // 4. FINALMENTE apagamos el mensaje
                 IsSuccess = false;
                 ErrorMessage = "";
             }
@@ -167,11 +172,16 @@ public partial class RegistroLaborViewModel : ObservableObject
         SelectedActivity = null;
         SelectedLot = null;
         HorasTrabajadas = 0;
+
+        ErrorMessage = "";
+        IsSuccess = false;
     }
 
     [RelayCommand]
     private async Task CancelarAsync()
     {
+        ResetForm();
+
         await Shell.Current.GoToAsync("//Home");
     }
 }
