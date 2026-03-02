@@ -188,7 +188,7 @@
                     </CollectionView>
 
                     <Grid Grid.Row="3" Padding="30,15" BackgroundColor="White">
-                        <Label Text="Fin de los registros" FontSize="12" TextColor="#454545" HorizontalOptions="Center"/>
+                        <Label Text="Listado de Actividades · Finca Santa Secilia" FontSize="12" TextColor="#94A3B8" HorizontalOptions="Center"/>
                     </Grid>
 
                 </Grid>

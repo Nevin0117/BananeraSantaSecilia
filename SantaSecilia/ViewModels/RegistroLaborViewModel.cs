@@ -136,6 +136,14 @@ public partial class RegistroLaborViewModel : ObservableObject
                 IsSuccess = true;
                 ErrorMessage = result.Message;
                 ResetForm();
+
+                IsBusy = false;
+                // Esperamos 3 segundos en segundo plano
+                await Task.Delay(3000);
+
+                // Limpiamos los estados para que el mensaje desaparezca de la UI
+                IsSuccess = false;
+                ErrorMessage = "";
             }
             else
             {

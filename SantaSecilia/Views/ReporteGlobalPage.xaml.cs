@@ -1,6 +1,7 @@
 using SantaSecilia.Application.Services;
 using SantaSecilia.ViewModels;
 using System.ComponentModel;
+using CommunityToolkit.Maui.Storage;
 
 namespace SantaSecilia.Views;
 
@@ -46,64 +47,35 @@ public partial class ReporteGlobalPage : ContentPage
     {
         try
         {
-            // Verificar que hay datos cargados
             if (!_viewModel.HayDatos)
             {
-                await DisplayAlertAsync("Error", "Debe seleccionar una fecha para generar el reporte", "OK");
+                await DisplayAlertAsync("Atención", "No hay datos cargados", "OK");
                 return;
             }
 
-            var semana = _viewModel.RangoSemana ?? "Semana";
+            var (pdfBytes, fileNameBase) = await _viewModel.PrepararPDFAsync();
 
-            // Convertir los datos del ViewModel al formato del generador de PDF
-            var actividades = _viewModel.Actividades
-                .Select(a => new ReporteGlobalPDFGenerator.ActividadReporte
+            // Creamos un stream con los bytes del PDF
+            using var stream = new MemoryStream(pdfBytes);
+
+            // ESTO ABRE LA VENTANA DE WINDOWS "GUARDAR COMO"
+            // El usuario elige "Descargas", "Escritorio" o donde quiera.
+            var fileSaveResult = await FileSaver.Default.SaveAsync(fileNameBase, stream);
+
+            if (fileSaveResult.IsSuccessful)
+            {
+                await DisplayAlertAsync("Éxito", $"Archivo guardado en:\n{fileSaveResult.FilePath}", "OK");
+
+                // Abrir el archivo guardado
+                await Launcher.Default.OpenAsync(new OpenFileRequest
                 {
-                    Actividad = a.Actividad,
-                    Horas = a.Horas,
-                    Tarifa = a.Tarifa,
-                    Total = a.Total
-                }).ToList();
-
-            // Calcular la semana del lunes al viernes
-            var fecha = _viewModel.FechaSeleccionada;
-            int diff = (7 + (fecha.DayOfWeek - DayOfWeek.Monday)) % 7;
-            DateTime lunes = fecha.AddDays(-diff);
-            DateTime viernes = lunes.AddDays(4);
-            var semanaTexto = $"{lunes:dd/MM/yy} - {viernes:dd/MM/yy}";
-
-            var totalPagado = _viewModel.TotalPagado;
-
-            // Cargar el logo como bytes
-            byte[] logoBytes;
-            using (var stream = await FileSystem.OpenAppPackageFileAsync("logo.png"))
-            using (var ms = new MemoryStream())
-            {
-                await stream.CopyToAsync(ms);
-                logoBytes = ms.ToArray();
+                    File = new ReadOnlyFile(fileSaveResult.FilePath)
+                });
             }
-
-            // Generar el PDF
-            var pdfBytes = ReporteGlobalPDFGenerator.GenerarPDF(semanaTexto, actividades, totalPagado, logoBytes);
-
-            // Guardar el archivo
-            var documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            var fileName = $"ReporteGlobal_{lunes:yyyyMMdd}_{viernes:yyyyMMdd}.pdf";
-            var filePath = Path.Combine(documentsPath, fileName);
-
-            await File.WriteAllBytesAsync(filePath, pdfBytes);
-
-            // Abrir el PDF
-            await Launcher.OpenAsync(new OpenFileRequest
-            {
-                File = new ReadOnlyFile(filePath)
-            });
-
-            await DisplayAlertAsync("Éxito", $"PDF generado y guardado en:\n{filePath}", "OK");
         }
         catch (Exception ex)
         {
-            await DisplayAlertAsync("Error", $"No se pudo generar el PDF:\n{ex.Message}", "OK");
+            await DisplayAlertAsync("Error", $"No se pudo guardar: {ex.Message}", "OK");
         }
     }
 }

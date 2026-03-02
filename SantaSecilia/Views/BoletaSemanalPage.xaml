@@ -121,7 +121,7 @@
                                 FontAttributes="Bold"
                                 VerticalOptions="Center"
                                 Margin="0,0,0,15"
-                                Command="{Binding ImprimirCommand}"
+                                Clicked="Imprimir_Clicked" 
                                 IsEnabled="{Binding HayDatos}"/>
                     </Grid>
                 </Border>

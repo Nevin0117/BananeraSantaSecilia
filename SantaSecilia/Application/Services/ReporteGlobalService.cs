@@ -57,8 +57,8 @@ public class ReporteGlobalService
             {
                 NombreActividad = grupo.Key.ActividadNombre,
                 HorasTotales = grupo.Sum(drl => drl.Hours),
-                TarifaPorHora = grupo.Key.TarifaPorHora,
-                TotalPorActividad = grupo.Sum(drl => drl.Hours) * grupo.Key.TarifaPorHora * 100
+                TarifaPorHora = Math.Round(grupo.Key.TarifaPorHora * 100, 2),
+                TotalPorActividad = Math.Round(grupo.Key.TarifaPorHora * 100, 2) * grupo.Sum(drl => drl.Hours)
             })
             .OrderBy(a => a.NombreActividad)
             .ToList();

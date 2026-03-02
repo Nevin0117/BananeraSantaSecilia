@@ -25,9 +25,9 @@ public class HomeService
         var totalLotes = await context.Set<Domain.Entities.Lot>()
             .CountAsync(l => l.IsActive);
 
-        // Registros creados hoy 
-        var registrosHoy = await context.Set<Domain.Entities.DailyRecord>()
-            .CountAsync(r => r.WorkDate >= hoy && r.WorkDate < hoy.AddDays(1));
+        // Accedemos a la fecha a través de la propiedad de navegación DailyRecord
+        var registrosHoy = await context.Set<Domain.Entities.DailyRecordLine>()
+            .CountAsync(drl => drl.DailyRecord.WorkDate >= hoy && drl.DailyRecord.WorkDate < hoy.AddDays(1));
 
         return (totalJornaleros, totalLotes, registrosHoy);
     }

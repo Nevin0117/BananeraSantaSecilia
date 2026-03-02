@@ -142,11 +142,12 @@ public class ReporteGlobalViewModel : INotifyPropertyChanged
 
             foreach (var actividad in reporte.Actividades)
             {
+
                 Actividades.Add(new ActividadReporteItem
                 {
                     Actividad = actividad.NombreActividad,
                     Horas = actividad.HorasTotales.ToString("F2"),
-                    Tarifa = actividad.TarifaPorHora.ToString("F4"),
+                    Tarifa = actividad.TarifaPorHora.ToString("F2"),
                     Total = $"B/. {actividad.TotalPorActividad:N2}"
                 });
             }
@@ -172,6 +173,47 @@ public class ReporteGlobalViewModel : INotifyPropertyChanged
             TotalJornaleros = 0;
             TotalHoras = "—";
         }
+    }
+
+    public async Task<(byte[] PdfBytes, string FileName)> PrepararPDFAsync()
+    {
+        // 1. Cargar el logo
+        byte[] logoBytes;
+        using (var stream = await FileSystem.OpenAppPackageFileAsync("logo.png"))
+        using (var ms = new MemoryStream())
+        {
+            await stream.CopyToAsync(ms);
+            logoBytes = ms.ToArray();
+        }
+
+        // 2. USAR EL RANGO QUE YA EXISTE (No calcular nada nuevo)
+        // Usamos RangoSemana que ya tiene el "01/03/26 - 07/03/26"
+        string semanaTexto = RangoSemana ?? "Reporte";
+
+        // Crear un nombre de archivo limpio basado en la fecha seleccionada
+        string fileName = $"ReporteGlobal_{FechaSeleccionada:yyyyMMdd}.pdf";
+
+        // 3. Mapear actividades
+        var listaActividades = Actividades.Select(a => new ReporteGlobalPDFGenerator.ActividadReporte
+        {
+            Actividad = a.Actividad,
+            Horas = a.Horas,
+            Tarifa = a.Tarifa,
+            Total = a.Total
+        }).ToList();
+
+        // 4. Llamar al generador con los parámetros correctos
+        var pdfBytes = ReporteGlobalPDFGenerator.GenerarPDF(
+            semanaTexto,        // <--- Pasamos el rango correcto de la UI
+            listaActividades,
+            TotalPagado,
+            TotalHoras,
+            TotalJornaleros,
+            TotalActividades,
+            logoBytes
+        );
+
+        return (pdfBytes, fileName);
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;

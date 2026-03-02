@@ -175,65 +175,50 @@ namespace SantaSecilia.ViewModels
         {
             _boletaService = boletaService;
             SelectWorkerCommand = new Command<string>(OnSelectWorker);
-            ImprimirCommand = new Command(async () => await ImprimirBoletaAsync());
             _ = CargarTrabajadores();
         }
 
-        private async Task ImprimirBoletaAsync()
+        public async Task<(byte[] PdfBytes, string FileName)> PrepararBoletaPDFAsync()
         {
-            if (!HayDatos || string.IsNullOrEmpty(TrabajadorSeleccionado)) return;
+            if (!HayDatos || string.IsNullOrEmpty(TrabajadorSeleccionado))
+                throw new Exception("No hay datos cargados para este colaborador.");
 
-            try
+            // 1. Preparar los registros para el generador
+            var registrosPDF = Filas.Select(f => new BoletaSemanalPDFGenerator.RegistroActividad
             {
-                // 1. Preparar los registros para el generador
-                var registrosPDF = Filas.Select(f => new BoletaSemanalPDFGenerator.RegistroActividad
-                {
-                    Fecha = f.Fecha.ToString("dd/MM/yy"),
-                    Actividad = f.Actividad,
-                    Horas = f.Horas.ToString(),
-                    Tarifa = f.Tarifa.ToString("F2"),
-                    Monto = $"B/. {f.Monto:F2}"
-                }).ToList();
+                Fecha = f.Fecha.ToString("dd/MM/yy"),
+                Actividad = f.Actividad,
+                Horas = f.Horas.ToString(),
+                Tarifa = f.Tarifa.ToString("F2"),
+                Monto = $"B/. {f.Monto:F2}"
+            }).ToList();
 
-                // 2. Cargar el logo desde los recursos del App
-                byte[] logoBytes;
-                using (var stream = await FileSystem.OpenAppPackageFileAsync("logo.png"))
-                using (var ms = new MemoryStream())
-                {
-                    await stream.CopyToAsync(ms);
-                    logoBytes = ms.ToArray();
-                }
-
-                // 3. Generar el PDF usando las propiedades del VM
-                var pdfBytes = BoletaSemanalPDFGenerator.GenerarPDF(
-                    CodigoTrabajador,
-                    CedulaTrabajador,
-                    TrabajadorSeleccionado,
-                    RangoSemana,
-                    registrosPDF,
-                    $"B/. {TotalDevengado:F2}",
-                    $"B/. {Descuentos:F2}",
-                    $"B/. {TotalPagar:F2}",
-                    logoBytes
-                );
-
-                // 4. Guardar y abrir (Usamos nombres de archivo limpios)
-                string nombreArchivo = $"Boleta_{TrabajadorSeleccionado.Replace(" ", "_")}_{DateTime.Now:ddMMyy}.pdf";
-                string rutaLocal = Path.Combine(FileSystem.CacheDirectory, nombreArchivo);
-
-                await File.WriteAllBytesAsync(rutaLocal, pdfBytes);
-
-                // 5. Abrir el archivo
-                await Launcher.Default.OpenAsync(new OpenFileRequest
-                {
-                    File = new ReadOnlyFile(rutaLocal)
-                });
-            }
-            catch (Exception ex)
+            // 2. Cargar el logo
+            byte[] logoBytes;
+            using (var stream = await FileSystem.OpenAppPackageFileAsync("logo.png"))
+            using (var ms = new MemoryStream())
             {
-                // Como no tenemos DisplayAlert aquí, podemos usar Shell.Current
-                await Shell.Current.DisplayAlertAsync("Error", $"No se pudo generar el PDF: {ex.Message}", "OK");
+                await stream.CopyToAsync(ms);
+                logoBytes = ms.ToArray();
             }
+
+            // 3. Generar el PDF
+            var pdfBytes = BoletaSemanalPDFGenerator.GenerarPDF(
+                CodigoTrabajador,
+                CedulaTrabajador,
+                TrabajadorSeleccionado,
+                RangoSemana,
+                registrosPDF,
+                $"B/. {TotalDevengado:F2}",
+                $"B/. {Descuentos:F2}",
+                $"B/. {TotalPagar:F2}",
+                logoBytes
+            );
+
+            // Nombre sugerido inicial
+            string nombreArchivo = $"Boleta_{TrabajadorSeleccionado.Replace(" ", "_")}_{DateTime.Now:ddMMyy}.pdf";
+
+            return (pdfBytes, $"Boleta_{TrabajadorSeleccionado.Replace(" ", "_")}.pdf");
         }
 
         private async Task FiltrarTrabajadoresAsync(string query)

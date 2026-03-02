@@ -63,17 +63,19 @@
                 <Grid RowDefinitions="Auto, Auto" ColumnDefinitions="*, *, *" RowSpacing="25" ColumnSpacing="20" HorizontalOptions="Fill">
                     <Border Grid.Row="0" Grid.Column="0" StrokeShape="RoundRectangle 16" BackgroundColor="White" Stroke="#A8E6CF"  StrokeThickness="1" Padding="30">
                         <Border.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="IraRegistroLab"/>
+                            <TapGestureRecognizer Tapped="IraActividades"/>
                         </Border.GestureRecognizers>
                         <VerticalStackLayout Spacing="15">
                             <Border BackgroundColor="#E0F2FE" StrokeShape="RoundRectangle 8" Padding="12" HorizontalOptions="Start" StrokeThickness="0">
-                                <Image Source="registro.png" HeightRequest="24" WidthRequest="24"/>
+                                <Image Source="actividad.png" HeightRequest="24" WidthRequest="24"/>
                             </Border>
-                            <Label Text="Registro Laboral" FontAttributes="Bold" TextColor="#1E293B" FontSize="18"/>
-                            <Label Text="Crear un registro diario para un jornalero de forma rápida." FontSize="13" TextColor="#64748B" LineHeight="1.4"/>
-                            <Label Text="Acceder →" TextColor="#0EA5E9" FontSize="13" FontAttributes="Bold" Margin="0,10,0,0"/>
+                            <Label Text="Actividades y Tarifas" FontAttributes="Bold" TextColor="#1E293B" FontSize="18"/>
+                            <Label Text="Configurar el catálogo de labores y ajustar sus precios de mercado." FontSize="13" TextColor="#64748B" LineHeight="1.4"/>
+                            <Label Text="Configurar →" TextColor="#0EA5E9" FontSize="13" FontAttributes="Bold" Margin="0,10,0,0"/>
                         </VerticalStackLayout>
                     </Border>
+
+                    
 
                     <Border Grid.Row="0" Grid.Column="1" StrokeShape="RoundRectangle 16" BackgroundColor="White" Stroke="#A8E6CF"  StrokeThickness="1" Padding="30">
                         <Border.GestureRecognizers>
@@ -105,15 +107,15 @@
 
                     <Border Grid.Row="1" Grid.Column="0" StrokeShape="RoundRectangle 16" BackgroundColor="White" Stroke="#A8E6CF"  StrokeThickness="1" Padding="30">
                         <Border.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="IraActividades"/>
+                            <TapGestureRecognizer Tapped="IraRegistroLab"/>
                         </Border.GestureRecognizers>
                         <VerticalStackLayout Spacing="15">
                             <Border BackgroundColor="#DCFCE7" StrokeShape="RoundRectangle 8" Padding="12" HorizontalOptions="Start" StrokeThickness="0">
-                                <Image Source="actividad.png" HeightRequest="24" WidthRequest="24"/>
+                                <Image Source="registro.png" HeightRequest="24" WidthRequest="24"/>
                             </Border>
-                            <Label Text="Actividades y Tarifas" FontAttributes="Bold" TextColor="#1E293B" FontSize="18"/>
-                            <Label Text="Configurar el catálogo de labores y ajustar sus precios de mercado." FontSize="13" TextColor="#64748B" LineHeight="1.4"/>
-                            <Label Text="Configurar →" TextColor="#10B981" FontSize="13" FontAttributes="Bold" Margin="0,10,0,0"/>
+                            <Label Text="Registro Laboral" FontAttributes="Bold" TextColor="#1E293B" FontSize="18"/>
+                            <Label Text="Crear un registro diario para un jornalero de forma rápida." FontSize="13" TextColor="#64748B" LineHeight="1.4"/>
+                            <Label Text="Acceder →" TextColor="#10B981" FontSize="13" FontAttributes="Bold" Margin="0,10,0,0"/>
                         </VerticalStackLayout>
                     </Border>
 

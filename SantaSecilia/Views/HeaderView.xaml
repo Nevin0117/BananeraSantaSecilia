@@ -33,10 +33,10 @@
                                    VerticalOptions="Center"
                                    Spacing="10">
 
-                <Border x:Name="BrdRegistroLaboral" StrokeThickness="0" BackgroundColor="Transparent" StrokeShape="RoundRectangle 20" Padding="15,8">
-                    <Label x:Name="LnkRegistroLaboral" Text="Registro Laboral" FontSize="14" TextColor="#64748B" FontAttributes="Bold" VerticalOptions="Center"/>
+                <Border x:Name="BrdActividades" StrokeThickness="0" BackgroundColor="Transparent" StrokeShape="RoundRectangle 20" Padding="15,8">
+                    <Label x:Name="LnkActividades" Text="Actividades" FontSize="14" TextColor="#64748B" FontAttributes="Bold" VerticalOptions="Center"/>
                     <Border.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="NavRegistroLaboral_Tapped"/>
+                        <TapGestureRecognizer Tapped="NavActividades_Tapped"/>
                     </Border.GestureRecognizers>
                 </Border>
 
@@ -54,12 +54,13 @@
                     </Border.GestureRecognizers>
                 </Border>
 
-                <Border x:Name="BrdActividades" StrokeThickness="0" BackgroundColor="Transparent" StrokeShape="RoundRectangle 20" Padding="15,8">
-                    <Label x:Name="LnkActividades" Text="Actividades" FontSize="14" TextColor="#64748B" FontAttributes="Bold" VerticalOptions="Center"/>
+                <Border x:Name="BrdRegistroLaboral" StrokeThickness="0" BackgroundColor="Transparent" StrokeShape="RoundRectangle 20" Padding="15,8">
+                    <Label x:Name="LnkRegistroLaboral" Text="Registro Laboral" FontSize="14" TextColor="#64748B" FontAttributes="Bold" VerticalOptions="Center"/>
                     <Border.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="NavActividades_Tapped"/>
+                        <TapGestureRecognizer Tapped="NavRegistroLaboral_Tapped"/>
                     </Border.GestureRecognizers>
                 </Border>
+
 
                 <Border x:Name="BrdBoletaSemanal" StrokeThickness="0" BackgroundColor="Transparent" StrokeShape="RoundRectangle 20" Padding="15,8">
                     <Label x:Name="LnkBoletaSemanal" Text="Boleta Semanal" FontSize="14" TextColor="#64748B" FontAttributes="Bold" VerticalOptions="Center"/>
