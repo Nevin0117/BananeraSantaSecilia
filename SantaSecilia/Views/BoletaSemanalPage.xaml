@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:SantaSecilia.ViewModels"
+             xmlns:views="clr-namespace:SantaSecilia.Views"
+             x:Class="SantaSecilia.Views.BoletaSemanalPage"
+             xmlns:entities="clr-namespace:SantaSecilia.Domain.Entities"
+             BackgroundColor="#FDFBF7">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="0">
+
+            <views:HeaderView x:Name="MyHeader"/>
+
+            <VerticalStackLayout Padding="40" Spacing="25" MaximumWidthRequest="1300" HorizontalOptions="Center">
+
+                <VerticalStackLayout Spacing="4">
+                    <Label Text="Boleta Semanal" TextColor="#1E293B" FontSize="32" FontAttributes="Bold"/>
+                    <Label Text="Detalle de actividades y liquidación de pagos por trabajador." TextColor="#64748B" FontSize="16"/>
+                </VerticalStackLayout>
+
+                <Border BackgroundColor="White" Stroke="#A8E6CF" StrokeThickness="1" StrokeShape="RoundRectangle 12" Padding="20">
+                    <Grid ColumnDefinitions="*, Auto" ColumnSpacing="20" VerticalOptions="Center">
+
+                        <HorizontalStackLayout Grid.Column="0" Spacing="20" VerticalOptions="Center">
+                            <VerticalStackLayout Spacing="5" WidthRequest="350">
+                                <Label Text="Trabajador" FontSize="13" FontAttributes="Bold" TextColor="#64748B" Margin="5,0"/>
+
+                                <Border Stroke="#CBD5E0" 
+                                        StrokeShape="RoundRectangle 8" 
+                                        HeightRequest="45" 
+                                        Padding="10,0" 
+                                        BackgroundColor="White">
+                                    <Grid ColumnDefinitions="Auto, *" ColumnSpacing="12">
+                                        <Image Source="trabajador_icon.png" HeightRequest="20" WidthRequest="20" VerticalOptions="Center" Opacity="0.6"/>
+                                        <Entry Grid.Column="1" 
+                                               Placeholder="Buscar trabajador..."
+                                               Text="{Binding TrabajadorBusqueda}"
+                                               TextColor="#1E293B"
+                                               VerticalOptions="Center"
+                                               BackgroundColor="Transparent"/>
+                                    </Grid>
+                                </Border>
+
+                                <Border IsVisible="{Binding MostrarSugerencias}"
+                                        Stroke="#E2E8F0" 
+                                        StrokeThickness="1" 
+                                        StrokeShape="RoundRectangle 8" 
+                                        BackgroundColor="White">
+                                    <CollectionView ItemsSource="{Binding TrabajadoresSugeridos}" HeightRequest="150">
+                                        <CollectionView.ItemTemplate>
+                                            <DataTemplate x:DataType="entities:Worker">
+                                                <Grid Padding="15,10" BackgroundColor="Transparent">
+                                                    <Label FontSize="14" VerticalOptions="Center">
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span Text="{Binding FullName}" FontAttributes="Bold" TextColor="#1E293B" />
+                                                                <Span Text=" — " TextColor="#94A3B8" />
+                                                                <Span Text="{Binding IdentificationNumber}" TextColor="#64748B" FontSize="12" />
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+
+                                                    <Grid.GestureRecognizers>
+                                                        <TapGestureRecognizer 
+                            Command="{Binding Source={RelativeSource AncestorType={x:Type vm:BoletaSemanalViewModel}}, Path=SelectWorkerCommand}" 
+                            CommandParameter="{Binding .}"/>
+                                                    </Grid.GestureRecognizers>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </CollectionView.ItemTemplate>
+                                    </CollectionView>
+                                </Border>
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout Spacing="5" WidthRequest="280">
+                                <Label Text="SELECCIONAR FECHA" FontSize="11" FontAttributes="Bold" TextColor="#94A3B8" Margin="5,0"/>
+
+                                <Border Stroke="#CBD5E0" StrokeShape="RoundRectangle 10" BackgroundColor="#F8FAFC" Padding="15,5" HeightRequest="45">
+                                    <Grid>
+                                        <Label x:Name="PlaceholderFecha"
+                                               Text="Seleccione una fecha..."
+                                               TextColor="#94A3B8"
+                                               FontSize="14"
+                                               VerticalOptions="Center"
+                                               InputTransparent="True"
+                                               IsVisible="True"/>
+
+                                        <DatePicker x:Name="DatePickerBoleta"
+                                                    Date="{Binding FechaSeleccionada}"
+                                                    TextColor="Transparent" 
+                                                    Opacity="0"
+                                                    FontAttributes="Bold"
+                                                    BackgroundColor="Transparent"
+                                                    Format="dd, MMMM, yyyy"/>
+                                    </Grid>
+                                </Border>
+
+                                <Label x:Name="SemanaCalculadaLabel" 
+                                       FontSize="12" 
+                                       TextColor="#64748B" 
+                                       IsVisible="False" 
+                                       Margin="5,2,0,0">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="Semana: "/>
+                                            <Span Text="{Binding RangoSemana}" FontAttributes="Bold" TextColor="Black"/>
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                            </VerticalStackLayout>
+                        </HorizontalStackLayout>
+
+                        <Button Grid.Column="1" 
+                                Text="Exportar / Imprimir" 
+                                ImageSource="print_icon.png"
+                                ContentLayout="Left, 8"
+                                BackgroundColor="White" 
+                                TextColor="#475569" 
+                                BorderColor="#CBD5E0" 
+                                BorderWidth="1" 
+                                CornerRadius="8" 
+                                HeightRequest="40" 
+                                Padding="15,0" 
+                                FontSize="13" 
+                                FontAttributes="Bold"
+                                VerticalOptions="Center"
+                                Margin="0,0,0,15"
+                                Clicked="Imprimir_Clicked" 
+                                IsEnabled="{Binding HayDatos}"/>
+                    </Grid>
+                </Border>
+
+                <Grid ColumnDefinitions="*, 380" ColumnSpacing="30">
+
+                    <Border Grid.Column="0" BackgroundColor="White" Stroke="#A8E6CF" StrokeThickness="1" StrokeShape="RoundRectangle 16" Padding="0">
+                        <Grid RowDefinitions="Auto, *">
+                            <Grid BackgroundColor="#E3F2FD" Padding="20,15" ColumnDefinitions="1.2*, 2.5*, 1*, 1*, 1.2*">
+                                <Label Text="FECHA" FontAttributes="Bold" TextColor="#64748B" FontSize="12"/>
+                                <Label Grid.Column="1" Text="ACTIVIDAD" FontAttributes="Bold" TextColor="#64748B" FontSize="12"/>
+                                <Label Grid.Column="2" Text="HORAS" FontAttributes="Bold" TextColor="#64748B" FontSize="12" HorizontalTextAlignment="Center"/>
+                                <Label Grid.Column="3" Text="TARIFA" FontAttributes="Bold" TextColor="#64748B" FontSize="12" HorizontalTextAlignment="Center"/>
+                                <Label Grid.Column="4" Text="MONTO" FontAttributes="Bold" TextColor="#64748B" FontSize="12" HorizontalTextAlignment="End"/>
+                            </Grid>
+
+                            <ScrollView Grid.Row="1" HeightRequest="450">
+                                <Grid>
+                                    <CollectionView ItemsSource="{Binding Filas}" 
+                                                    IsVisible="{Binding HayDatos}">
+                                        <CollectionView.ItemTemplate>
+                                            <DataTemplate>
+                                                <VerticalStackLayout>
+                                                    <Grid Padding="20,15" ColumnDefinitions="1.2*, 2.5*, 1*, 1*, 1.2*">
+                                                        <Label Text="{Binding Fecha, StringFormat='{0:dd/MM}'}" TextColor="#1E293B" VerticalOptions="Center"/>
+                                                        <Label Grid.Column="1" Text="{Binding Actividad}" TextColor="#1E293B" FontAttributes="Bold" VerticalOptions="Center"/>
+                                                        <Label Grid.Column="2" Text="{Binding Horas}" TextColor="#1E293B" HorizontalTextAlignment="Center"/>
+                                                        <Label Grid.Column="3" Text="{Binding Tarifa, StringFormat='{0:F2}'}" TextColor="#1E293B" HorizontalTextAlignment="Center"/>
+                                                        <Label Grid.Column="4" Text="{Binding Monto, StringFormat='B/. {0:F2}'}" TextColor="#1E293B" FontAttributes="Bold" HorizontalTextAlignment="End"/>
+                                                    </Grid>
+                                                    <BoxView HeightRequest="1" Color="#F1F5F9" Margin="20,0"/>
+                                                </VerticalStackLayout>
+                                            </DataTemplate>
+                                        </CollectionView.ItemTemplate>
+                                    </CollectionView>
+
+                                    <VerticalStackLayout IsVisible="{Binding MostrarMensajeVacio}" 
+                                                         Padding="50" Spacing="15" 
+                                                         HorizontalOptions="Center" VerticalOptions="Center">
+                                        <Image Source="boleta_icon.png" 
+                                               HeightRequest="84" 
+                                               WidthRequest="84" 
+                                               HorizontalOptions="Center" 
+                                               Opacity="0.5" 
+                                               Aspect="AspectFit"/>
+                                        <Label Text="Sin datos para mostrar" TextColor="#1E293B" FontSize="18" FontAttributes="Bold" HorizontalOptions="Center"/>
+                                        <Label Text="Introduzca el nombre de un trabajador y seleccione una fecha válida para generar la boleta." TextColor="#64748B" FontSize="14" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+                                    </VerticalStackLayout>
+                                </Grid>
+                            </ScrollView>
+                        </Grid>
+                    </Border>
+
+                    <VerticalStackLayout Grid.Column="1" Spacing="20">
+
+                        <Border BackgroundColor="White" Stroke="#A8E6CF" StrokeShape="RoundRectangle 16" Padding="25">
+                            <VerticalStackLayout Spacing="15">
+                                <Label Text="INFORMACIÓN DEL TRABAJADOR" FontSize="13" FontAttributes="Bold" TextColor="#0EA5E9"/>
+
+                                <HorizontalStackLayout Spacing="15">
+                                    <Border StrokeShape="RoundRectangle 25" HeightRequest="50" WidthRequest="50" BackgroundColor="Transparent">
+                                        <Image Source="user_icon.png" HeightRequest="30" WidthRequest="30" HorizontalOptions="Center" VerticalOptions="Center"  />
+                                    </Border>
+                                    <VerticalStackLayout VerticalOptions="Center">
+                                        <Label Text="{Binding TrabajadorSeleccionado}" FontSize="18" FontAttributes="Bold" TextColor="#1E293B"/>
+                                        <Label Text="Personal Activo" FontSize="13" TextColor="#10B981"/>
+                                    </VerticalStackLayout>
+                                </HorizontalStackLayout>
+
+                                <BoxView HeightRequest="1" Color="#F1F5F9"/>
+
+                                <Grid RowDefinitions="Auto, Auto" ColumnDefinitions="*,*" RowSpacing="15">
+                                    <VerticalStackLayout Grid.Row="0" Grid.Column="0">
+                                        <Label Text="CÓDIGO (ID)" FontSize="11" TextColor="#64748B"/>
+                                        <Label Text="{Binding CodigoTrabajador}" FontSize="14" FontAttributes="Bold" TextColor="#1E293B"/>
+                                    </VerticalStackLayout>
+
+                                    <VerticalStackLayout Grid.Row="0" Grid.Column="1">
+                                        <Label Text="CÉDULA" FontSize="11" TextColor="#64748B"/>
+                                        <Label Text="{Binding CedulaTrabajador}" FontSize="14" FontAttributes="Bold" TextColor="#1E293B"/>
+                                    </VerticalStackLayout>
+                                </Grid>
+                            </VerticalStackLayout>
+                        </Border>
+
+                        <Border BackgroundColor="#F8FAFC" Stroke="#A8E6CF" StrokeShape="RoundRectangle 16" Padding="25">
+                            <VerticalStackLayout Spacing="15">
+                                <Label Text="RESUMEN DE LIQUIDACIÓN" FontSize="13" FontAttributes="Bold" TextColor="#1E293B"/>
+                                <Grid ColumnDefinitions="*, Auto">
+                                    <Label Text="Subtotal Bruto" TextColor="#64748B"/>
+                                    <Label Grid.Column="1" Text="{Binding TotalDevengado, StringFormat='B/. {0:F2}'}" TextColor="#1E293B" FontAttributes="Bold"/>
+                                </Grid>
+                                <Grid ColumnDefinitions="*, Auto">
+                                    <Label Text="Descuentos" TextColor="#F43F5E"/>
+                                    <Label Grid.Column="1" Text="{Binding Descuentos, StringFormat='- B/. {0:F2}'}" TextColor="#F43F5E" FontAttributes="Bold"/>
+                                </Grid>
+                                <BoxView HeightRequest="1" Color="#CBD5E0" Margin="0,5"/>
+                                <VerticalStackLayout Spacing="2">
+                                    <Label Text="TOTAL A PAGAR" FontSize="12" TextColor="#64748B" HorizontalOptions="Center" FontAttributes="Bold"/>
+                                    <Label Text="{Binding TotalPagar, StringFormat='B/. {0:F2}'}" 
+                                           TextColor="#10B981" FontSize="32" FontAttributes="Bold" 
+                                           HorizontalOptions="Center"/>
+                                </VerticalStackLayout>
+                            </VerticalStackLayout>
+                        </Border>
+
+                    </VerticalStackLayout>
+                </Grid>
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

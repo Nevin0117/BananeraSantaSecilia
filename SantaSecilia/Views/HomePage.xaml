@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:SantaSecilia"
+    x:Class="SantaSecilia.Views.HomePage"
+    BackgroundColor="#FDFBF7"
+    Loaded="HomePage_Loaded">
+    
+    <Grid RowDefinitions="Auto, *">
+
+        <Border Grid.Row="0" BackgroundColor="White" StrokeThickness="0" Padding="30,15">
+            <Border.Shadow>
+                <Shadow Brush="#0F172A" Offset="0,2" Radius="10" Opacity="0.05" />
+            </Border.Shadow>
+
+            <Grid ColumnDefinitions="Auto, *, Auto" VerticalOptions="Center">
+
+                <HorizontalStackLayout Grid.Column="0" Spacing="15" VerticalOptions="Center">
+                    <Image Source="logo.png"
+                           HeightRequest="65"
+                           WidthRequest="65"
+                           Aspect="AspectFit"
+                           VerticalOptions="Center"/>
+                    <Label Text="Finca Santa Cecilia" FontSize="20"
+                           FontAttributes="Bold"
+                           TextColor="#1E293B"
+                           VerticalOptions="Center"
+                           Margin="0,0,40,0"/>
+                </HorizontalStackLayout>
+
+                <HorizontalStackLayout Grid.Column="2" Spacing="25" VerticalOptions="Center">
+
+                    <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
+                        <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="End">
+                            <Label x:Name="LblUserName" Text="Cargando..." FontSize="14" FontAttributes="Bold" TextColor="#1E293B" HorizontalOptions="End"/>
+                            <Label x:Name="LblUserRole" Text="..." FontSize="11" TextColor="#94A3B8" HorizontalOptions="End"/>
+                        </VerticalStackLayout>
+
+                        <Border WidthRequest="40" HeightRequest="40" StrokeShape="RoundRectangle 20" StrokeThickness="0" BackgroundColor="#E0F2FE">
+                            <Label x:Name="LblUserInitial" Text="?" HorizontalOptions="Center" VerticalOptions="Center" FontAttributes="Bold" TextColor="#0284C7"/>
+                        </Border>
+                    </HorizontalStackLayout>
+
+                    <Button Clicked="OnLogoutClicked"
+                            ImageSource="salida.png"
+                            HeightRequest="50"
+                            VerticalOptions="Center"
+                            Margin="2,0,0,0"
+                            BackgroundColor="Transparent"/>
+                </HorizontalStackLayout>
+            </Grid>
+        </Border>
+
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Spacing="40" Padding="40" MaximumWidthRequest="1200" HorizontalOptions="Fill">
+
+                <VerticalStackLayout Spacing="8" Margin="0,20,0,0">
+                    <Label Text="Panel de Control" TextColor="#1E293B" FontSize="32" FontAttributes="Bold" />
+                    <Label Text="Bienvenido de nuevo. Gestiona las operaciones de la finca hoy." TextColor="#64748B" FontSize="15" />
+                </VerticalStackLayout>
+
+                <Grid RowDefinitions="Auto, Auto" ColumnDefinitions="*, *, *" RowSpacing="25" ColumnSpacing="20" HorizontalOptions="Fill">
+                    <Border Grid.Row="0" Grid.Column="0" StrokeShape="RoundRectangle 16" BackgroundColor="White" Stroke="#A8E6CF"  StrokeThickness="1" Padding="30">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="IraActividades"/>
+                        </Border.GestureRecognizers>
+                        <VerticalStackLayout Spacing="15">
+                            <Border BackgroundColor="#E0F2FE" StrokeShape="RoundRectangle 8" Padding="12" HorizontalOptions="Start" StrokeThickness="0">
+                                <Image Source="actividad.png" HeightRequest="24" WidthRequest="24"/>
+                            </Border>
+                            <Label Text="Actividades y Tarifas" FontAttributes="Bold" TextColor="#1E293B" FontSize="18"/>
+                            <Label Text="Configurar el catálogo de labores y ajustar sus precios de mercado." FontSize="13" TextColor="#64748B" LineHeight="1.4"/>
+                            <Label Text="Configurar →" TextColor="#0EA5E9" FontSize="13" FontAttributes="Bold" Margin="0,10,0,0"/>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    
+
+                    <Border Grid.Row="0" Grid.Column="1" StrokeShape="RoundRectangle 16" BackgroundColor="White" Stroke="#A8E6CF"  StrokeThickness="1" Padding="30">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="IraTrabajadores"/>
+                        </Border.GestureRecognizers>
+                        <VerticalStackLayout Spacing="15">
+                            <Border BackgroundColor="#DCFCE7" StrokeShape="RoundRectangle 8" Padding="12" HorizontalOptions="Start" StrokeThickness="0">
+                                <Image Source="jornalero.png" HeightRequest="24" WidthRequest="24"/>
+                            </Border>
+                            <Label Text="Gestionar Jornaleros" FontAttributes="Bold" TextColor="#1E293B" FontSize="18"/>
+                            <Label Text="Administrar la información personal y laboral de los trabajadores." FontSize="13" TextColor="#64748B" LineHeight="1.4"/>
+                            <Label Text="Ver Personal →" TextColor="#10B981" FontSize="13" FontAttributes="Bold" Margin="0,10,0,0"/>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Border Grid.Row="0" Grid.Column="2" StrokeShape="RoundRectangle 16" BackgroundColor="White" Stroke="#A8E6CF"  StrokeThickness="1" Padding="30">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="IraLotes"/>
+                        </Border.GestureRecognizers>
+                        <VerticalStackLayout Spacing="15">
+                            <Border BackgroundColor="#E0F2FE" StrokeShape="RoundRectangle 8" Padding="12" HorizontalOptions="Start" StrokeThickness="0">
+                                <Image Source="lote_icon.png" HeightRequest="24" WidthRequest="24"/>
+                            </Border>
+                            <Label Text="Gestionar Lotes" FontAttributes="Bold" TextColor="#1E293B" FontSize="18"/>
+                            <Label Text="Administrar y editar los diferentes sectores de cultivo y producción." FontSize="13" TextColor="#64748B" LineHeight="1.4"/>
+                            <Label Text="Mapa de Lotes →" TextColor="#0EA5E9" FontSize="13" FontAttributes="Bold" Margin="0,10,0,0"/>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Border Grid.Row="1" Grid.Column="0" StrokeShape="RoundRectangle 16" BackgroundColor="White" Stroke="#A8E6CF"  StrokeThickness="1" Padding="30">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="IraRegistroLab"/>
+                        </Border.GestureRecognizers>
+                        <VerticalStackLayout Spacing="15">
+                            <Border BackgroundColor="#DCFCE7" StrokeShape="RoundRectangle 8" Padding="12" HorizontalOptions="Start" StrokeThickness="0">
+                                <Image Source="registro.png" HeightRequest="24" WidthRequest="24"/>
+                            </Border>
+                            <Label Text="Registro Laboral" FontAttributes="Bold" TextColor="#1E293B" FontSize="18"/>
+                            <Label Text="Crear un registro diario para un jornalero de forma rápida." FontSize="13" TextColor="#64748B" LineHeight="1.4"/>
+                            <Label Text="Acceder →" TextColor="#10B981" FontSize="13" FontAttributes="Bold" Margin="0,10,0,0"/>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Border Grid.Row="1" Grid.Column="1" StrokeShape="RoundRectangle 16" BackgroundColor="White" Stroke="#A8E6CF"  StrokeThickness="1" Padding="30">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="IraBoletaSemanal"/>
+                        </Border.GestureRecognizers>
+                        <VerticalStackLayout Spacing="15">
+                            <Border BackgroundColor="#E0F2FE" StrokeShape="RoundRectangle 8" Padding="12" HorizontalOptions="Start" StrokeThickness="0">
+                                <Image Source="boleta.png" HeightRequest="24" WidthRequest="24"/>
+                            </Border>
+                            <Label Text="Boleta Semanal" FontAttributes="Bold" TextColor="#1E293B" FontSize="18"/>
+                            <Label Text="Generar comprobantes de pago detallados para todo el personal." FontSize="13" TextColor="#64748B" LineHeight="1.4"/>
+                            <Label Text="Generar Pagos →" TextColor="#0EA5E9" FontSize="13" FontAttributes="Bold" Margin="0,10,0,0"/>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Border Grid.Row="1" Grid.Column="2" StrokeShape="RoundRectangle 16" BackgroundColor="White" Stroke="#A8E6CF"  StrokeThickness="1" Padding="30">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="IraRepoteG"/>
+                        </Border.GestureRecognizers>
+                        <VerticalStackLayout Spacing="15">
+                            <Border BackgroundColor="#DCFCE7" StrokeShape="RoundRectangle 8" Padding="12" HorizontalOptions="Start" StrokeThickness="0">
+                                <Image Source="reporte.png" HeightRequest="24" WidthRequest="24"/>
+                            </Border>
+                            <Label Text="Reporte Global" FontAttributes="Bold" TextColor="#1E293B" FontSize="18"/>
+                            <Label Text="Visualizar métricas clave, rendimientos y costos operativos semanales." FontSize="13" TextColor="#64748B" LineHeight="1.4"/>
+                            <Label Text="Ver Análisis →" TextColor="#10B981" FontSize="13" FontAttributes="Bold" Margin="0,10,0,0"/>
+                        </VerticalStackLayout>
+                    </Border>
+                </Grid>
+
+                <VerticalStackLayout Spacing="20" Margin="0,20,0,20">
+                    <Label Text="Resumen de Actividad Hoy" TextColor="#1E293B" FontSize="16" FontAttributes="Bold" />
+                    <Border BackgroundColor="White" Stroke="#A8E6CF"  StrokeThickness="1" StrokeShape="RoundRectangle 12" Padding="0">
+                        <Grid ColumnDefinitions="*, Auto, *, Auto, *" ColumnSpacing="0">
+                            <VerticalStackLayout Grid.Column="0" Padding="25" Spacing="5" VerticalOptions="Center">
+                                <Label Text="Jornaleros Activos" FontSize="12" TextColor="#64748B" FontAttributes="Bold"/>
+                                <HorizontalStackLayout Spacing="10" VerticalOptions="End">
+                                    <Label Text="{Binding TotalJornaleros}" FontSize="32" FontAttributes="Bold" TextColor="#1E293B"/>
+                                    <Label Text="Totales" FontSize="12" TextColor="#10B981" FontAttributes="Bold" VerticalOptions="End" Margin="0,0,0,6"/>
+                                </HorizontalStackLayout>
+                            </VerticalStackLayout>
+                            <BoxView Grid.Column="1" WidthRequest="1" Color="#E2E8F0" VerticalOptions="Fill"/>
+                            <VerticalStackLayout Grid.Column="2" Padding="25" Spacing="5" VerticalOptions="Center">
+                                <Label Text="Lotes en Trabajo" FontSize="12" TextColor="#64748B" FontAttributes="Bold"/>
+                                <HorizontalStackLayout Spacing="10" VerticalOptions="End">
+                                    <Label Text="{Binding TotalLotes}" FontSize="32" FontAttributes="Bold" TextColor="#1E293B"/>
+                                    <Label Text="Activos" FontSize="12" TextColor="#64748B" FontAttributes="Bold" VerticalOptions="End" Margin="0,0,0,6"/>
+                                </HorizontalStackLayout>
+                            </VerticalStackLayout>
+                            <BoxView Grid.Column="3" WidthRequest="1" Color="#E2E8F0" VerticalOptions="Fill"/>
+                            <VerticalStackLayout Grid.Column="4" Padding="25" Spacing="5" VerticalOptions="Center">
+                                <Label Text="Registros Laborales" FontSize="12" TextColor="#64748B" FontAttributes="Bold"/>
+                                <HorizontalStackLayout Spacing="10" VerticalOptions="End">
+                                    <Label Text="{Binding RegistrosHoy}" FontSize="32" FontAttributes="Bold" TextColor="#1E293B"/>
+                                    <Label Text="Creados hoy" FontSize="12" TextColor="#0EA5E9" FontAttributes="Bold" VerticalOptions="End" Margin="0,0,0,6"/>
+                                </HorizontalStackLayout>
+                            </VerticalStackLayout>
+                        </Grid>
+                    </Border>
+                </VerticalStackLayout>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="SantaSecilia.Views.RegistroLabor"
+    xmlns:viewmodels="clr-namespace:SantaSecilia.ViewModels"
+    xmlns:views="clr-namespace:SantaSecilia.Views"
+    xmlns:entities="clr-namespace:SantaSecilia.Domain.Entities"
+    x:DataType="viewmodels:RegistroLaborViewModel"
+    BackgroundColor="#FDFBF7">
+
+    <Grid RowDefinitions="Auto, *">
+
+        <views:HeaderView Grid.Row="0" x:Name="MyHeader"/>
+
+        <ScrollView Grid.Row="1">
+            <Grid Padding="20,40">
+
+                <Border BackgroundColor="White"
+                        Stroke="#A8E6CF" 
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 16"
+                        Padding="40,30"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Start"
+                        MaximumWidthRequest="500">
+
+                    <VerticalStackLayout Spacing="25">
+
+                        <VerticalStackLayout Spacing="8" HorizontalOptions="Center">
+
+                            <BoxView WidthRequest="80" HeightRequest="4" Color="#A8E6CF"  CornerRadius="2" HorizontalOptions="Center" Margin="0,0,0,10"/>
+
+                            <Label Text="Registro Laboral Diario"
+                                   TextColor="#1E293B"
+                                   FontSize="26"
+                                   FontAttributes="Bold"
+                                   HorizontalOptions="Center"/>
+
+                            <Label Text="Complete los detalles de la jornada para el cálculo automático."
+                                   TextColor="#64748B"
+                                   FontSize="14"
+                                   HorizontalOptions="Center"
+                                   HorizontalTextAlignment="Center"/>
+                        </VerticalStackLayout>
+
+                        <ActivityIndicator IsRunning="{Binding IsBusy}"
+                                           IsVisible="{Binding IsBusy}"
+                                           Color="#0EA5E9"
+                                           HorizontalOptions="Center" />
+
+                        <Label Text="{Binding ErrorMessage}"
+                               TextColor="{Binding IsSuccess, Converter={StaticResource Key=SuccessColorConverter}}"
+                               FontSize="13"
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center"
+                               HorizontalTextAlignment="Center"
+                               IsVisible="{Binding ErrorMessage, Converter={StaticResource Key=StringNotEmptyConverter}}" />
+
+                        <BoxView HeightRequest="1" Color="Transparent" Margin="0,-5"/>
+
+                        <VerticalStackLayout Spacing="20">
+
+                            <VerticalStackLayout Spacing="8">
+                                <Label Text="Trabajador" FontSize="13" FontAttributes="Bold" TextColor="#475569"/>
+
+                                <Border Stroke="#CBD5E0" StrokeShape="RoundRectangle 8" BackgroundColor="White" Padding="15,0" HeightRequest="55">
+                                    <Grid ColumnDefinitions="Auto, *" ColumnSpacing="12" VerticalOptions="Fill">
+                                        <Image Grid.Column="0" Source="trabajador_icon.png" HeightRequest="20" WidthRequest="20" VerticalOptions="Center" Opacity="0.6"/>
+
+                                        <Entry Grid.Column="1" 
+                                               Placeholder="Buscar trabajador..."
+                                               PlaceholderColor="#94A3B8"
+                                               TextColor="#1E293B"
+                                               FontSize="15"
+                                               Text="{Binding TrabajadorBusqueda}"
+                                               BackgroundColor="Transparent"
+                                               VerticalOptions="Center"/>
+                                    </Grid>
+                                </Border>
+
+                                <Border Stroke="#E2E8F0" StrokeThickness="1" StrokeShape="RoundRectangle 8" BackgroundColor="White"
+                                        IsVisible="{Binding TrabajadoresSugeridos.Count, Converter={StaticResource IntToBoolConverter}}">
+                                    <CollectionView ItemsSource="{Binding TrabajadoresSugeridos}" HeightRequest="150">
+                                        <CollectionView.ItemTemplate>
+                                            <DataTemplate x:DataType="entities:Worker">
+                                                <Grid Padding="15,10" BackgroundColor="Transparent">
+                                                    <Label FontSize="14" VerticalOptions="Center">
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span Text="{Binding FullName}" 
+                                                                      FontAttributes="Bold" 
+                                                                      TextColor="#1E293B" />
+
+                                                                <Span Text=" — " 
+                                                                        TextColor="#94A3B8" />
+
+                                                                <Span Text="{Binding IdentificationNumber}" 
+                                                                      TextColor="#64748B" 
+                                                                      FontSize="12" />
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+
+                                                    <Grid.GestureRecognizers>
+                                                        <TapGestureRecognizer 
+                                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:RegistroLaborViewModel}}, Path=SelectWorkerCommand}" 
+                                                            CommandParameter="{Binding .}"/>
+                                                    </Grid.GestureRecognizers>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </CollectionView.ItemTemplate>
+                                    </CollectionView>
+                                </Border>
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout Spacing="8">
+                                <Label Text="Actividad" FontSize="13" FontAttributes="Bold" TextColor="#475569"/>
+
+                                <Border Stroke="#CBD5E0" StrokeShape="RoundRectangle 8" BackgroundColor="White" Padding="15,0" HeightRequest="55">
+                                    <Grid ColumnDefinitions="Auto, *" ColumnSpacing="12" VerticalOptions="Fill">
+
+                                        <Image Grid.Column="0" Source="actividad_icon.png" HeightRequest="20" WidthRequest="20" VerticalOptions="Center" Opacity="0.6"/>
+
+                                        <Grid Grid.Column="1" VerticalOptions="Fill" HorizontalOptions="Fill">
+
+                                            <Label Text="Seleccionar actividad..." 
+                                                   TextColor="#94A3B8" 
+                                                   FontSize="15" 
+                                                   VerticalOptions="Center"
+                                                   InputTransparent="True"
+                                                   IsVisible="False">
+                                                <Label.Triggers>
+                                                    <DataTrigger TargetType="Label" Binding="{Binding Source={x:Reference PickerActividad}, Path=SelectedIndex}" Value="-1">
+                                                        <Setter Property="IsVisible" Value="True"/>
+                                                    </DataTrigger>
+                                                </Label.Triggers>
+                                            </Label>
+
+                                            <Picker x:Name="PickerActividad"
+                                                    ItemsSource="{Binding Actividades}"
+                                                    ItemDisplayBinding="{Binding Name}"
+                                                    SelectedItem="{Binding SelectedActivity}"
+                                                    TextColor="#1E293B"
+                                                    FontSize="15"
+                                                    BackgroundColor="Transparent"
+                                                    HorizontalOptions="Fill"
+                                                    VerticalOptions="Fill"/>
+                                        </Grid>
+                                    </Grid>
+                                </Border>
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout Spacing="8">
+                                <Label Text="Lote" FontSize="13" FontAttributes="Bold" TextColor="#475569"/>
+
+                                <Border Stroke="#CBD5E0" StrokeShape="RoundRectangle 8" BackgroundColor="White" Padding="15,0" HeightRequest="55">
+                                    <Grid ColumnDefinitions="Auto, *" ColumnSpacing="12" VerticalOptions="Fill">
+
+                                        <Image Grid.Column="0" Source="lote_icon.png" HeightRequest="20" WidthRequest="20" VerticalOptions="Center" Opacity="0.6"/>
+
+                                        <Grid Grid.Column="1" VerticalOptions="Fill" HorizontalOptions="Fill">
+
+                                            <Label Text="Seleccionar lote..." 
+                                                   TextColor="#94A3B8" 
+                                                   FontSize="15" 
+                                                   VerticalOptions="Center"
+                                                   InputTransparent="True"
+                                                   IsVisible="False">
+                                                <Label.Triggers>
+                                                    <DataTrigger TargetType="Label" Binding="{Binding Source={x:Reference PickerLote}, Path=SelectedIndex}" Value="-1">
+                                                        <Setter Property="IsVisible" Value="True"/>
+                                                    </DataTrigger>
+                                                </Label.Triggers>
+                                            </Label>
+
+                                            <Picker x:Name="PickerLote"
+                                                    ItemsSource="{Binding Lotes}"
+                                                    ItemDisplayBinding="{Binding Code}"
+                                                    SelectedItem="{Binding SelectedLot}"
+                                                    TextColor="#1E293B"
+                                                    FontSize="15"
+                                                    BackgroundColor="Transparent"
+                                                    HorizontalOptions="Fill"
+                                                    VerticalOptions="Fill"/>
+                                        </Grid>
+                                    </Grid>
+                                </Border>
+                            </VerticalStackLayout>
+
+                            <Grid ColumnDefinitions="*,*" ColumnSpacing="15">
+
+                                <VerticalStackLayout Grid.Column="0" Spacing="8">
+                                    <Label Text="Horas trabajadas" FontSize="13" FontAttributes="Bold" TextColor="#475569"/>
+                                    <Border Stroke="#CBD5E0" StrokeShape="RoundRectangle 8" BackgroundColor="White" Padding="15,0" HeightRequest="55">
+                                        <Grid ColumnDefinitions="Auto, *" ColumnSpacing="12" VerticalOptions="Fill">
+                                            <Image Grid.Column="0" Source="reloj_icon.png" HeightRequest="20" WidthRequest="20" VerticalOptions="Center" Opacity="0.6"/>
+                                            <Entry Grid.Column="1" 
+                                                   Placeholder="0.0"
+                                                   Text="{Binding HorasTrabajadas}"
+                                                   TextColor="#1E293B"
+                                                   PlaceholderColor="#94A3B8"
+                                                   FontSize="15"
+                                                   Keyboard="Numeric"
+                                                   VerticalOptions="Center"
+                                                   BackgroundColor="Transparent"/>
+                                        </Grid>
+                                    </Border>
+                                </VerticalStackLayout>
+
+                                <VerticalStackLayout Grid.Column="1" Spacing="8">
+                                    <Label Text="Monto Calculado" FontSize="13" FontAttributes="Bold" TextColor="#475569"/>
+                                    <Border Stroke="#CBD5E0" StrokeShape="RoundRectangle 8" BackgroundColor="#F8FAFC" Padding="15,0" HeightRequest="55">
+                                        <Grid ColumnDefinitions="Auto, *" ColumnSpacing="12" VerticalOptions="Fill">
+                                            <Image Grid.Column="0" Source="dinero_icon.png" HeightRequest="20" WidthRequest="20" VerticalOptions="Center" Opacity="0.6"/>
+                                            <Label Grid.Column="1" 
+                                                   Text="{Binding MontoAutogenerado}"
+                                                   TextColor="#0EA5E9"
+                                                   FontAttributes="Bold"
+                                                   FontSize="16"
+                                                   VerticalOptions="Center"/>
+                                        </Grid>
+                                    </Border>
+                                </VerticalStackLayout>
+
+                            </Grid>
+
+                        </VerticalStackLayout>
+
+                        <BoxView HeightRequest="1" Color="#E2E8F0" Margin="0,10"/>
+
+                        <HorizontalStackLayout Spacing="15" HorizontalOptions="Center">
+
+                            <Button Text="Cancelar"
+                                    Command="{Binding CancelarCommand}"
+                                    BackgroundColor="White"
+                                    TextColor="#475569"
+                                    BorderColor="#CBD5E0"
+                                    BorderWidth="1"
+                                    CornerRadius="8"
+                                    HeightRequest="50"
+                                    Padding="30,0"
+                                    FontSize="15"
+                                    FontAttributes="Bold"/>
+
+                            <Button Text="Guardar Registro"
+                                    Command="{Binding GuardarRegistroCommand}"
+                                    BackgroundColor="#A8E6CF"
+                                    TextColor="#1B4332"
+                                    CornerRadius="8"
+                                    HeightRequest="50"
+                                    Padding="40,0"
+                                    FontSize="15"
+                                    FontAttributes="Bold"/>
+                        </HorizontalStackLayout>
+
+                    </VerticalStackLayout>
+                </Border>
+            </Grid>
+        </ScrollView>
+    </Grid>
+</ContentPage>

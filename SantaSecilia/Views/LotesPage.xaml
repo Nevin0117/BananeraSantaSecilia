@@ -1,0 +1,145 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:SantaSecilia.ViewModels"
+             xmlns:views="clr-namespace:SantaSecilia.Views"
+             x:Class="SantaSecilia.Views.LotesPage"
+             BackgroundColor="#FDFBF7">
+    <Grid RowDefinitions="Auto, *">
+
+        <views:HeaderView Grid.Row="0" x:Name="MyHeader"/>
+
+        <Grid Grid.Row="1" Padding="40,30">
+
+            <Border MaximumWidthRequest="900" 
+                    HorizontalOptions="Center"
+                    VerticalOptions="Start"
+                    BackgroundColor="White" 
+                    StrokeShape="RoundRectangle 12" 
+                    Stroke="#A8E6CF" 
+                    Padding="0">
+
+                <Grid RowDefinitions="Auto, Auto, *, Auto">
+
+                    <Grid Grid.Row="0" ColumnDefinitions="*, Auto" Padding="30,25" BackgroundColor="White">
+
+                        <VerticalStackLayout Grid.Column="0" VerticalOptions="Center" Spacing="5">
+                            <Label Text="Gestión de Lotes" FontSize="28" FontAttributes="Bold" TextColor="#1A202C"/>
+                            <Label Text="Administra el catálogo de lotes y sus estados actuales." FontSize="14" TextColor="#718096"/>
+                        </VerticalStackLayout>
+
+                        <Button Grid.Column="1" 
+                                Text="+ Nuevo Lote" 
+                                BackgroundColor="#A8E6CF" 
+                                TextColor="#1B4332" 
+                                FontAttributes="Bold" 
+                                CornerRadius="8" 
+                                HeightRequest="45" 
+                                Padding="20,0"
+                                VerticalOptions="Center"
+                                Command="{Binding RegistrarCommand}"/>
+                    </Grid>
+
+                    <Grid Grid.Row="1" ColumnDefinitions="2*, 2*, 1*" Padding="30,12" BackgroundColor="#E3F2FD">
+                        <Label Grid.Column="0" Text="CÓDIGO DEL LOTE" FontSize="14" FontAttributes="Bold" TextColor="#2D3748"/>
+                        <Label Grid.Column="1" Text="ESTADO" FontSize="14" FontAttributes="Bold" TextColor="#2D3748" HorizontalTextAlignment="Center"/>
+                        <Label Grid.Column="2" Text="ACCIONES" FontSize="14" FontAttributes="Bold" TextColor="#2D3748" HorizontalTextAlignment="Center"/>
+                    </Grid>
+
+                    <BoxView Grid.Row="1" HeightRequest="1" Color="#E2E8F0" VerticalOptions="End" HorizontalOptions="Fill"/>
+
+                    <CollectionView Grid.Row="2" 
+                                    ItemsSource="{Binding Lotes}" 
+                                    
+                                    VerticalScrollBarVisibility="Always">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <VerticalStackLayout>
+
+                                    <VisualStateManager.VisualStateGroups>
+                                        <VisualStateGroupList>
+                                            <VisualStateGroup x:Name="CommonStates">
+                                                <VisualState x:Name="Normal" />
+                                                <VisualState x:Name="PointerOver">
+                                                    <VisualState.Setters>
+                                                        <Setter Property="BackgroundColor" Value="#F1F5F9" />
+                                                    </VisualState.Setters>
+                                                </VisualState>
+                                            </VisualStateGroup>
+                                        </VisualStateGroupList>
+                                    </VisualStateManager.VisualStateGroups>
+
+                                    <Grid ColumnDefinitions="2*, 2*, 1*" Padding="30,18" VerticalOptions="Center">
+
+                                        <HorizontalStackLayout Grid.Column="0" Spacing="15" VerticalOptions="Center">
+                                            <Border WidthRequest="36" HeightRequest="36" BackgroundColor="#F1F5F9" StrokeShape="RoundRectangle 8" StrokeThickness="0">
+                                                <Image Source="location_icon.png"
+                                                       HeightRequest="28"
+                                                       WidthRequest="28"
+                                                       HorizontalOptions="Center"
+                                                       VerticalOptions="Center"
+                                                       Aspect="AspectFit"
+                                                       />
+                                            </Border>
+                                            <Label Text="{Binding Code}" TextColor="#1E293B" FontAttributes="Bold" FontSize="15" VerticalOptions="Center"/>
+                                        </HorizontalStackLayout>
+
+                                        <Border Grid.Column="1" HorizontalOptions="Center" VerticalOptions="Center" Padding="15,6" StrokeShape="RoundRectangle 15" BackgroundColor="#E8F5E9" StrokeThickness="0">
+
+                                            <Label Text="{Binding EstadoTexto}" TextColor="#2E7D32" FontSize="12" FontAttributes="Bold">
+                                                <Label.Triggers>
+                                                    <DataTrigger TargetType="Label" Binding="{Binding EstadoTexto}" Value="Inactivo">
+                                                        <Setter Property="TextColor" Value="#64748B" />
+                                                    </DataTrigger>
+                                                    <DataTrigger TargetType="Label" Binding="{Binding EstadoTexto}" Value="Mantenimiento">
+                                                        <Setter Property="TextColor" Value="#B45309" />
+                                                    </DataTrigger>
+                                                </Label.Triggers>
+                                            </Label>
+
+                                            <Border.Triggers>
+                                                <DataTrigger TargetType="Border" Binding="{Binding EstadoTexto}" Value="Inactivo">
+                                                    <Setter Property="BackgroundColor" Value="#F1F5F9" />
+                                                </DataTrigger>
+                                                <DataTrigger TargetType="Border" Binding="{Binding EstadoTexto}" Value="Mantenimiento">
+                                                    <Setter Property="BackgroundColor" Value="#FEF3C7" />
+                                                </DataTrigger>
+                                            </Border.Triggers>
+                                        </Border>
+
+                                        <HorizontalStackLayout Grid.Column="2" HorizontalOptions="Center" Spacing="20" VerticalOptions="Center">
+
+                                            <Button ImageSource="edit_icon.png"
+                                                    BackgroundColor="Transparent" 
+                                                    Padding="0" 
+                                                    FontSize="18"
+                                                    ToolTipProperties.Text="Editar Lote"
+                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.EditarCommand}"
+                                                    CommandParameter="{Binding .}"/>
+
+                                            <Button ImageSource="delete_icon.png"
+                                                    BackgroundColor="Transparent" 
+                                                    Padding="0" 
+                                                    FontSize="18"
+                                                    ToolTipProperties.Text="Eliminar Lote"
+                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.EliminarCommand}"
+                                                    CommandParameter="{Binding .}"/>
+                                        </HorizontalStackLayout>
+
+                                    </Grid>
+
+                                    <BoxView HeightRequest="1" Color="#F1F5F9" HorizontalOptions="Fill"/>
+                                </VerticalStackLayout>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+                    <Grid Grid.Row="3" Padding="30,15" BackgroundColor="White">
+                        <Label Text="Listado de Lotes · Finca Santa Secilia" FontSize="12" TextColor="#94A3B8" HorizontalOptions="Center"/>
+                    </Grid>
+
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</ContentPage>

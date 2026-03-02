@@ -1,14 +1,23 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+﻿<?xml version="1.0" encoding="UTF-8" ?>
 <Shell
     x:Class="SantaSecilia.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:SantaSecilia"
-    Title="SantaSecilia">
+    xmlns:views="clr-namespace:SantaSecilia.Views"
+    Title="SantaSecilia"
+    Shell.NavBarIsVisible="False"
+    Shell.TabBarIsVisible="False"
+    FlyoutBehavior="Disabled">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+     
+    
+    <ShellContent Title="Login"           Route="Login"          ContentTemplate="{DataTemplate views:LoginPage}" />
+    <ShellContent Title="Home"            Route="Home"           ContentTemplate="{DataTemplate views:HomePage}" />
+    <ShellContent Title="Lotes"           Route="Lotes"          ContentTemplate="{DataTemplate views:LotesPage}" />
+    <ShellContent Title="Registro Laboral" Route="RegistroLaboral" ContentTemplate="{DataTemplate views:RegistroLabor}" />
+    <ShellContent Title="Trabajadores"    Route="Trabajadores"   ContentTemplate="{DataTemplate views:TrabajadoresListPage}" />
+    <ShellContent Title="Boleta Semanal"  Route="BoletaSemanal"  ContentTemplate="{DataTemplate views:BoletaSemanalPage}" />
+    <ShellContent Title="Actividades"     Route="Actividades"    ContentTemplate="{DataTemplate views:ActividadesPage}" />
+    <ShellContent Title="Reportes"        Route="ReporteGlobal"  ContentTemplate="{DataTemplate views:ReporteGlobalPage}" />
 
 </Shell>

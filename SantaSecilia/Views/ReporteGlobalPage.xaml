@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:views="clr-namespace:SantaSecilia.Views"
+             xmlns:conv="clr-namespace:SantaSecilia.Converters"
+             x:Class="SantaSecilia.Views.ReporteGlobalPage"
+             BackgroundColor="#FDFBF7">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <conv:FirstLetterConverter x:Key="FirstLetterConv" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ScrollView>
+        <Grid RowDefinitions="Auto, *">
+
+            <views:HeaderView Grid.Row="0" x:Name="MyHeader"/>
+
+            <VerticalStackLayout Grid.Row="1" Padding="40" Spacing="25" MaximumWidthRequest="1200" HorizontalOptions="Center">
+
+                <VerticalStackLayout Spacing="8" HorizontalOptions="Center" Margin="0,10,0,10">
+                    <Label Text="Reporte Global Semanal" TextColor="#1E293B" FontSize="32" FontAttributes="Bold" HorizontalOptions="Center"/>
+                    <Label Text="Visión general de rendimiento, horas y pagos consolidados." TextColor="#64748B" FontSize="15" HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+
+                <Border BackgroundColor="White" 
+                        Stroke="#A8E6CF" 
+                        StrokeThickness="1" 
+                        StrokeShape="RoundRectangle 12" 
+                        Padding="25"
+                        HorizontalOptions="Fill">
+
+                    <Grid ColumnDefinitions="Auto, *" ColumnSpacing="30">
+
+                        <!-- Selector de fecha (izquierda) -->
+                        <VerticalStackLayout Grid.Column="0" Spacing="10" HorizontalOptions="Start">
+                            <Label Text="PERÍODO DEL REPORTE" FontSize="11" FontAttributes="Bold" TextColor="#94A3B8"/>
+
+                            <Border Stroke="#CBD5E0" StrokeShape="RoundRectangle 8" BackgroundColor="#F8FAFC" Padding="15,5" HeightRequest="45">
+                                <Grid>
+                                    <Label x:Name="PlaceholderLabel"
+                                           Text="Seleccione una fecha..."
+                                           TextColor="#94A3B8"
+                                           FontSize="14"
+                                           VerticalOptions="Center"
+                                           InputTransparent="True"
+                                           IsVisible="True"/>
+                                    <DatePicker x:Name="DateSelector"
+                                                Date="{Binding FechaSeleccionada}"
+                                                WidthRequest="220"
+                                                TextColor="Transparent" FontAttributes="Bold"
+                                                BackgroundColor="Transparent"
+                                                Format="dd, MMMM, yyyy"/>
+                                </Grid>
+                            </Border>
+
+                            <Label x:Name="SemanaCalculadaLabel" FontSize="12" TextColor="#64748B" IsVisible="False">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="Semana: "/>
+                                        <Span Text="{Binding RangoSemana}" FontAttributes="Bold" TextColor="Black"/>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                        </VerticalStackLayout>
+
+                        <!-- Cuadros informativos (derecha) -->
+                        <HorizontalStackLayout Grid.Column="1" 
+                               Spacing="15"
+                               HorizontalOptions="End"
+                               VerticalOptions="Center">
+
+                            <!-- Total Actividades -->
+                            <Border BackgroundColor="#DBEAFE"
+                                    StrokeShape="RoundRectangle 12"
+                                    StrokeThickness="0"
+                                    Padding="25,18"
+                                    WidthRequest="160">
+                                <VerticalStackLayout Spacing="5">
+                                    <Label Text="ACTIVIDADES"
+                                           FontSize="11"
+                                           TextColor="#1E40AF"
+                                           FontAttributes="Bold"/>
+                                    <Label Text="{Binding TotalActividades}"
+                                           FontSize="32"
+                                           TextColor="#1E3A8A"
+                                           FontAttributes="Bold"/>
+                                </VerticalStackLayout>
+                            </Border>
+
+                            <!-- Total Jornaleros -->
+                            <Border BackgroundColor="#D1FAE5"
+                                    StrokeShape="RoundRectangle 12"
+                                    StrokeThickness="0"
+                                    Padding="25,18"
+                                    WidthRequest="160">
+                                <VerticalStackLayout Spacing="5">
+                                    <Label Text="JORNALEROS"
+                                           FontSize="11"
+                                           TextColor="#047857"
+                                           FontAttributes="Bold"/>
+                                    <Label Text="{Binding TotalJornaleros}"
+                                           FontSize="32"
+                                           TextColor="#065F46"
+                                           FontAttributes="Bold"/>
+                                </VerticalStackLayout>
+                            </Border>
+                        </HorizontalStackLayout>
+                    </Grid>
+                </Border>
+
+                <Border BackgroundColor="White" 
+                        Stroke="#A8E6CF" 
+                        StrokeThickness="1" 
+                        StrokeShape="RoundRectangle 16" 
+                        Padding="0">
+                    <Grid RowDefinitions="Auto, Auto, Auto, *, Auto, Auto">
+
+                        <Grid Grid.Row="0" ColumnDefinitions="*, Auto" Padding="30,20" VerticalOptions="Center">
+
+                            <HorizontalStackLayout Grid.Column="0" Spacing="12" VerticalOptions="Center">
+                                <BoxView WidthRequest="4" HeightRequest="24" Color="#10B981" CornerRadius="2"/>
+                                <Label Text="Detalle de Actividades" FontSize="18" FontAttributes="Bold" TextColor="#1E293B" VerticalOptions="Center"/>
+                            </HorizontalStackLayout>
+
+                            <Button Grid.Column="1" 
+                                    Text="Exportar / Imprimir" 
+                                    ImageSource="print_icon.png"
+                                    ContentLayout="Left, 8"
+                                    BackgroundColor="White" 
+                                    TextColor="#475569" 
+                                    BorderColor="#CBD5E0" 
+                                    BorderWidth="1" 
+                                    CornerRadius="8" 
+                                    HeightRequest="40" 
+                                    Padding="15,0" 
+                                    FontSize="13" 
+                                    FontAttributes="Bold"
+                                    Clicked="Imprimir_Clicked"/>
+                        </Grid>
+
+                        <BoxView Grid.Row="1" HeightRequest="1" Color="#E2E8F0" HorizontalOptions="Fill"/>
+
+                        <Grid Grid.Row="2" ColumnDefinitions="3.5*, 2*, 2*, 2.5*" Padding="30,15" BackgroundColor="#E3F2FD">
+                            <Label Grid.Column="0" Text="ACTIVIDAD" FontSize="11" FontAttributes="Bold" TextColor="#64748B"/>
+                            <Label Grid.Column="1" Text="TOTAL HORAS" FontSize="11" FontAttributes="Bold" TextColor="#64748B" HorizontalTextAlignment="Center"/>
+                            <Label Grid.Column="2" Text="TARIFA PROMEDIO" FontSize="11" FontAttributes="Bold" TextColor="#64748B" HorizontalTextAlignment="Center"/>
+                            <Label Grid.Column="3" Text="TOTAL PAGADO" FontSize="11" FontAttributes="Bold" TextColor="#64748B" HorizontalTextAlignment="End"/>
+                        </Grid>
+
+                        <BoxView Grid.Row="3" HeightRequest="1" Color="#E2E8F0" HorizontalOptions="Fill" VerticalOptions="Start"/>
+
+                        <VerticalStackLayout Grid.Row="3" IsVisible="{Binding MostrarMensajeVacio}" Padding="50" Spacing="15" HorizontalOptions="Center" VerticalOptions="Center">
+                            <Image Source="reporte_icon.png" 
+                                   HeightRequest="84" 
+                                   WidthRequest="84" 
+                                   HorizontalOptions="Center" 
+                                   Opacity="0.5" 
+                                   Aspect="AspectFit"/>
+                            <Label Text="Sin datos para mostrar" TextColor="#1E293B" FontSize="18" FontAttributes="Bold" HorizontalOptions="Center"/>
+                            <Label Text="Seleccione una fecha válida para generar el reporte de la semana laboral." TextColor="#64748B" FontSize="14" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+                        </VerticalStackLayout>
+
+                        <CollectionView Grid.Row="3" ItemsSource="{Binding Actividades}" IsVisible="{Binding HayDatos}" HeightRequest="280">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <VerticalStackLayout>
+                                        <Grid ColumnDefinitions="3.5*, 2*, 2*, 2.5*" Padding="30,20" VerticalOptions="Center">
+
+                                            <HorizontalStackLayout Grid.Column="0" Spacing="15" VerticalOptions="Center">
+                                                <Border WidthRequest="40" HeightRequest="40" BackgroundColor="#E0F2FE" StrokeShape="RoundRectangle 10" StrokeThickness="0" VerticalOptions="Center">
+                                                    <Label Text="{Binding Actividad, Converter={StaticResource FirstLetterConv}}" TextColor="#0284C7" FontAttributes="Bold" FontSize="16" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                                </Border>
+                                                <VerticalStackLayout VerticalOptions="Center" Spacing="2">
+                                                    <Label Text="{Binding Actividad}" FontSize="15" FontAttributes="Bold" TextColor="#1E293B"/>
+                                                    <Label Text="Labor de campo" FontSize="12" TextColor="#94A3B8"/>
+                                                </VerticalStackLayout>
+                                            </HorizontalStackLayout>
+
+                                            <Border Grid.Column="1" HorizontalOptions="Center" VerticalOptions="Center" Padding="15,6" StrokeShape="RoundRectangle 15" BackgroundColor="#F1F5F9" StrokeThickness="0">
+                                                <Label Text="{Binding Horas, StringFormat='{0} hrs'}" TextColor="#475569" FontSize="13" FontAttributes="Bold"/>
+                                            </Border>
+
+                                            <Label Grid.Column="2" Text="{Binding Tarifa, StringFormat='B/. {0:N2}'}" TextColor="#64748B" FontSize="15" HorizontalTextAlignment="Center" VerticalOptions="Center"/>
+
+                                            <Label Grid.Column="3" Text="{Binding Total, StringFormat='{0:N2}'}" TextColor="#1E293B" FontAttributes="Bold" FontSize="16" HorizontalTextAlignment="End" VerticalOptions="Center"/>
+                                        </Grid>
+
+                                        <BoxView HeightRequest="1" Color="#F1F5F9" HorizontalOptions="Fill"/>
+                                    </VerticalStackLayout>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+
+                        <BoxView Grid.Row="4" HeightRequest="1" Color="#E2E8F0" HorizontalOptions="Fill"/>
+
+                        <Grid Grid.Row="5" Padding="30,25" BackgroundColor="#F8FAFC" IsVisible="{Binding HayDatos}">
+                            <HorizontalStackLayout HorizontalOptions="End" Spacing="25" VerticalOptions="Center">
+
+                                <!-- Total de horas -->
+                                <VerticalStackLayout VerticalOptions="Center" Spacing="2" HorizontalOptions="End">
+                                    <Label Text="TOTAL HORAS SEMANA" FontSize="11" FontAttributes="Bold" TextColor="#94A3B8" HorizontalOptions="End"/>
+                                    <Label Text="{Binding TotalHoras}" FontSize="20" TextColor="#475569" FontAttributes="Bold" HorizontalOptions="End"/>
+                                </VerticalStackLayout>
+
+
+                                <!-- Total pagado -->
+                                <Border BackgroundColor="#D1FAE5" StrokeThickness="0" StrokeShape="RoundRectangle 12" Padding="25,15">
+                                    <VerticalStackLayout Spacing="5">
+                                        <Label Text="TOTAL GLOBAL PAGADO" FontSize="12" FontAttributes="Bold" TextColor="#065F46" HorizontalOptions="End"/>
+                                        <Label Text="{Binding TotalPagado, StringFormat='{0:N2}'}" FontSize="28" FontAttributes="Bold" TextColor="#064E3B" HorizontalOptions="End"/>
+                                    </VerticalStackLayout>
+                                </Border>
+                            </HorizontalStackLayout>
+                        </Grid>
+
+                    </Grid>
+                </Border>
+
+            </VerticalStackLayout>
+        </Grid>
+    </ScrollView>
+</ContentPage>

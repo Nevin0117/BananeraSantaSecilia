@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SantaSecilia.Views.HeaderView">
+
+    <Border BackgroundColor="White"
+            Stroke="#E2E8F0"
+            StrokeThickness="1"
+            Padding="30,15">
+        <Grid ColumnDefinitions="Auto, Auto, *, Auto, Auto"
+              ColumnSpacing="15">
+
+            <Image Grid.Column="0"
+                   Source="logo.png"
+                   HeightRequest="65"
+                   WidthRequest="65"
+                   Aspect="AspectFit"
+                   VerticalOptions="Center">
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="NavHome_Tapped"/>
+                </Image.GestureRecognizers>
+            </Image>
+
+            <Label Grid.Column="1"
+                   Text="Finca Santa Cecilia"
+                   FontSize="20"
+                   FontAttributes="Bold"
+                   TextColor="#1E293B"
+                   VerticalOptions="Center"
+                   Margin="0,0,40,0"/>
+            <HorizontalStackLayout Grid.Column="2"
+                                   HorizontalOptions="Start"
+                                   VerticalOptions="Center"
+                                   Spacing="10">
+
+                <Border x:Name="BrdActividades" StrokeThickness="0" BackgroundColor="Transparent" StrokeShape="RoundRectangle 20" Padding="15,8">
+                    <Label x:Name="LnkActividades" Text="Actividades" FontSize="14" TextColor="#64748B" FontAttributes="Bold" VerticalOptions="Center"/>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="NavActividades_Tapped"/>
+                    </Border.GestureRecognizers>
+                </Border>
+
+                <Border x:Name="BrdTrabajadores" StrokeThickness="0" BackgroundColor="Transparent" StrokeShape="RoundRectangle 20" Padding="15,8">
+                    <Label x:Name="LnkTrabajadores" Text="Trabajadores" FontSize="14" TextColor="#64748B" FontAttributes="Bold" VerticalOptions="Center"/>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="NavTrabajadores_Tapped"/>
+                    </Border.GestureRecognizers>
+                </Border>
+
+                <Border x:Name="BrdLotes" StrokeThickness="0" BackgroundColor="Transparent" StrokeShape="RoundRectangle 20" Padding="15,8">
+                    <Label x:Name="LnkLotes" Text="Lotes" FontSize="14" TextColor="#64748B" FontAttributes="Bold" VerticalOptions="Center"/>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="NavLotes_Tapped"/>
+                    </Border.GestureRecognizers>
+                </Border>
+
+                <Border x:Name="BrdRegistroLaboral" StrokeThickness="0" BackgroundColor="Transparent" StrokeShape="RoundRectangle 20" Padding="15,8">
+                    <Label x:Name="LnkRegistroLaboral" Text="Registro Laboral" FontSize="14" TextColor="#64748B" FontAttributes="Bold" VerticalOptions="Center"/>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="NavRegistroLaboral_Tapped"/>
+                    </Border.GestureRecognizers>
+                </Border>
+
+
+                <Border x:Name="BrdBoletaSemanal" StrokeThickness="0" BackgroundColor="Transparent" StrokeShape="RoundRectangle 20" Padding="15,8">
+                    <Label x:Name="LnkBoletaSemanal" Text="Boleta Semanal" FontSize="14" TextColor="#64748B" FontAttributes="Bold" VerticalOptions="Center"/>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="NavBoletaSemanal_Tapped"/>
+                    </Border.GestureRecognizers>
+                </Border>
+
+                <Border x:Name="BrdReporteGlobal" StrokeThickness="0" BackgroundColor="Transparent" StrokeShape="RoundRectangle 20" Padding="15,8">
+                    <Label x:Name="LnkReporteGlobal" Text="Reporte Global" FontSize="14" TextColor="#64748B" FontAttributes="Bold" VerticalOptions="Center"/>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="NavReporteGlobal_Tapped"/>
+                    </Border.GestureRecognizers>
+                </Border>
+
+            </HorizontalStackLayout>
+
+            <HorizontalStackLayout Grid.Column="3" Spacing="10" VerticalOptions="Center">
+                <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="End">
+                    <Label x:Name="LblUserName" Text="Cargando..." FontSize="14" FontAttributes="Bold" TextColor="#1E293B" HorizontalOptions="End"/>
+                    <Label x:Name="LblUserRole" Text="..." FontSize="11" TextColor="#94A3B8" HorizontalOptions="End"/>
+                </VerticalStackLayout>
+
+                <Border WidthRequest="40" HeightRequest="40" StrokeShape="RoundRectangle 20" StrokeThickness="0" BackgroundColor="#E0F2FE">
+                    <Label x:Name="LblUserInitial" Text="?" HorizontalOptions="Center" VerticalOptions="Center" FontAttributes="Bold" TextColor="#0284C7"/>
+                </Border>
+            </HorizontalStackLayout>
+
+            <Button Grid.Column="4"
+                         ImageSource="salida.png"
+                         HeightRequest="50"
+                         VerticalOptions="Center"
+                         Margin="2,0,0,0"
+                         BackgroundColor="Transparent"
+                         Clicked="Logout_Clicked"/>
+
+        </Grid>
+    </Border>
+
+</ContentView>
