@@ -67,62 +67,70 @@
 
                 <VerticalStackLayout Spacing="10">
 
-                    <VerticalStackLayout Spacing="2">
-                        <Label Text="Usuario" 
-                               TextColor="#475569" 
-                               FontSize="13" 
-                               FontAttributes="Bold"/>
+                        <VerticalStackLayout Spacing="2">
+                            <Label Text="Usuario" 
+           TextColor="#475569" 
+           FontSize="13" 
+           FontAttributes="Bold"/>
 
-                        <Border Stroke="#CBD5E0" StrokeShape="RoundRectangle 10" BackgroundColor="White" Padding="15,5" HeightRequest="55">
-                            <HorizontalStackLayout Spacing="12" VerticalOptions="Center">
+                            <Border Stroke="#CBD5E0" StrokeShape="RoundRectangle 10" BackgroundColor="White" Padding="15,5" HeightRequest="55">
 
-                                <Image Source="user_icon.png" 
-                                       HeightRequest="20" 
-                                       WidthRequest="20" 
-                                       VerticalOptions="Center" 
-                                        />
+                                <Border.Triggers>
+                                    <DataTrigger TargetType="Border" Binding="{Binding Source={x:Reference EntryUsuario}, Path=IsFocused}" Value="True">
+                                        <Setter Property="Stroke" Value="#A8E6CF" />
+                                        <Setter Property="StrokeThickness" Value="2" />
+                                    </DataTrigger>
+                                </Border.Triggers>
 
-                                <Entry Placeholder="Ingrese su usuario o correo"
-                                       Text="{Binding Username}"
-                                       TextColor="#1E293B"
-                                       PlaceholderColor="#94A3B8"
-                                       FontSize="15"
-                                       VerticalOptions="Center"
-                                       WidthRequest="250"
-                                       BackgroundColor="Transparent"/>
-                            </HorizontalStackLayout>
-                        </Border>
-                    </VerticalStackLayout>
+                                <HorizontalStackLayout Spacing="12" VerticalOptions="Center">
+                                    <Image Source="user_icon.png" HeightRequest="20" WidthRequest="20" VerticalOptions="Center" />
 
-                    <VerticalStackLayout Spacing="2">
-                        <Label Text="Contraseña" 
-                               TextColor="#475569" 
-                               FontSize="13" 
-                               FontAttributes="Bold"/>
+                                    <Entry x:Name="EntryUsuario"
+                                           Placeholder="Ingrese su usuario o correo"
+                                           Text="{Binding Username}"
+                                           TextColor="#1E293B"
+                                           PlaceholderColor="#94A3B8"
+                                           FontSize="15"
+                                           VerticalOptions="Center"
+                                           WidthRequest="250"
+                                           BackgroundColor="Transparent"/>
+                                </HorizontalStackLayout>
+                            </Border>
+                        </VerticalStackLayout>
 
-                        <Border Stroke="#CBD5E0" StrokeShape="RoundRectangle 10" BackgroundColor="White" Padding="15,5" HeightRequest="55">
-                            <HorizontalStackLayout Spacing="12" VerticalOptions="Center">
+                        <VerticalStackLayout Spacing="2">
+                            <Label Text="Contraseña" 
+                                   TextColor="#475569" 
+                                   FontSize="13" 
+                                   FontAttributes="Bold"/>
 
-                                <Image Source="lock_icon.png" 
-                                       HeightRequest="20" 
-                                       WidthRequest="20" 
-                                       VerticalOptions="Center" 
-                                       Opacity="0.6" />
+                            <Border Stroke="#CBD5E0" StrokeShape="RoundRectangle 10" BackgroundColor="White" Padding="15,5" HeightRequest="55">
 
-                                <Entry Placeholder="••••••••"
-                                       Text="{Binding Password}"
-                                       IsPassword="True"
-                                       TextColor="#1E293B"
-                                       PlaceholderColor="#94A3B8"
-                                       FontSize="15"
-                                       VerticalOptions="Center"
-                                       WidthRequest="250"
-                                       BackgroundColor="Transparent"/>
-                            </HorizontalStackLayout>
-                        </Border>
-                    </VerticalStackLayout>
+                                <Border.Triggers>
+                                    <DataTrigger TargetType="Border" Binding="{Binding Source={x:Reference EntryClave}, Path=IsFocused}" Value="True">
+                                        <Setter Property="Stroke" Value="#A8E6CF" />
+                                        <Setter Property="StrokeThickness" Value="2" />
+                                    </DataTrigger>
+                                </Border.Triggers>
 
-                    <Button Text="Iniciar Sesión"
+                                <HorizontalStackLayout Spacing="12" VerticalOptions="Center">
+                                    <Image Source="lock_icon.png" HeightRequest="20" WidthRequest="20" VerticalOptions="Center" Opacity="0.6" />
+
+                                    <Entry x:Name="EntryClave"
+                                           Placeholder="••••••••"
+                                           Text="{Binding Password}"
+                                           IsPassword="True"
+                                           TextColor="#1E293B"
+                                           PlaceholderColor="#94A3B8"
+                                           FontSize="15"
+                                           VerticalOptions="Center"
+                                           WidthRequest="250"
+                                           BackgroundColor="Transparent"/>
+                                </HorizontalStackLayout>
+                            </Border>
+                        </VerticalStackLayout>
+
+                        <Button Text="Iniciar Sesión"
                             Command="{Binding LoginCommand}"
                             BackgroundColor="#A8E6CF" 
                             TextColor="#1B4332" 

@@ -97,6 +97,21 @@ public static class MauiProgram
         builder.Logging.AddDebug();
 #endif
 
+        // 🎨 ELIMINAR LA LÍNEA NATIVA POR COMPLETO (Incluso al hacer clic)
+        Microsoft.Maui.Handlers.EntryHandler.Mapper.AppendToMapping("NoUnderline", (handler, view) =>
+        {
+#if ANDROID
+            handler.PlatformView.BackgroundTintList = Android.Content.Res.ColorStateList.ValueOf(Android.Graphics.Color.Transparent);
+#elif WINDOWS
+    // 1. Quita la línea base
+    handler.PlatformView.BorderThickness = new Microsoft.UI.Xaml.Thickness(0);
+    handler.PlatformView.Background = null;
+    
+    // 2. 🔥 EL SECRETO: Anula el borde rojo nativo cuando el usuario hace clic 🔥
+    handler.PlatformView.Resources["TextControlBorderThemeThicknessFocused"] = new Microsoft.UI.Xaml.Thickness(0);
+#endif
+        });
+
         var app = builder.Build();
 
         // Aplica migraciones al iniciar la aplicación (si las hay)
