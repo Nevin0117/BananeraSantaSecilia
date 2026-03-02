@@ -1,11 +1,13 @@
+using CommunityToolkit.Mvvm.Input;
 using Microsoft.EntityFrameworkCore;
-using SantaSecilia.Application.Services;
 using SantaSecilia.Application.DTOs;
+using SantaSecilia.Application.Services;
+using SantaSecilia.Domain.Entities;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
-using System.IO;
 
 namespace SantaSecilia.ViewModels
 {
@@ -18,17 +20,19 @@ namespace SantaSecilia.ViewModels
         public decimal Monto => Horas * Tarifa;
     }
 
-    public class BoletaSemanalViewModel : INotifyPropertyChanged
+    // CORRECCIÓN 1: Agregamos "partial" a la clase
+    public partial class BoletaSemanalViewModel : INotifyPropertyChanged
     {
         private readonly BoletaSemanalService _boletaService;
         private bool _hayDatos = false;
-        
 
         public event PropertyChangedEventHandler? PropertyChanged;
         void OnPropertyChanged([CallerMemberName] string name = null!)
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 
-        public ObservableCollection<string> TrabajadoresSugeridos { get; set; } = new();
+        // CORRECCIÓN 2: Dejamos solo UNA declaración de las colecciones como Worker
+        public ObservableCollection<Worker> TrabajadoresSugeridos { get; set; } = new();
+        public ObservableCollection<Worker> Trabajadores { get; set; } = new();
 
         private string _trabajadorBusqueda = "";
         public string TrabajadorBusqueda
@@ -38,7 +42,6 @@ namespace SantaSecilia.ViewModels
             {
                 _trabajadorBusqueda = value;
                 OnPropertyChanged();
-                // Disparamos la búsqueda cuando el usuario escribe
                 _ = FiltrarTrabajadoresAsync(value);
             }
         }
@@ -50,13 +53,7 @@ namespace SantaSecilia.ViewModels
             set { _mostrarSugerencias = value; OnPropertyChanged(); }
         }
 
-        // El comando que se ejecuta al tocar un nombre en la lista
-        public ICommand SelectWorkerCommand { get; }
-
-        // --------------------------------------------
         public ICommand ImprimirCommand { get; }
-
-        public ObservableCollection<string> Trabajadores { get; set; } = new();
 
         string trabajadorSeleccionado = "";
         public string TrabajadorSeleccionado
@@ -70,11 +67,7 @@ namespace SantaSecilia.ViewModels
             }
         }
 
-
-
-        // 1. Iniciamos en null (o una fecha nula) para que se vea el placeholder
         private DateTime? fechaSeleccionada = null;
-
         public DateTime? FechaSeleccionada
         {
             get => fechaSeleccionada;
@@ -83,7 +76,7 @@ namespace SantaSecilia.ViewModels
                 if (fechaSeleccionada != value)
                 {
                     fechaSeleccionada = value;
-                    OnPropertyChanged(nameof(FechaSeleccionada)); // Esto disparará el evento en el code-behind
+                    OnPropertyChanged(nameof(FechaSeleccionada));
                     OnPropertyChanged(nameof(RangoSemana));
 
                     if (value.HasValue)
@@ -94,69 +87,47 @@ namespace SantaSecilia.ViewModels
             }
         }
 
-    // 3. Esta propiedad la usaremos en el XAML para IsVisible y para el Color
-    public bool FechaFueSeleccionada => FechaSeleccionada.HasValue;
+        public bool FechaFueSeleccionada => FechaSeleccionada.HasValue;
 
         public string RangoSemana
         {
             get
             {
-                // Si no hay fecha, devolvemos un texto vacío o guiones
                 if (!FechaSeleccionada.HasValue)
                     return "---";
 
-                // Usamos .Value para acceder al DateTime real dentro del nullable
                 DateTime fecha = FechaSeleccionada.Value;
-
-                // Ajuste para que la semana empiece en DOMINGO
-                // Calculamos cuántos días han pasado desde el último domingo
                 int diff = (int)fecha.DayOfWeek;
-
-                // Restamos esa diferencia para llegar al domingo anterior
                 DateTime inicio = fecha.AddDays(-1 * diff).Date;
-
-                // Sumamos 6 días para llegar al sábado
                 DateTime fin = inicio.AddDays(6).Date;
 
-                // Retornamos el rango formateado (Ejemplo: 01 Mar - 07 Mar, 2026)
-                return $"{inicio:dd MMM} - {fin:dd MMM, yyyy}".ToUpper(); // En mayúsculas para seguir el estilo
+                return $"{inicio:dd MMM} - {fin:dd MMM, yyyy}".ToUpper();
             }
         }
 
         public ObservableCollection<BoletaFila> Filas { get; set; } = new();
 
-
         decimal totalDevengado;
-        public decimal TotalDevengado{
+        public decimal TotalDevengado
+        {
             get => totalDevengado;
-            set
-            {
-                totalDevengado = value;
-                OnPropertyChanged();
-            }
+            set { totalDevengado = value; OnPropertyChanged(); }
         }
 
         decimal descuentos;
-        public decimal Descuentos{
+        public decimal Descuentos
+        {
             get => descuentos;
-            set
-            {
-                descuentos = value;
-                OnPropertyChanged();
-            }
+            set { descuentos = value; OnPropertyChanged(); }
         }
 
         decimal totalPagar;
-        public decimal TotalPagar{
+        public decimal TotalPagar
+        {
             get => totalPagar;
-            set
-            {
-                totalPagar = value;
-                OnPropertyChanged();
-            }
+            set { totalPagar = value; OnPropertyChanged(); }
         }
 
-        // Propiedades para datos de trabajador
         private string _codigoTrabajador = "---";
         public string CodigoTrabajador
         {
@@ -174,7 +145,8 @@ namespace SantaSecilia.ViewModels
         public BoletaSemanalViewModel(BoletaSemanalService boletaService)
         {
             _boletaService = boletaService;
-            SelectWorkerCommand = new Command<string>(OnSelectWorker);
+            // CORRECCIÓN 3: Eliminamos la asignación manual del comando.
+            // El atributo [RelayCommand] abajo hace todo el trabajo automáticamente.
             _ = CargarTrabajadores();
         }
 
@@ -183,7 +155,6 @@ namespace SantaSecilia.ViewModels
             if (!HayDatos || string.IsNullOrEmpty(TrabajadorSeleccionado))
                 throw new Exception("No hay datos cargados para este colaborador.");
 
-            // 1. Preparar los registros para el generador
             var registrosPDF = Filas.Select(f => new BoletaSemanalPDFGenerator.RegistroActividad
             {
                 Fecha = f.Fecha.ToString("dd/MM/yy"),
@@ -193,7 +164,6 @@ namespace SantaSecilia.ViewModels
                 Monto = $"B/. {f.Monto:F2}"
             }).ToList();
 
-            // 2. Cargar el logo
             byte[] logoBytes;
             using (var stream = await FileSystem.OpenAppPackageFileAsync("logo.png"))
             using (var ms = new MemoryStream())
@@ -202,7 +172,6 @@ namespace SantaSecilia.ViewModels
                 logoBytes = ms.ToArray();
             }
 
-            // 3. Generar el PDF
             var pdfBytes = BoletaSemanalPDFGenerator.GenerarPDF(
                 CodigoTrabajador,
                 CedulaTrabajador,
@@ -215,24 +184,12 @@ namespace SantaSecilia.ViewModels
                 logoBytes
             );
 
-            // Nombre sugerido inicial
-            string nombreArchivo = $"Boleta_{TrabajadorSeleccionado.Replace(" ", "_")}_{DateTime.Now:ddMMyy}.pdf";
-
             return (pdfBytes, $"Boleta_{TrabajadorSeleccionado.Replace(" ", "_")}.pdf");
         }
 
         private async Task FiltrarTrabajadoresAsync(string query)
         {
-            if (string.IsNullOrWhiteSpace(query))
-            {
-                TrabajadoresSugeridos.Clear();
-                MostrarSugerencias = false;
-                // Opcional: Limpiar la boleta si borran el buscador
-                // TrabajadorSeleccionado = ""; 
-                return;
-            }
-
-            if (query.Length < 2)
+            if (string.IsNullOrWhiteSpace(query) || query.Length < 2)
             {
                 TrabajadoresSugeridos.Clear();
                 MostrarSugerencias = false;
@@ -240,8 +197,9 @@ namespace SantaSecilia.ViewModels
             }
 
             var filtrados = Trabajadores
-                .Where(w => w.Contains(query, StringComparison.OrdinalIgnoreCase))
-                .Take(10) // Limitamos a 10 para no saturar la vista
+                .Where(w => w.FullName.Contains(query, StringComparison.OrdinalIgnoreCase) ||
+                            w.IdentificationNumber.Contains(query))
+                .Take(10)
                 .ToList();
 
             TrabajadoresSugeridos.Clear();
@@ -251,17 +209,25 @@ namespace SantaSecilia.ViewModels
             MostrarSugerencias = TrabajadoresSugeridos.Any();
         }
 
-        private void OnSelectWorker(string nombre)
+        // CORRECCIÓN 4: Al poner [RelayCommand] aquí, se genera un 'SelectWorkerCommand' automático.
+        // Por eso borramos las otras declaraciones repetidas arriba.
+        [RelayCommand]
+        private void SelectWorker(Worker worker)
         {
-            TrabajadorSeleccionado = nombre; // Esto dispara GenerarBoleta()
-            _trabajadorBusqueda = nombre;    // Actualiza el texto del Entry sin disparar filtro
+            if (worker == null) return;
+
+            TrabajadorSeleccionado = worker.FullName;
+            CedulaTrabajador = worker.IdentificationNumber;
+            CodigoTrabajador = worker.Id.ToString();
+
+            _trabajadorBusqueda = worker.DisplayInfo;
             OnPropertyChanged(nameof(TrabajadorBusqueda));
 
             TrabajadoresSugeridos.Clear();
             MostrarSugerencias = false;
-        }
 
-        
+            _ = GenerarBoleta();
+        }
 
         public bool HayDatos
         {
@@ -281,12 +247,8 @@ namespace SantaSecilia.ViewModels
 
         public async Task CargarDatos()
         {
-            // 1. Primero cargamos la lista de nombres para el buscador
             await CargarTrabajadores();
 
-            // 2. Solo intentamos generar la boleta si ya hay una fecha y un trabajador seleccionados
-            // (Al abrir la pantalla por primera vez, estos suelen ser null o vacíos, 
-            // por lo que no queremos que falle intentando buscar datos inexistentes)
             if (FechaSeleccionada.HasValue && !string.IsNullOrEmpty(TrabajadorSeleccionado))
             {
                 await GenerarBoleta();
@@ -297,9 +259,6 @@ namespace SantaSecilia.ViewModels
         {
             if (!FechaSeleccionada.HasValue) return;
 
-            DateTime fechaReal = FechaSeleccionada.Value;
-
-            // Si no hay trabajador, no hay datos que mostrar
             if (string.IsNullOrEmpty(TrabajadorSeleccionado))
             {
                 HayDatos = false;
@@ -332,7 +291,6 @@ namespace SantaSecilia.ViewModels
                     Descuentos = dto.SeguroSocial + dto.SeguroEducativo + dto.Sindicato;
                     TotalPagar = TotalDevengado - Descuentos;
 
-                    
                     HayDatos = true;
                 }
                 else
@@ -345,11 +303,8 @@ namespace SantaSecilia.ViewModels
 
                 if (dto != null)
                 {
-                    // AQUÍ ASIGNAMOS LOS VALORES AL CUADRO LATERAL
-                    // Asumiendo que tu DTO tiene estas propiedades (ajusta los nombres si varían)
                     CodigoTrabajador = dto.CodigoTrabajador ?? "N/A";
                     CedulaTrabajador = dto.CedulaTrabajador ?? "N/A";
-
                     HayDatos = dto.Actividades.Any();
                 }
             }
@@ -362,13 +317,10 @@ namespace SantaSecilia.ViewModels
             }
         }
 
-
-
-        async Task CargarTrabajadores(){
+        async Task CargarTrabajadores()
+        {
             var workers = await _boletaService.ObtenerTrabajadoresAsync();
-
             Trabajadores.Clear();
-
             foreach (var w in workers)
                 Trabajadores.Add(w);
         }
